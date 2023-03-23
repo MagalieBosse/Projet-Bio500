@@ -28,3 +28,63 @@ etudiant9<-read.csv("9_etudiant.csv",sep=";")
 collab10<-read.csv("10_collaboration.csv",sep=";")
 cours10<-read.csv("10_cours.csv",sep=";")
 etudiant10<-read.csv("10_etudiant.csv",sep=";")
+
+#changement cours 5 
+cours5 <- cours5[-(36:40),]
+View(cours5)
+
+#changement etudiant 8
+etudiant8_test<- subset(etudiant8,select = -c(...9))
+head(etudiant8_test, 2)
+
+#changement etudiant 6
+etudiant6_test<- subset(etudiant6,select = -c(X))
+head(etudiant6_test, 2)
+
+#changement etudiant 2
+etudiant2_test<- subset(etudiant2,select = -c(X))
+head(etudiant2_test, 2)
+
+#changement etudiant 3
+etudiant3_test2.0<- subset(etudiant3,select = -c(X))
+head(etudiant3_test, 2)
+
+#changement collab 6
+collab6_test<- subset(collab6,select = -c(X, X.1, X.2, X.3, X.4))
+head(collab6_test,2)
+
+#changement cours 6
+cours6_test<- subset(cours6,select = -c(X, X.1, X.2, X.3, X.4, X.5))
+head(cours6_test,2)
+
+#changement cours 6_test
+cours6_test<-cours6_test[-(13:235),]
+
+#changement etudiant 3
+colnames(etudiant3_test2.0)[colnames(etudiant3_test2.0) == "prenom_nom."] <- "prenom_nom"
+colnames(etudiant3_test2.0) <- colnames(etudiant3_test2.0)
+names(etudiant3_test2.0)
+
+#changement collab4
+collab4_test<-collab4[-(723),]
+
+#changement cours 3
+colnames(cours3)[colnames(cours3) == "ï..sigle"] <- "sigle"
+colnames(cours3) <- colnames(cours3)
+names(cours3)
+
+#changement cours 4
+cours4<- subset(cours4,select = -c(X))
+head(cours4,2)
+cours4<-cours4[-(28),]
+
+#changement etudiant 8
+# Charger le fichier CSV
+data <- read.csv("8_etudiant.csv", quote = "")
+
+#changement cours 9
+cours9<-cours9[-(25:29),]
+
+#changement etudiant 5
+etudiant5<-etudiant5[-(52:59),]
+
