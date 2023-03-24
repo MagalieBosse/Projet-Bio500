@@ -88,3 +88,5 @@ cours9<-cours9[-(25:29),]
 #changement etudiant 5
 etudiant5<-etudiant5[-(52:59),]
 
+
+
