@@ -31,7 +31,6 @@ etudiant10<-read.csv("10_etudiant.csv",sep=";")
 
 #changement cours 5 
 cours5 <- cours5[-(36:40),]
-View(cours5)
 
 #changement etudiant 8
 etudiant8_test<- subset(etudiant8,select = -c(...9))
@@ -47,7 +46,7 @@ head(etudiant2_test, 2)
 
 #changement etudiant 3
 etudiant3_test2.0<- subset(etudiant3,select = -c(X))
-head(etudiant3_test, 2)
+head(etudiant3_test2.0, 2)
 
 #changement collab 6
 collab6_test<- subset(collab6,select = -c(X, X.1, X.2, X.3, X.4))
@@ -109,11 +108,6 @@ cours_bon<-unique(cours_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 collab_bon<-unique(collab_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 etudiant_bon<-unique(etudiant_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 
-#validation table etudiant (faciliter visualisation)
-library(dplyr)
-etudiant_bon<-etudiant_bon%>%
-  arrange(prenom_nom)
-
 #remplacer les false et true par version française
 etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "FALSE"]<- "FAUX"
 etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "TRUE"]<- "VRAI"
@@ -133,7 +127,7 @@ etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "phillippe_bourassa"]<- "phi
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "sabrina_leclerc"]<-"sabrina_leclercq"
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "samule_fortin"]<- "samuel_fortin"
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% c("yannick_sageau","yanick_sagneau")]<-"yanick_sageau"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% c("harbeck bastien","harbeck_bastien")]<-"harbeck-bastien"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% c("amelie_harbeck bastien","amelie_harbeck_bastien")]<-"amelie_harbeck-bastien"
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "arianne_barette"]<-"ariane_barrette"
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "francis_bolly"]<-"francis_boily"
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "ihuoma_elsie-ebere"]<-"ihuoma_elsie_ebere"
@@ -177,3 +171,20 @@ etudiant_bon$nom[etudiant_bon$nom%in% "baumier"]<- "beaumier"
 #corrections region admin
 etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "monterigie"]<- "monteregie"
 etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "bas-st-laurent"]<- "bas-saint-laurent"
+
+#trouver les lignes qui se répètent
+doubles_etudiant<-duplicated(etudiant_bon$prenom_nom)
+extrait_etudiant<-subset(etudiant_bon,doubles_etudiant)
+
+#mettre dans cet ordre pour que subset garde les doublons avec des regions administrative (garde le premier lu)
+library(dplyr)
+etudiant_bon<-etudiant_bon%>%
+  arrange(region_administrative)
+
+#supprimer les lignes qui ont le meme prenom_nom
+etudiant_bon<-subset(etudiant_bon,!duplicated(etudiant_bon$prenom_nom))
+
+#validation en ordre alphabétique
+etudiant_bon<-etudiant_bon%>%
+  arrange(prenom_nom)
+#FIN TABLE ETUDIANT BON EST A UTILISER POUR LA SUITE
