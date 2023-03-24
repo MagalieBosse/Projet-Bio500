@@ -110,3 +110,9 @@ collab_bon<-unique(collab_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 etudiant_bon<-unique(etudiant_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 
 #validation table etudiant
+library(dplyr)
+etudiant_bon<-etudiant_bon%>%
+  arrange(prenom_nom)
+
+etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "FALSE"]<- "FAUX"
+etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "TRUE"]<- "VRAI"
