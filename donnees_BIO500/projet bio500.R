@@ -1,3 +1,6 @@
+#packages
+library(dplyr)
+
 collab1<-read.csv("1_collaboration.csv",sep=";")
 cours1<-read.csv("1_cours.csv",sep=";")
 etudiant1<-read.csv("1_etudiant.csv",sep=";")
@@ -88,12 +91,32 @@ cours9<-cours9[-(25:29),]
 #changement etudiant 5
 etudiant5<-etudiant5[-(52:59),]
 
-<<<<<<< HEAD
-
-
-=======
 #fusion des tables
 etudiant_all<-rbind(etudiant1,etudiant2_test,etudiant3_test2.0,etudiant4,etudiant5,etudiant6_test,etudiant7,etudiant8_test,etudiant9,etudiant10,deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
 collab_all<-rbind(collab1,collab2,collab3,collab4_test,collab5,collab6_test,collab7,collab8,collab9,collab10,deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
 cours_all<-rbind(cours1,cours2,cours3,cours4,cours5,cours6_test,cours7,cours8,cours9,cours10,deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
->>>>>>> 0f13302007c5c011c8c3b92e6305b32b175fa0f5
+
+#enlever ligne fin etudiant all
+etudiant_all<-etudiant_all[-(396),]
+
+#enlever ligne collab all
+collab_all<-collab_all[-(5203),]
+
+#ajouter les NA une fois que les fichiers sont mis ensemble
+etudiant_all[etudiant_all==""]<-NA #ou collab est le nom de la base de donnees fusionnee
+collab_all[collab_all==""]<-NA
+cours_all[cours_all==""]<-NA
+
+#suprimer les doublons
+cours_bon<-unique(cours_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
+collab_bon<-unique(collab_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
+etudiant_bon<-unique(etudiant_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
+
+#trier collab etudiant 1 ordre alphabétique
+
+collab_bon_et1<-arrange(collab_bon,etudiant1)
+collab_bon_et2<-arrange(collab_bon,etudiant2)
+
+#supprimer ligne cours bon
+cours_bon<-cours_bon[-(326),]
+
