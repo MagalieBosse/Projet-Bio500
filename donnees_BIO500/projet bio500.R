@@ -34,7 +34,6 @@ etudiant10<-read.csv("10_etudiant.csv",sep=";")
 
 #changement cours 5 
 cours5 <- cours5[-(36:40),]
-View(cours5)
 
 #changement etudiant 8
 etudiant8_test<- subset(etudiant8,select = -c(...9))
@@ -50,7 +49,7 @@ head(etudiant2_test, 2)
 
 #changement etudiant 3
 etudiant3_test2.0<- subset(etudiant3,select = -c(X))
-head(etudiant3_test, 2)
+head(etudiant3_test2.0, 2)
 
 #changement collab 6
 collab6_test<- subset(collab6,select = -c(X, X.1, X.2, X.3, X.4))
@@ -107,11 +106,16 @@ etudiant_all[etudiant_all==""]<-NA #ou collab est le nom de la base de donnees f
 collab_all[collab_all==""]<-NA
 cours_all[cours_all==""]<-NA
 
+<<<<<<< HEAD
 #suprimer les doublons
+=======
+#supprimer les doublons
+>>>>>>> 5aafa5d45516e251c57fb8625418364e6395a3ba
 cours_bon<-unique(cours_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 collab_bon<-unique(collab_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 etudiant_bon<-unique(etudiant_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 
+<<<<<<< HEAD
 #trier collab etudiant 1 ordre alphabétique
 
 collab_bon_et1<-arrange(collab_bon,etudiant1)
@@ -120,3 +124,85 @@ collab_bon_et2<-arrange(collab_bon,etudiant2)
 #supprimer ligne cours bon
 cours_bon<-cours_bon[-(326),]
 
+=======
+#remplacer les false et true par version française
+etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "FALSE"]<- "FAUX"
+etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "TRUE"]<- "VRAI"
+
+#correction table cours
+cours_bon <- cours_bon[cours_bon$sigle!="TRUE",]
+
+cours_bon$optionnel[cours_bon$optionnel%in% "FALSE"]<- "FAUX"
+cours_bon$optionnel[cours_bon$optionnel%in% "TRUE"]<- "VRAI"
+cours_bon$optionnel[cours_bon$optionnel%in% "Faux"]<- "FAUX"
+
+#corrections table etudiant, colonne prenom_nom 
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "mael_guerin"]<-"mael_gerin"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "marie_burghin"]<-"marie_bughin"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "philippe_barette"]<-"philippe_barrette" 
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "phillippe_bourassa"]<- "philippe_bourassa"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "sabrina_leclerc"]<-"sabrina_leclercq"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "samule_fortin"]<- "samuel_fortin"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% c("yannick_sageau","yanick_sagneau")]<-"yanick_sageau"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% c("amelie_harbeck bastien","amelie_harbeck_bastien")]<-"amelie_harbeck-bastien"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "arianne_barette"]<-"ariane_barrette"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "francis_bolly"]<-"francis_boily"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "ihuoma_elsie-ebere"]<-"ihuoma_elsie_ebere"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "jonathan_rondeau_leclaire"]<-"jonathan_rondeau-leclaire"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "kayla_trempe-kay"]<-"kayla_trempe_kay"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "peneloppe_robert"]<-"penelope_robert"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "sara-jade_lamontagne"]<- "sara_jade_lamontagne"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "louis-phillippe_theriault"]<- "louis-philippe_theriault"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "catherine_viel_lapointe"]<- "catherine_viel-lapointe"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "louis_philipe_raymond"]<- "louis-philippe_raymond"
+
+#corrections table etudiant, colonne prenom
+etudiant_bon$prenom[etudiant_bon$prenom%in% "yannick"]<-"yanick"
+etudiant_bon$prenom[etudiant_bon$prenom%in% "arianne"]<-"ariane"
+etudiant_bon$prenom[etudiant_bon$prenom%in% "peneloppe"]<-"penelope"
+etudiant_bon$prenom[etudiant_bon$prenom%in% "sara-jade"]<- "sara_jade"
+etudiant_bon$prenom[etudiant_bon$prenom%in% "louis-phillipe"]<- "louis-philippe"
+etudiant_bon$prenom[etudiant_bon$prenom%in% "cassandre"]<- "cassandra"
+etudiant_bon$prenom[etudiant_bon$prenom%in% "louis_philippe"]<- "louis-philippe"
+
+#corrections table etudiant, colonne nom
+etudiant_bon$nom[etudiant_bon$nom%in% "guerin"]<-"gerin"
+etudiant_bon$nom[etudiant_bon$nom%in% "burghin"]<-"bughin"
+etudiant_bon$nom[etudiant_bon$nom%in% "barette"]<-"barrette" 
+etudiant_bon$nom[etudiant_bon$nom%in% "leclerc"]<-"leclercq"
+etudiant_bon$nom[etudiant_bon$nom%in% "sagneau"]<-"sageau"
+etudiant_bon$nom[etudiant_bon$nom%in% "harbeck_bastien"]<-"harbeck-bastien"
+etudiant_bon$nom[etudiant_bon$nom%in% "barette"]<-"barrette"
+etudiant_bon$nom[etudiant_bon$nom%in% "bolly"]<-"boily"
+etudiant_bon$nom[etudiant_bon$nom%in% "elsie-ebere"]<-"elsie_ebere"
+etudiant_bon$nom[etudiant_bon$nom%in% "rondeau_leclaire"]<-"rondeau-leclaire"
+etudiant_bon$nom[etudiant_bon$nom%in% "trempe-kay"]<-"trempe_kay"
+etudiant_bon$nom[etudiant_bon$nom%in% "therrien"]<- "theriault"
+etudiant_bon$nom[etudiant_bon$nom%in% "ramond"]<- "raymond"
+etudiant_bon$nom[etudiant_bon$nom%in% "viel_lapointe"]<- "viel-lapointe"
+etudiant_bon$nom[etudiant_bon$nom%in% "bovin"]<- "boivin"
+etudiant_bon$nom[etudiant_bon$nom%in% "guilemette"]<- "guillemette"
+etudiant_bon$nom[etudiant_bon$nom%in% "gobin"]<- "godin"
+etudiant_bon$nom[etudiant_bon$nom%in% "baumier"]<- "beaumier"
+
+#corrections region admin
+etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "monterigie"]<- "monteregie"
+etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "bas-st-laurent"]<- "bas-saint-laurent"
+
+#trouver les lignes qui se répètent
+doubles_etudiant<-duplicated(etudiant_bon$prenom_nom)
+extrait_etudiant<-subset(etudiant_bon,doubles_etudiant)
+
+#mettre dans cet ordre pour que subset garde les doublons avec des regions administrative (garde le premier lu)
+library(dplyr)
+etudiant_bon<-etudiant_bon%>%
+  arrange(region_administrative)
+
+#supprimer les lignes qui ont le meme prenom_nom
+etudiant_bon<-subset(etudiant_bon,!duplicated(etudiant_bon$prenom_nom))
+
+#validation en ordre alphabétique
+etudiant_bon<-etudiant_bon%>%
+  arrange(prenom_nom)
+#FIN TABLE ETUDIANT BON EST A UTILISER POUR LA SUITE
+>>>>>>> 5aafa5d45516e251c57fb8625418364e6395a3ba
