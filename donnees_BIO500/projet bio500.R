@@ -205,4 +205,62 @@ etudiant_bon<-subset(etudiant_bon,!duplicated(etudiant_bon$prenom_nom))
 etudiant_bon<-etudiant_bon%>%
   arrange(prenom_nom)
 #FIN TABLE ETUDIANT BON EST A UTILISER POUR LA SUITE
->>>>>>> 5aafa5d45516e251c57fb8625418364e6395a3ba
+
+#correction collab_bon_et1
+collab_all$etudiant1[collab_all$etudiant1%in% "arianne_barette"]<-"ariane_barrette"
+collab_all$etudiant1[collab_all$etudiant1%in% "cassandra_gobin"]<-"cassandra_godin"
+collab_all$etudiant1[collab_all$etudiant1%in% "catherine_viel_lapointe"]<-"catherine_viel-lapointe"
+collab_all$etudiant1[collab_all$etudiant1%in% "edouard_hadon-baumier"]<-"edouard_hadon-beaumier"
+collab_all$etudiant1[collab_all$etudiant1%in% "francis_bolly"]<-"francis_boily"
+collab_all$etudiant1[collab_all$etudiant1%in% "ihuoma_elsie-ebere"]<-"ihuoma_elsie_ebere"
+collab_all$etudiant1[collab_all$etudiant1%in% "jonathan_rondeau_leclaire"]<-"jonathan_rondeau-leclaire"
+collab_all$etudiant1[collab_all$etudiant1%in% "juliette_meilleur<a0>"]<-"juliette_meilleur"
+collab_all$etudiant1[collab_all$etudiant1%in% "mael_guerin"]<-"mael_gerin"
+collab_all$etudiant1[collab_all$etudiant1%in% "marie_burghin"]<-"mael_bughin"
+collab_all$etudiant1[collab_all$etudiant1%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
+collab_all$etudiant1[collab_all$etudiant1%in% "marie_eve_gagne"]<-"marie-eve_gagne"
+collab_all$etudiant1[collab_all$etudiant1%in% "mia_carriere<a0>"]<-"mia_carriere"
+collab_all$etudiant1[collab_all$etudiant1%in% "noemie_perrier-mallette"]<-"noemie_perrier-malette"
+collab_all$etudiant1[collab_all$etudiant1%in% "peneloppe_robert"]<-"penelope_robert"
+collab_all$etudiant1[collab_all$etudiant1%in% "philippe_barette"]<-"philippe_barrette"
+collab_all$etudiant1[collab_all$etudiant1%in% "phillippe_bourassa"]<-"philippe_bourassa"
+collab_all$etudiant1[collab_all$etudiant1%in% "raphael_charlesbois"]<-"raphael_charlebois"
+collab_all$etudiant1[collab_all$etudiant1%in% "sabrica_leclercq"]<-"sabrina_leclercq"
+collab_all$etudiant1[collab_all$etudiant1%in% "sara-jade_lamontagne"]<-"sara_jade_lamontagne"
+collab_all$etudiant1[collab_all$etudiant1%in% "savier_samson"]<-"xavier_samson"
+collab_all$etudiant1[collab_all$etudiant1%in% "yannick_sageau"]<-"yanick_sageau"
+collab_all$etudiant1[collab_all$etudiant1%in% "yanick_sagneau"]<-"yanick_sageau"
+
+#correction collab_bon_et2
+collab_all$etudiant2[collab_all$etudiant2%in% "arianne_barette"]<-"ariane_barrette"
+collab_all$etudiant2[collab_all$etudiant2%in% "cassandra_gobin"]<-"cassandra_godin"
+collab_all$etudiant2[collab_all$etudiant2%in% "catherine_viel_lapointe"]<-"catherine_viel-lapointe"
+collab_all$etudiant2[collab_all$etudiant2%in% "edouard_nadon-baumier"]<-"edouard_nadon-beaumier"
+collab_all$etudiant2[collab_all$etudiant2%in% "francis_bolly"]<-"francis_boily"
+collab_all$etudiant2[collab_all$etudiant2%in% "francis_bourrassa"]<-"francis_bourassa"
+collab_all$etudiant2[collab_all$etudiant2%in% "frederick_laberge"]<-"frederic_laberge"
+collab_all$etudiant2[collab_all$etudiant2%in% "ihuoma_elsie-ebere"]<-"ihuoma_elsie_ebere"
+collab_all$etudiant2[collab_all$etudiant2%in% "jonathan_rondeau_leclaire"]<-"jonathan_rondeau-leclaire"
+collab_all$etudiant2[collab_all$etudiant2%in% "juliette_meilleur<a0>"]<-"juliette_meilleur"
+collab_all$etudiant2[collab_all$etudiant2%in% "justine_lebelle"]<-"justine_labelle"
+collab_all$etudiant2[collab_all$etudiant2%in% "laurie_anne_cournoyer"]<-"laurie-anne_cournoyer"
+collab_all$etudiant2[collab_all$etudiant2%in% "louis-phillippe_theriault"]<-"louis-philippe_theriault"
+collab_all$etudiant2[collab_all$etudiant2%in% "madyson_mclean"]<-"madyson_mcclean"
+collab_all$etudiant2[collab_all$etudiant2%in% "mael_guerin"]<-"mael_gerin"
+collab_all$etudiant2[collab_all$etudiant2%in% "marie_burgin"]<-"marie_bugin"
+collab_all$etudiant2[collab_all$etudiant2%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
+collab_all$etudiant2[collab_all$etudiant2%in% "marie_eve_gagne"]<-"marie-eve_gagne"
+collab_all$etudiant2[collab_all$etudiant2%in% "mia_carriere<a0>"]<-"mia_carriere"
+collab_all$etudiant2[collab_all$etudiant2%in% "noemie_perrier-mallette"]<-"noemie_perrier-malette"
+collab_all$etudiant2[collab_all$etudiant2%in% "peneloppe_robert"]<-"penelope_robert"
+collab_all$etudiant2[collab_all$etudiant2%in% "philippe_barette"]<-"philippe_barrette"
+collab_all$etudiant2[collab_all$etudiant2%in% "philippe_bourrassa"]<-"philippe_bourassa"
+collab_all$etudiant2[collab_all$etudiant2%in% "philippe_leonard_dufour"]<-"philippe_leonard-dufour"
+collab_all$etudiant2[collab_all$etudiant2%in% "phillippe_bourrassa"]<-"philippe_bourassa"
+collab_all$etudiant2[collab_all$etudiant2%in% "raphael_charlesbois"]<-"raphael_charlebois"
+collab_all$etudiant2[collab_all$etudiant2%in% "sara-jade_lamontagne"]<-"sara_jade_lamontagne"
+collab_all$etudiant2[collab_all$etudiant2%in% "yannick_sageau"]<-"yanick_sageau"
+
+#vérification collab
+unique(collab_all$etudiant1)
+unique(collab_all$etudiant2)
