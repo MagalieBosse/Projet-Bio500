@@ -1,5 +1,6 @@
 #packages
 library(dplyr)
+library(rmarkdown)
 
 collab1<-read.csv("1_collaboration.csv",sep=";")
 cours1<-read.csv("1_cours.csv",sep=";")
@@ -149,6 +150,9 @@ etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "sara-jade_lamontagne"]<- "s
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "louis-phillippe_theriault"]<- "louis-philippe_theriault"
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "catherine_viel_lapointe"]<- "catherine_viel-lapointe"
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "louis_philipe_raymond"]<- "louis-philippe_raymond"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "cassandra_gobin"]<- "cassandra_godin"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "edouard_nadon-baumier"]<- "edouard_nadon-beaumier"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "marie_christine_arseneau"]<- "marie-christine_arseneau"
 
 #corrections table etudiant, colonne prenom
 etudiant_bon$prenom[etudiant_bon$prenom%in% "yannick"]<-"yanick"
@@ -187,6 +191,18 @@ etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "bas-s
 doubles_etudiant<-duplicated(etudiant_bon$prenom_nom)
 extrait_etudiant<-subset(etudiant_bon,doubles_etudiant)
 
+#retirer les espaces bizarres
+library(tidyverse)
+for(col in names(etudiant_bon)){
+  etudiant_bon[,col]<-str_replace_all(etudiant_bon[,col],pattern="\\s",replacement="")
+}
+for(col in names(etudiant_bon)){
+  etudiant_bon[,col]<-str_replace_all(etudiant_bon[,col],pattern="<a0>",replacement="")
+}
+for(col in names(etudiant_bon)){
+  etudiant_bon[,col]<-str_replace_all(etudiant_bon[,col],pattern="�",replacement="")
+}
+
 #mettre dans cet ordre pour que subset garde les doublons avec des regions administrative (garde le premier lu)
 etudiant_bon<-etudiant_bon%>%
   arrange(region_administrative)
@@ -197,6 +213,7 @@ etudiant_bon<-subset(etudiant_bon,!duplicated(etudiant_bon$prenom_nom))
 #validation en ordre alphabétique
 etudiant_bon<-etudiant_bon%>%
   arrange(prenom_nom)
+
 #FIN TABLE ETUDIANT BON EST A UTILISER POUR LA SUITE
 
 #correction collab_bon_et1
