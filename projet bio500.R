@@ -106,21 +106,27 @@ etudiant_all[etudiant_all==""]<-NA #ou collab est le nom de la base de donnees f
 collab_all[collab_all==""]<-NA
 cours_all[cours_all==""]<-NA
 
+<<<<<<< HEAD
 =======
 #supprimer les doublons
+=======
+#suprimer les doublons
+>>>>>>> fadcd6945c415f248a2cd55825f1a04e1bca66de
 cours_bon<-unique(cours_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 collab_bon<-unique(collab_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 etudiant_bon<-unique(etudiant_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 
+<<<<<<< HEAD
 #trier collab etudiant 1 ordre alphabétique
 
 collab_bon_et1<-arrange(collab_bon,etudiant1)
 collab_bon_et2<-arrange(collab_bon,etudiant2)
 
+=======
+>>>>>>> fadcd6945c415f248a2cd55825f1a04e1bca66de
 #supprimer ligne cours bon
 cours_bon<-cours_bon[-(326),]
 
-=======
 #remplacer les false et true par version française
 etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "FALSE"]<- "FAUX"
 etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "TRUE"]<- "VRAI"
@@ -151,6 +157,9 @@ etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "sara-jade_lamontagne"]<- "s
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "louis-phillippe_theriault"]<- "louis-philippe_theriault"
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "catherine_viel_lapointe"]<- "catherine_viel-lapointe"
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "louis_philipe_raymond"]<- "louis-philippe_raymond"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "cassandra_gobin"]<- "cassandra_godin"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "edouard_nadon-baumier"]<- "edouard_nadon-beaumier"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "marie_christine_arseneau"]<- "marie-christine_arseneau"
 
 #corrections table etudiant, colonne prenom
 etudiant_bon$prenom[etudiant_bon$prenom%in% "yannick"]<-"yanick"
@@ -185,9 +194,17 @@ etudiant_bon$nom[etudiant_bon$nom%in% "baumier"]<- "beaumier"
 etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "monterigie"]<- "monteregie"
 etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "bas-st-laurent"]<- "bas-saint-laurent"
 
-#trouver les lignes qui se répètent
-doubles_etudiant<-duplicated(etudiant_bon$prenom_nom)
-extrait_etudiant<-subset(etudiant_bon,doubles_etudiant)
+#retirer les espaces bizarres
+library(tidyverse)
+for(col in names(etudiant_bon)){
+  etudiant_bon[,col]<-str_replace_all(etudiant_bon[,col],pattern="\\s",replace="")
+}
+for(col in names(etudiant_bon)){
+  etudiant_bon[,col]<-str_replace_all(etudiant_bon[,col],pattern="<ao>",replace="")
+}
+for(col in names(etudiant_bon)){
+  etudiant_bon[,col]<-str_replace_all(etudiant_bon[,col],pattern="�",replace="")
+}
 
 #mettre dans cet ordre pour que subset garde les doublons avec des regions administrative (garde le premier lu)
 library(dplyr)
@@ -201,29 +218,36 @@ etudiant_bon<-subset(etudiant_bon,!duplicated(etudiant_bon$prenom_nom))
 etudiant_bon<-etudiant_bon%>%
   arrange(prenom_nom)
 #FIN TABLE ETUDIANT BON EST A UTILISER POUR LA SUITE
->>>>>>> 5aafa5d45516e251c57fb8625418364e6395a3ba
 
 #correction collab_bon_et1
-collab_all$etudiant1[collab_all$etudiant1%in% "arianne_barette"]<-"ariane_barrette"
-collab_all$etudiant1[collab_all$etudiant1%in% "cassandra_gobin"]<-"cassandra_godin"
-collab_all$etudiant1[collab_all$etudiant1%in% "catherine_viel_lapointe"]<-"catherine_viel-lapointe"
-collab_all$etudiant1[collab_all$etudiant1%in% "edouard_hadon-baumier"]<-"edouard_hadon-beaumier"
-collab_all$etudiant1[collab_all$etudiant1%in% "francis_bolly"]<-"francis_boily"
-collab_all$etudiant1[collab_all$etudiant1%in% "elsie-ebere"]<-"elsie_ebere"
-collab_all$etudiant1[collab_all$etudiant1%in% "jonathan_rondeau_leclaire"]<-"jonathan_rondeau-leclaire"
-collab_all$etudiant1[collab_all$etudiant1%in% "juliette_meilleur<a0>"]<-"juliette_meilleur"
-collab_all$etudiant1[collab_all$etudiant1%in% "mael_guerin"]<-"mael_gerin"
-collab_all$etudiant1[collab_all$etudiant1%in% "marie_burghin"]<-"mael_bughin"
-collab_all$etudiant1[collab_all$etudiant1%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
-collab_all$etudiant1[collab_all$etudiant1%in% "marie_eve_gagne"]<-"marie-eve_gagne"
-collab_all$etudiant1[collab_all$etudiant1%in% "mia_carriere<a0>"]<-"mia_carriere"
-collab_all$etudiant1[collab_all$etudiant1%in% "noemie_perrier-mallette"]<-"noemie_perrier-malette"
-collab_all$etudiant1[collab_all$etudiant1%in% "peneloppe_robert"]<-"penelope_robert"
-collab_all$etudiant1[collab_all$etudiant1%in% "philippe_barette"]<-"philippe_barrette"
-collab_all$etudiant1[collab_all$etudiant1%in% "phillippe_bourassa"]<-"philippe_bourassa"
-collab_all$etudiant1[collab_all$etudiant1%in% "raphael_charlesbois"]<-"raphael_charlebois"
-collab_all$etudiant1[collab_all$etudiant1%in% "sabrica_leclercq"]<-"sabrina_leclercq"
-collab_all$etudiant1[collab_all$etudiant1%in% "sara_jade_lamontagne"]<-"sara-jade_lamontagne"
-collab_all$etudiant1[collab_all$etudiant1%in% "savier_samson"]<-"xavier_samson"
-collab_all$etudiant1[collab_all$etudiant1%in% "yannick_sageau"]<-"yanick_sageau"
-collab_all$etudiant1[collab_all$etudiant1%in% "yanick_sagneau"]<-"yanick_sageau"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "arianne_barette"]<-"ariane_barrette"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "cassandra_gobin"]<-"cassandra_godin"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "catherine_viel_lapointe"]<-"catherine_viel-lapointe"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "edouard_hadon-baumier"]<-"edouard_hadon-beaumier"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "francis_bolly"]<-"francis_boily"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "elsie-ebere"]<-"elsie_ebere"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "jonathan_rondeau_leclaire"]<-"jonathan_rondeau-leclaire"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "juliette_meilleur<a0>"]<-"juliette_meilleur"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "mael_guerin"]<-"mael_gerin"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_burghin"]<-"mael_bughin"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_eve_gagne"]<-"marie-eve_gagne"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "mia_carriere<a0>"]<-"mia_carriere"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "noemie_perrier-mallette"]<-"noemie_perrier-malette"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "peneloppe_robert"]<-"penelope_robert"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "philippe_barette"]<-"philippe_barrette"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "phillippe_bourassa"]<-"philippe_bourassa"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "raphael_charlesbois"]<-"raphael_charlebois"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "sabrica_leclercq"]<-"sabrina_leclercq"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "sara_jade_lamontagne"]<-"sara-jade_lamontagne"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "savier_samson"]<-"xavier_samson"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "yannick_sageau"]<-"yanick_sageau"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "yanick_sagneau"]<-"yanick_sageau"
+
+#trier collab etudiant 1 ordre alphabétique
+
+collab_bon<-collab_bon%>%
+  arrange(etudiant1)
+#pour etudiant 2
+collab_bon<-collab_bon%>%
+  arrange(etudiant2)
