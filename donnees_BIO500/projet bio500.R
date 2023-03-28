@@ -220,7 +220,7 @@ etudiant_bon<-etudiant_bon%>%
 
 #FIN TABLE ETUDIANT BON EST A UTILISER POUR LA SUITE
 
-#correction collab_bon_et1
+#correction collab_bon colonne 1
 collab_all$etudiant1[collab_all$etudiant1%in% "arianne_barette"]<-"ariane_barrette"
 collab_all$etudiant1[collab_all$etudiant1%in% "cassandra_gobin"]<-"cassandra_godin"
 collab_all$etudiant1[collab_all$etudiant1%in% "catherine_viel_lapointe"]<-"catherine_viel-lapointe"
@@ -245,7 +245,7 @@ collab_all$etudiant1[collab_all$etudiant1%in% "savier_samson"]<-"xavier_samson"
 collab_all$etudiant1[collab_all$etudiant1%in% "yannick_sageau"]<-"yanick_sageau"
 collab_all$etudiant1[collab_all$etudiant1%in% "yanick_sagneau"]<-"yanick_sageau"
 
-#correction collab_bon_et2
+#correction collab_bon colonne 2
 collab_all$etudiant2[collab_all$etudiant2%in% "arianne_barette"]<-"ariane_barrette"
 collab_all$etudiant2[collab_all$etudiant2%in% "cassandra_gobin"]<-"cassandra_godin"
 collab_all$etudiant2[collab_all$etudiant2%in% "catherine_viel_lapointe"]<-"catherine_viel-lapointe"
@@ -275,11 +275,20 @@ collab_all$etudiant2[collab_all$etudiant2%in% "raphael_charlesbois"]<-"raphael_c
 collab_all$etudiant2[collab_all$etudiant2%in% "sara-jade_lamontagne"]<-"sara_jade_lamontagne"
 collab_all$etudiant2[collab_all$etudiant2%in% "yannick_sageau"]<-"yanick_sageau"
 
+library(tidyverse)
+for(col in names(collab_bon)){
+  collab_bon[,col]<-str_replace_all(collab_bon[,col],pattern="\\s",replacement="")
+}
+for(col in names(collab_bon)){
+  collab_bon[,col]<-str_replace_all(collab_bon[,col],pattern="<a0>",replacement="")
+}
+for(col in names(etudiant_bon)){
+  collab_bon[,col]<-str_replace_all(collab_bon[,col],pattern="�",replacement="")
+}
+
 #vérification collab compare a etudiant
 collab_all<-collab_all%>%
   arrange(etudiant1)
-unique(collab_all$etudiant1)
+#etudiant 2
 collab_all<-collab_all%>%
   arrange(etudiant2)
-unique(collab_all$etudiant2)
-unique(etudiant_bon$prenom_nom)
