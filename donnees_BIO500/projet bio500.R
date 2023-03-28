@@ -106,16 +106,11 @@ etudiant_all[etudiant_all==""]<-NA #ou collab est le nom de la base de donnees f
 collab_all[collab_all==""]<-NA
 cours_all[cours_all==""]<-NA
 
-<<<<<<< HEAD
-#suprimer les doublons
-=======
 #supprimer les doublons
->>>>>>> 5aafa5d45516e251c57fb8625418364e6395a3ba
 cours_bon<-unique(cours_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 collab_bon<-unique(collab_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 etudiant_bon<-unique(etudiant_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 
-<<<<<<< HEAD
 #trier collab etudiant 1 ordre alphabétique
 
 collab_bon_et1<-arrange(collab_bon,etudiant1)
@@ -124,7 +119,6 @@ collab_bon_et2<-arrange(collab_bon,etudiant2)
 #supprimer ligne cours bon
 cours_bon<-cours_bon[-(326),]
 
-=======
 #remplacer les false et true par version française
 etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "FALSE"]<- "FAUX"
 etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "TRUE"]<- "VRAI"
@@ -194,7 +188,6 @@ doubles_etudiant<-duplicated(etudiant_bon$prenom_nom)
 extrait_etudiant<-subset(etudiant_bon,doubles_etudiant)
 
 #mettre dans cet ordre pour que subset garde les doublons avec des regions administrative (garde le premier lu)
-library(dplyr)
 etudiant_bon<-etudiant_bon%>%
   arrange(region_administrative)
 
@@ -261,6 +254,11 @@ collab_all$etudiant2[collab_all$etudiant2%in% "raphael_charlesbois"]<-"raphael_c
 collab_all$etudiant2[collab_all$etudiant2%in% "sara-jade_lamontagne"]<-"sara_jade_lamontagne"
 collab_all$etudiant2[collab_all$etudiant2%in% "yannick_sageau"]<-"yanick_sageau"
 
-#vérification collab
+#vérification collab compare a etudiant
+collab_all<-collab_all%>%
+  arrange(etudiant1)
 unique(collab_all$etudiant1)
+collab_all<-collab_all%>%
+  arrange(etudiant2)
 unique(collab_all$etudiant2)
+unique(etudiant_bon$prenom_nom)
