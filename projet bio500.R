@@ -106,25 +106,14 @@ etudiant_all[etudiant_all==""]<-NA #ou collab est le nom de la base de donnees f
 collab_all[collab_all==""]<-NA
 cours_all[cours_all==""]<-NA
 
-<<<<<<< HEAD
 #suprimer les doublons
-=======
-#supprimer les doublons
->>>>>>> 5aafa5d45516e251c57fb8625418364e6395a3ba
 cours_bon<-unique(cours_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 collab_bon<-unique(collab_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 etudiant_bon<-unique(etudiant_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 
-<<<<<<< HEAD
-#trier collab etudiant 1 ordre alphabétique
-
-collab_bon_et1<-arrange(collab_bon,etudiant1)
-collab_bon_et2<-arrange(collab_bon,etudiant2)
-
 #supprimer ligne cours bon
 cours_bon<-cours_bon[-(326),]
 
-=======
 #remplacer les false et true par version française
 etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "FALSE"]<- "FAUX"
 etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "TRUE"]<- "VRAI"
@@ -155,6 +144,9 @@ etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "sara-jade_lamontagne"]<- "s
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "louis-phillippe_theriault"]<- "louis-philippe_theriault"
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "catherine_viel_lapointe"]<- "catherine_viel-lapointe"
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "louis_philipe_raymond"]<- "louis-philippe_raymond"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "cassandra_gobin"]<- "cassandra_godin"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "edouard_nadon-baumier"]<- "edouard_nadon-beaumier"
+etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "marie_christine_arseneau"]<- "marie-christine_arseneau"
 
 #corrections table etudiant, colonne prenom
 etudiant_bon$prenom[etudiant_bon$prenom%in% "yannick"]<-"yanick"
@@ -189,9 +181,17 @@ etudiant_bon$nom[etudiant_bon$nom%in% "baumier"]<- "beaumier"
 etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "monterigie"]<- "monteregie"
 etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "bas-st-laurent"]<- "bas-saint-laurent"
 
-#trouver les lignes qui se répètent
-doubles_etudiant<-duplicated(etudiant_bon$prenom_nom)
-extrait_etudiant<-subset(etudiant_bon,doubles_etudiant)
+#retirer les espaces bizarres
+library(tidyverse)
+for(col in names(etudiant_bon)){
+  etudiant_bon[,col]<-str_replace_all(etudiant_bon[,col],pattern="\\s",replace="")
+}
+for(col in names(etudiant_bon)){
+  etudiant_bon[,col]<-str_replace_all(etudiant_bon[,col],pattern="<ao>",replace="")
+}
+for(col in names(etudiant_bon)){
+  etudiant_bon[,col]<-str_replace_all(etudiant_bon[,col],pattern="�",replace="")
+}
 
 #mettre dans cet ordre pour que subset garde les doublons avec des regions administrative (garde le premier lu)
 library(dplyr)
@@ -205,7 +205,6 @@ etudiant_bon<-subset(etudiant_bon,!duplicated(etudiant_bon$prenom_nom))
 etudiant_bon<-etudiant_bon%>%
   arrange(prenom_nom)
 #FIN TABLE ETUDIANT BON EST A UTILISER POUR LA SUITE
->>>>>>> 5aafa5d45516e251c57fb8625418364e6395a3ba
 
 #correction collab_bon_et1
 collab_all$etudiant1[collab_all$etudiant1%in% "arianne_barette"]<-"ariane_barrette"
@@ -231,3 +230,8 @@ collab_all$etudiant1[collab_all$etudiant1%in% "sara_jade_lamontagne"]<-"sara-jad
 collab_all$etudiant1[collab_all$etudiant1%in% "savier_samson"]<-"xavier_samson"
 collab_all$etudiant1[collab_all$etudiant1%in% "yannick_sageau"]<-"yanick_sageau"
 collab_all$etudiant1[collab_all$etudiant1%in% "yanick_sagneau"]<-"yanick_sageau"
+
+#trier collab etudiant 1 ordre alphabétique
+
+collab_bon_et1<-arrange(collab_bon,etudiant1)
+collab_bon_et2<-arrange(collab_bon,etudiant2)
