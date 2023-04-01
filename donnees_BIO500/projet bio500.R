@@ -4,6 +4,7 @@ setwd()
 #packages
 library(dplyr)
 library(rmarkdown)
+library(tidyverse)
 
 #lecture des fichiers
 collab1<-read.csv("1_collaboration.csv",sep=";")
@@ -235,8 +236,7 @@ collab_bon$etudiant1[collab_bon$etudiant1%in% "justine_lebelle"]<-"justine_label
 collab_bon$etudiant1[collab_bon$etudiant1%in% "laurie_anne_cournoyer"]<-"laurie-anne_cournoyer"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "louis-phillippe_theriault"]<-"louis-philippe_theriault"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "mael_guerin"]<-"mael_gerin"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "mael_bughin"]<-"marie_bughin"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_burghin"]<-"mael_bughin"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_burghin"]<-"marie_bughin"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_eve_gagne"]<-"marie-eve_gagne"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "noemie_perrier-mallette"]<-"noemie_perrier-malette"
@@ -266,8 +266,7 @@ collab_bon$etudiant2[collab_bon$etudiant2%in% "justine_lebelle"]<-"justine_label
 collab_bon$etudiant2[collab_bon$etudiant2%in% "laurie_anne_cournoyer"]<-"laurie-anne_cournoyer"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "louis-phillippe_theriault"]<-"louis-philippe_theriault"                   
 collab_bon$etudiant2[collab_bon$etudiant2%in% "mael_guerin"]<-"mael_gerin"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "mael_bughin"]<-"marie_bughin"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "marie_burghin"]<-"mael_bughin"
+collab_bon$etudiant2[collab_bon$etudiant2%in% "marie_burghin"]<-"marie_bughin"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "marie_eve_gagne"]<-"marie-eve_gagne"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "noemie_perrier-mallette"]<-"noemie_perrier-malette"
@@ -282,15 +281,13 @@ collab_bon$etudiant2[collab_bon$etudiant2%in% "savier_samson"]<-"xavier_samson"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "yannick_sageau"]<-"yanick_sageau"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "yanick_sagneau"]<-"yanick_sageau"
 
-
-library(tidyverse)
 for(col in names(collab_bon)){
   collab_bon[,col]<-str_replace_all(collab_bon[,col],pattern="\\s",replacement="")
 }
 for(col in names(collab_bon)){
   collab_bon[,col]<-str_replace_all(collab_bon[,col],pattern="<a0>",replacement="")
 }
-for(col in names(etudiant_bon)){
+for(col in names(collab_bon)){
   collab_bon[,col]<-str_replace_all(collab_bon[,col],pattern="�",replacement="")
 }
 
