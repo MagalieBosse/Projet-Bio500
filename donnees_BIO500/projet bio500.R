@@ -5,6 +5,7 @@ setwd()
 library(dplyr)
 library(rmarkdown)
 library(tidyverse)
+library(RSQLite)
 
 #lecture des fichiers
 collab1<-read.csv("1_collaboration.csv",sep=";")
@@ -122,20 +123,65 @@ etudiant_bon<-unique(etudiant_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 collab_bon_et1<-arrange(collab_bon,etudiant1)
 collab_bon_et2<-arrange(collab_bon,etudiant2)
 
-#supprimer ligne cours bon
-cours_bon<-cours_bon[-(326),]
-
 #remplacer les false et true par version française
 etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "FALSE"]<- "FAUX"
 etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "TRUE"]<- "VRAI"
 
+#COURS
 #correction table cours
+
+#supprimer ligne cours bon
+cours_bon<-cours_bon[-(326),]
+
 cours_bon <- cours_bon[cours_bon$sigle!="TRUE",]
 
 cours_bon$optionnel[cours_bon$optionnel%in% "FALSE"]<- "FAUX"
 cours_bon$optionnel[cours_bon$optionnel%in% "TRUE"]<- "VRAI"
 cours_bon$optionnel[cours_bon$optionnel%in% "Faux"]<- "FAUX"
 
+#corrections optionnel faux
+cours_bon$optionnel<-ifelse(cours_bon$sigle=="BCM112",'FAUX', cours_bon$optionnel)
+cours_bon$optionnel<-ifelse(cours_bon$sigle=="BCM113",'FAUX', cours_bon$optionnel)
+cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL406",'FAUX', cours_bon$optionnel)
+cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL527",'FAUX', cours_bon$optionnel)
+cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL610",'FAUX', cours_bon$optionnel)
+cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL611",'FAUX', cours_bon$optionnel)
+cours_bon$optionnel<-ifelse(cours_bon$sigle=="TSB303",'FAUX', cours_bon$optionnel)
+
+#corrections optionnel VRAI
+cours_bon$optionnel<-ifelse(cours_bon$sigle=="BIO401",'VRAI', cours_bon$optionnel)
+cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL215",'VRAI', cours_bon$optionnel)
+cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL315",'VRAI', cours_bon$optionnel)
+cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL522",'VRAI', cours_bon$optionnel)
+cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL544",'VRAI', cours_bon$optionnel)
+cours_bon$optionnel<-ifelse(cours_bon$sigle=="ZOO304",'VRAI', cours_bon$optionnel)
+
+#corrections credits
+cours_bon$credits<-ifelse(cours_bon$sigle=="BIO109",'1', cours_bon$credits)
+cours_bon$credits<-ifelse(cours_bon$sigle=="ECL515",'2', cours_bon$credits)
+cours_bon$credits<-ifelse(cours_bon$sigle=="TSB303",'2', cours_bon$credits)
+
+# retirer les espaces
+for(col in names(cours_bon)){
+  cours_bon[,col]<-str_replace_all(cours_bon[,col],pattern="\\s",replacement="")
+}
+for(col in names(cours_bon)){
+  cours_bon[,col]<-str_replace_all(cours_bon[,col],pattern="<a0>",replacement="")
+}
+for(col in names(cours_bon)){
+  cours_bon[,col]<-str_replace_all(cours_bon[,col],pattern="�",replacement="")
+}
+
+cours_bon<-unique(cours_bon,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
+
+#valider sigle
+cours_bon<-cours_bon%>%
+  arrange(sigle)
+unique(cours_bon$sigle)
+
+#FIN CORRECTIONS COURS BON
+
+#ETUDIANT
 #corrections table etudiant, colonne prenom_nom 
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "mael_guerin"]<-"mael_gerin"
 etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "marie_burghin"]<-"marie_bughin"
@@ -197,7 +243,7 @@ doubles_etudiant<-duplicated(etudiant_bon$prenom_nom)
 extrait_etudiant<-subset(etudiant_bon,doubles_etudiant)
 
 #retirer les espaces bizarres
-library(tidyverse)
+
 for(col in names(etudiant_bon)){
   etudiant_bon[,col]<-str_replace_all(etudiant_bon[,col],pattern="\\s",replacement="")
 }
@@ -219,8 +265,9 @@ etudiant_bon<-subset(etudiant_bon,!duplicated(etudiant_bon$prenom_nom))
 etudiant_bon<-etudiant_bon%>%
   arrange(prenom_nom)
 
-#FIN TABLE ETUDIANT BON EST A UTILISER POUR LA SUITE
+#FIN CORRECTIONS ETUDIANT BON
 
+#COLLABORATION
 #correction collab_bon etudiant 1
 collab_bon$etudiant1[collab_bon$etudiant1%in% "arianne_barette"]<-"ariane_barrette"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "amelie_harbeck_bastien"]<-"amelie_harbeck-bastien"
@@ -281,6 +328,9 @@ collab_bon$etudiant2[collab_bon$etudiant2%in% "savier_samson"]<-"xavier_samson"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "yannick_sageau"]<-"yanick_sageau"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "yanick_sagneau"]<-"yanick_sageau"
 
+#modification sigle 
+collab_bon$sigle[collab_bon$sigle%in%"GAE500"]<-"GAE550"
+
 for(col in names(collab_bon)){
   collab_bon[,col]<-str_replace_all(collab_bon[,col],pattern="\\s",replacement="")
 }
@@ -299,3 +349,92 @@ unique(collab_bon$etudiant1)
 collab_bon<-collab_bon%>%
   arrange(etudiant2)
 unique(collab_bon$etudiant2)
+
+#valider sigle
+collab_bon<-collab_bon%>%
+  arrange(sigle)
+unique(collab_bon$sigle)
+
+# enlever ligne 3201 à 3207
+
+collab_bon<-collab_bon[-(3201:3206),]
+collab_bon<-collab_bon[-(3207),]
+
+#FIN CORRECTIONS COLLABORATION
+
+#creation des tables
+con<-dbConnect(SQLite(),dbname="./data.db")
+etudiant_sql<- '
+CREATE TABLE etudiant(
+  prenom_nom VARCHAR(40),
+  prenom VARCHAR(20),
+  nom VARCHAR(20),
+  region_administrative VARCHAR(40),
+  regime_coop BOLEAN,
+  formation_prealable VARCHAR(30),
+  annee_debut VARCHAR(10),
+  programme VARCHAR(10),
+  PRIMARY KEY (prenom_nom)
+);'
+
+dbSendQuery(con,etudiant_sql)
+dbListTables(con)
+
+cours_sql<-'
+CREATE TABLE cours(
+  sigle VARCHAR(10),
+  optionnel BOLEAN,
+  credits INTEGER,
+  PRIMARY KEY (sigle)
+);'
+dbSendQuery(con,cours_sql)
+dbListTables(con)
+
+collaboration_sql<-'
+CREATE TABLE collaboration (
+  etudiant1     VARCHAR(40),
+  etudiant2     VARCHAR(40),
+  cours   VARCHAR(20),
+  PRIMARY KEY (etudiant1, etudiant2, cours),
+  FOREIGN KEY (etudiant1) REFERENCES etudiant(prenom_nom),
+  FOREIGN KEY (etudiant2) REFERENCES etudiant(prenom_nom),
+  FOREIGN KEY (cours) REFERENCES cours(sigle)
+);'
+dbSendQuery(con,collaboration_sql)
+dbListTables(con)
+
+#base de donnees
+dbWriteTable(con, append =TRUE, name ="etudiant_sql", value = etudiant_bon, row.names =FALSE)
+dbWriteTable(con, append =TRUE, name = "cours_sql", value = cours_bon, row.names =FALSE)
+dbWriteTable(con, append =TRUE, name ="collaboration_sql", value = collab_bon, row.names =FALSE)
+
+#requete 1 nombre de liens par etudiant
+sql_requete1<-"
+SELECT etudiant1, count(etudiant2) AS nb_collaborations
+FROM collaboration_sql
+GROUP BY etudiant1
+ORDER BY nb_collaborations DESC;"
+nb_collab<-dbGetQuery(con,sql_requete1)
+head(nb_collab)
+
+????#requete 2 decompte de liens par paire d'etudiants
+sql_requete2<-"
+SELECT etudiant1, etudiant2, sigle
+FROM collaboration_sql
+INNER JOIN cours_sql USING (sigle)
+GROUP BY etudiant1
+ORDER BY etudiant2 DESC;"
+nb_lien<-dbGetQuery(con,sql_requete2)
+head(nb_lien)
+#?????????????????????????????????????????????????????????????
+
+#requete 3 cours ayant le plus de collab
+sql_requete3<-"
+SELECT sigle, session, count(DISTINCT etudiant1) AS nb_etudiant
+FROM collaboration_sql
+INNER JOIN cours_sql USING (sigle)
+GROUP BY sigle
+ORDER BY nb_etudiant DESC;"
+resume_sigle<-dbGetQuery(con,sql_requete3)
+head(resume_sigle)
+
