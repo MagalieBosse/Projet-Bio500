@@ -6,6 +6,7 @@ library(dplyr)
 library(rmarkdown)
 library(tidyverse)
 library(RSQLite)
+library(igraph)
 
 #lecture des fichiers
 collab1<-read.csv("1_collaboration.csv",sep=";")
@@ -438,3 +439,12 @@ ORDER BY nb_etudiant DESC;"
 resume_sigle<-dbGetQuery(con,sql_requete3)
 head(resume_sigle)
 
+#essai graphique du reseau
+#1 creer une matrice etudiant1/etudiant2
+c<-0.1
+e1<-"SELECT etudiant1
+FROM collaboration_sql"
+mat_collab<-matrix(0,nr=e1,nc=e1)
+mat_collab[runif(e1*e1)<C]=1
+sum(mat_collab)
+graph_collab<-graph.adjacency(mat_collab)
