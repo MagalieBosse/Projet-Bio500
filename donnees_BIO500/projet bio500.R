@@ -418,16 +418,14 @@ ORDER BY nb_collaborations DESC;"
 nb_collab<-dbGetQuery(con,sql_requete1)
 head(nb_collab)
 
-????#requete 2 decompte de liens par paire d'etudiants
+#requete 2 decompte de liens par paire d'etudiants
 sql_requete2<-"
-SELECT etudiant1, etudiant2, sigle
+SELECT etudiant1, etudiant2, COUNT (*) AS nb_liens 
 FROM collaboration_sql
-INNER JOIN cours_sql USING (sigle)
-GROUP BY etudiant1
-ORDER BY etudiant2 DESC;"
-nb_lien<-dbGetQuery(con,sql_requete2)
-head(nb_lien)
-#?????????????????????????????????????????????????????????????
+GROUP BY etudiant1, etudiant2
+ORDER BY nb_liens DESC;"
+nb_lienetudiant<-dbGetQuery(con,sql_requete2.1)
+head(nb_lienetudiant)
 
 #requete 3 cours ayant le plus de collab
 sql_requete3<-"
@@ -439,12 +437,50 @@ ORDER BY nb_etudiant DESC;"
 resume_sigle<-dbGetQuery(con,sql_requete3)
 head(resume_sigle)
 
-#essai graphique du reseau
-#1 creer une matrice etudiant1/etudiant2
-c<-0.1
-e1<-"SELECT etudiant1
+??????compte en double
+#requete 4 nombre etudiant par programme
+sql_requete4<-"
+SELECT programme, count(prenom_nom) AS nb_par_prog
+FROM etudiant_sql
+GROUP BY programme;"
+etudiantprog<-dbGetQuery(con,sql_requete4)
+view(etudiantprog)
+????????
+
+#requete 5 nombre de collaboration par session
+sql_requete5<-"
+SELECT session, COUNT(*) AS nb_collab_session
+FROM collaboration_sql
+GROUP BY session;"
+collab_session<-dbGetQuery(con,sql_requete5)
+view(collab_session)
+
+#requete 6 nb etudiants en tout
+sql_requete6<-"
+SELECT COUNT (*) AS nb_etudianttotal
+FROM etudiant_sql"
+et_total<-dbGetQuery(con, sql_requete6)
+
+#requete 7 nb collaboration
+sql_requete7<-"
+SELECT COUNT (*) AS nb_collabtotal
 FROM collaboration_sql"
-mat_collab<-matrix(0,nr=e1,nc=e1)
-mat_collab[runif(e1*e1)<C]=1
-sum(mat_collab)
-graph_collab<-graph.adjacency(mat_collab)
+collab_total<-dbGetQuery(con, sql_requete7)
+
+#?????write.csv()?????
+
+#figures
+
+#1 creer une matrice etudiant1/etudiant2
+nombre_etudiants<-et_total
+matrice_collab<-matrix(0,nrow=nombre_etudiants,ncol=nombre_etudiants)
+#remplir les interractions par un 1
+for(i in 1:collab_total){
+  if ("etudiant1" %in% collaboration_sql[i,] & "etudiant2" %in% collaboration_sql[i,]){
+    matrice_collab<-matrice_collab[i,]+1
+  }
+}
+#creer un objet igraph
+graph_reseau<-graph.adjacency(resultat)
+#voir figure
+plot(graph_reseau)
