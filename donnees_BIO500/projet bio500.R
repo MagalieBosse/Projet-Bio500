@@ -420,11 +420,11 @@ head(nb_collab)
 
 #requete 2 decompte de liens par paire d'etudiants
 sql_requete2<-"
-SELECT etudiant1, etudiant2, COUNT (*) AS nb_liens 
+SELECT etudiant1, etudiant2, COUNT (sigle) AS nb_liens 
 FROM collaboration_sql
 GROUP BY etudiant1, etudiant2
 ORDER BY nb_liens DESC;"
-nb_lienetudiant<-dbGetQuery(con,sql_requete2.1)
+nb_lienetudiant<-dbGetQuery(con,sql_requete2)
 head(nb_lienetudiant)
 
 #requete 3 cours ayant le plus de collab
@@ -437,7 +437,7 @@ ORDER BY nb_etudiant DESC;"
 resume_sigle<-dbGetQuery(con,sql_requete3)
 head(resume_sigle)
 
-??????compte en double
+#??????compte en double
 #requete 4 nombre etudiant par programme
 sql_requete4<-"
 SELECT programme, count(prenom_nom) AS nb_par_prog
@@ -445,7 +445,7 @@ FROM etudiant_sql
 GROUP BY programme;"
 etudiantprog<-dbGetQuery(con,sql_requete4)
 view(etudiantprog)
-????????
+#????????
 
 #requete 5 nombre de collaboration par session
 sql_requete5<-"
@@ -460,22 +460,25 @@ sql_requete6<-"
 SELECT COUNT (*) AS nb_etudianttotal
 FROM etudiant_sql"
 et_total<-dbGetQuery(con, sql_requete6)
+#sauver le nombre etudiant total
+nb_etudiant<-et_total$nb_etudianttotal
 
 #requete 7 nb collaboration
 sql_requete7<-"
 SELECT COUNT (*) AS nb_collabtotal
 FROM collaboration_sql"
 collab_total<-dbGetQuery(con, sql_requete7)
+#sauver le nombre de lignes de collab
+nb_collab<-collab_total$nb_collabtotal
 
 #?????write.csv()?????
 
 #figures
 
 #1 creer une matrice etudiant1/etudiant2
-nombre_etudiants<-et_total
-matrice_collab<-matrix(0,nrow=nombre_etudiants,ncol=nombre_etudiants)
+matrice_collab<-matrix(0,nrow=nb_etudiant,ncol=nb_etudiant)
 #remplir les interractions par un 1
-for(i in 1:collab_total){
+for(i in 1:nb_collab){
   if ("etudiant1" %in% collaboration_sql[i,] & "etudiant2" %in% collaboration_sql[i,]){
     matrice_collab<-matrice_collab[i,]+1
   }
