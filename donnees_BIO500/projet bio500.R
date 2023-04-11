@@ -471,8 +471,6 @@ collab_total<-dbGetQuery(con, sql_requete7)
 #sauver le nombre de lignes de collab
 nb_collab<-collab_total$nb_collabtotal
 
-#?????write.csv()?????
-
 #figures
 
 #1 creer une matrice etudiant1/etudiant2
