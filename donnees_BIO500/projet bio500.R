@@ -342,6 +342,9 @@ for(col in names(collab_bon)){
   collab_bon[,col]<-str_replace_all(collab_bon[,col],pattern="�",replacement="")
 }
 
+#corriger lignes qui voient dans le futur
+collab_bon$session[collab_bon$session%in% "E2023"]<-"E2022"
+
 #vérification collab compare a etudiant
 collab_bon<-collab_bon%>%
   arrange(etudiant1)
@@ -356,10 +359,9 @@ collab_bon<-collab_bon%>%
   arrange(sigle)
 unique(collab_bon$sigle)
 
-# enlever ligne 3201 à 3207
+# enlever ligne 3201 à 3207 de NA
 
-collab_bon<-collab_bon[-(3201:3206),]
-collab_bon<-collab_bon[-(3207),]
+collab_bon<-collab_bon[-(3201:3207),]
 
 #FIN CORRECTIONS COLLABORATION
 
@@ -437,7 +439,6 @@ ORDER BY nb_etudiant DESC;"
 resume_sigle<-dbGetQuery(con,sql_requete3)
 head(resume_sigle)
 
-#??????compte en double
 #requete 4 nombre etudiant par programme
 sql_requete4<-"
 SELECT programme, count(prenom_nom) AS nb_par_prog
@@ -445,7 +446,6 @@ FROM etudiant_sql
 GROUP BY programme;"
 etudiantprog<-dbGetQuery(con,sql_requete4)
 view(etudiantprog)
-#????????
 
 #requete 5 nombre de collaboration par session
 sql_requete5<-"
@@ -487,3 +487,5 @@ for(i in 1:nb_collab){
 graph_reseau<-graph.adjacency(resultat)
 #voir figure
 plot(graph_reseau)
+nombre_etudiants<-et_total$nombre_etudiants
+matrix_vide<-matrix(0,nrow=nombre_etudiants,ncol=nombre_etudiants)
