@@ -119,11 +119,6 @@ cours_bon<-unique(cours_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 collab_bon<-unique(collab_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 etudiant_bon<-unique(etudiant_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 
-#trier collab etudiant 1 ordre alphabétique
-
-collab_bon_et1<-arrange(collab_bon,etudiant1)
-collab_bon_et2<-arrange(collab_bon,etudiant2)
-
 #remplacer les false et true par version française
 etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "FALSE"]<- "FAUX"
 etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "TRUE"]<- "VRAI"
@@ -393,8 +388,7 @@ CREATE TABLE cours(
 dbSendQuery(con,cours_sql)
 dbListTables(con)
 
-collaboration_sql<-'
-CREATE TABLE collaboration (
+collaboration_sql<-'CREATE TABLE collaboration (
   etudiant1     VARCHAR(40),
   etudiant2     VARCHAR(40),
   cours   VARCHAR(20),
@@ -475,15 +469,18 @@ nb_collab<-collab_total$nb_collabtotal
 
 #1 creer une matrice etudiant1/etudiant2
 matrice_collab<-matrix(0,nrow=nb_etudiant,ncol=nb_etudiant)
-#remplir les interractions par un 1
-for(i in 1:nb_collab){
-  if ("etudiant1" %in% collaboration_sql[i,] & "etudiant2" %in% collaboration_sql[i,]){
-    matrice_collab<-matrice_collab[i,]+1
+#definir la boucle
+for (i in 1:nb_etudiant) {
+  for (j in 1:nb_etudiant) {
+#lire le prenom d'une personne dans la table etudiants CE QUI NOUS MANQUE
+   
+# Vérifier si la paire apparait dans la table "collaboration", si oui mettre 1 dans la matrice
+    if (nrow(subset(collaboration_sql, etudiant1 == i & etudiant2 == j)) > 0) {
+      resultats[i, j] <- 1
+    }
   }
 }
 #creer un objet igraph
 graph_reseau<-graph.adjacency(resultat)
 #voir figure
 plot(graph_reseau)
-nombre_etudiants<-et_total$nombre_etudiants
-matrix_vide<-matrix(0,nrow=nombre_etudiants,ncol=nombre_etudiants)
