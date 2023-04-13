@@ -1,6 +1,3 @@
-#working directory
-setwd()
-
 #packages
 library(dplyr)
 library(rmarkdown)
@@ -91,7 +88,7 @@ cours4<-cours4[-(28),]
 
 #changement etudiant 8
 # Charger le fichier CSV
-data <- read.csv("8_etudiant.csv", quote = "")
+data <- read.csv("./donnees_BIO500/8_etudiant.csv", quote = "")
 
 #changement cours 9
 cours9<-cours9[-(25:29),]
@@ -474,16 +471,14 @@ matrice_collab<-matrix(0,nrow=nb_etudiant,ncol=nb_etudiant)
 rownames(matrice_collab)=noms
 colnames(matrice_collab)=noms
 #definir la boucle
-for (i in 1:nb_etudiant) {
-  for (j in 1:nb_etudiant) {
-#lire le prenom d'une personne dans la table etudiants CE QUI NOUS MANQUE
-   
-# Vérifier si la paire apparait dans la table "collaboration", si oui mettre 1 dans la matrice
-    if (nrow(subset(collaboration_sql, etudiant1 == i & etudiant2 == j)) > 0) {
-      resultats[i, j] <- 1
-    }
-  }
-}
+#for (i in noms) {
+ # selection_et1<-subset(collaboration_sql, etudiant1=i)
+  #selection_et2<-unique(selection_et1$etudiant2)
+ # matrice_collab[rowname(matrice_collab) %in% selection_et2, i]<-1
+#}
+#vérifier les étapes une après l'autre avant de rouler la boucle
+selection_et1<-subset(collaboration_sql, etudiant1=i)
+selection_et2<-unique(selection_et1$etudiant2)
 #creer un objet igraph
 graph_reseau<-graph.adjacency(resultat)
 #voir figure
