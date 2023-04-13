@@ -466,9 +466,12 @@ collab_total<-dbGetQuery(con, sql_requete7)
 nb_collab<-collab_total$nb_collabtotal
 
 #figures
+noms<-etudiant_bon$prenom_nom
 
 #1 creer une matrice etudiant1/etudiant2
 matrice_collab<-matrix(0,nrow=nb_etudiant,ncol=nb_etudiant)
+rownames(matrice_collab)=noms
+colnames(matrice_collab)=noms
 #definir la boucle
 for (i in 1:nb_etudiant) {
   for (j in 1:nb_etudiant) {
