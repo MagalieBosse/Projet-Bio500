@@ -471,17 +471,17 @@ matrice_collab<-matrix(0,nrow=nb_etudiant,ncol=nb_etudiant)
 rownames(matrice_collab)=noms
 colnames(matrice_collab)=noms
 #definir la boucle
-for (i in noms) {
-  for (j in noms){
+for (i in matrice_collab) {
+  for (j in matrice_collab){
  selection_et1<-subset(collab_bon, etudiant1=i)
   selection_et2<-unique(selection_et1$etudiant2)
  matrice_collab[matrice_collab[,j] %in% selection_et2, i]<-1
   }
 }
 #suggestion du prof :
-for (i in noms) {
+for (i in matrice_collab) {
   et2 <- unique(collab_bon$etudiant2[collab_bon$etudiant1 == 1])
-  matrice_collab[et2, i] < -1
+  matrice_collab[et2, i] <-1
 }
 #creer un objet igraph
 graph_reseau<-graph.adjacency(matrice_collab)
