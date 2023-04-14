@@ -471,15 +471,31 @@ matrice_collab<-matrix(0,nrow=nb_etudiant,ncol=nb_etudiant)
 rownames(matrice_collab)=noms
 colnames(matrice_collab)=noms
 #definir la boucle
-#for (i in noms) {
- # selection_et1<-subset(collaboration_sql, etudiant1=i)
-  #selection_et2<-unique(selection_et1$etudiant2)
- # matrice_collab[rowname(matrice_collab) %in% selection_et2, i]<-1
-#}
-#vérifier les étapes une après l'autre avant de rouler la boucle
-selection_et1<-subset(collaboration_sql, etudiant1=i)
-selection_et2<-unique(selection_et1$etudiant2)
+for (i in noms) {
+  for (j in noms){
+ selection_et1<-subset(collab_bon, etudiant1=i)
+  selection_et2<-unique(selection_et1$etudiant2)
+ matrice_collab[matrice_collab[,j] %in% selection_et2, i]<-1
+  }
+}
+#suggestion du prof :
+for (i in noms) {
+  et2 <- unique(collab_bon$etudiant2[collab_bon$etudiant1 == 1])
+  matrice_collab[et2, i] < -1
+}
 #creer un objet igraph
-graph_reseau<-graph.adjacency(resultat)
-#voir figure
-plot(graph_reseau)
+graph_reseau<-graph.adjacency(matrice_collab)
+#voir figure sans fleche
+plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
+#varier la couleur des points selon le nombre de collaborations faites par la paire d'etudiant
+nombre_collab_paire<-sql_requete2
+col.vec<-rainbow(noms, s = 1, v = 1, start = 0, end = max(1, n - 1)/n,
+                 alpha, rev = FALSE)
+V(graph_reseau)$color=col.vec(nombre_collab_paire)
+plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
+#varier la taille des points selon le nombre de collaboration de l'etudiant
+nb_collab_etudiant<-sql_requete1
+V(graph_reseau)$size=col.vec[nb_collab_etudiant]
+plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
+#changer la disposition des noeuds
+plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.circle(graph_reseau))
