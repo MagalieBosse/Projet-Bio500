@@ -465,25 +465,27 @@ nb_collab<-collab_total$nb_collabtotal
 
 #figures
 noms<-unique(etudiant_bon$prenom_nom)
-noms2<-t(noms)
-view(noms2)
-view(noms)
+
 #1 creer une matrice etudiant1/etudiant2
 matrice_collab<-matrix(0,nrow=nb_etudiant,ncol=nb_etudiant)
 rownames(matrice_collab)=noms
-colnames(matrice_collab)=noms2
+colnames(matrice_collab)=noms
 
 #definir la boucle
-for (i in matrice_collab) {
-  for (j in matrice_collab){
+for (i in 1:nb_etudiant) {
+  for (j in 1:nb_etudiant){
  selection_et1<-subset(collab_bon, etudiant1=i)
   selection_et2<-unique(selection_et1$etudiant2)
- matrice_collab[matrice_collab[,j] %in% selection_et2, i]<-1
-  }
+  bon_noms<-which(selection_et2<=nb_etudiant,arr.ind=TRUE)
+  matrice_collab[selection_et2[bon_noms], i] <-1
 }
+}
+
+
+#matrice_collab[matrice_collab[,j] %in% selection_et2, i]<-1
 #suggestion du prof :
-for (i in matrice_collab) {
-  et2 <- unique(collab_bon$etudiant2[collab_bon$etudiant1 == 1])
+for (i in noms) {
+  et2 <- unique(collab_bon$etudiant2[collab_bon$etudiant1 == TRUE])
   matrice_collab[et2, i] <-1
 }
 
