@@ -228,6 +228,20 @@ etudiant_bon$nom[etudiant_bon$nom%in% "guilemette"]<- "guillemette"
 etudiant_bon$nom[etudiant_bon$nom%in% "gobin"]<- "godin"
 etudiant_bon$nom[etudiant_bon$nom%in% "baumier"]<- "beaumier"
 
+#ajout des lignes oubliees
+eb<-c("eloise_bernier","eloise","bernier",NA, NA, NA, NA, NA)
+gm<-c("gabrielle_moreault","gabrielle","moreault",NA, NA, NA, NA, NA)
+kh<-c("karim_hamzaoui","karim","hamzaoui",NA, NA, NA, NA, NA)
+mv<-c("maude_viens","maude","viens",NA, NA, NA, NA, NA)
+mc<-c("maxence_comyn","maxence","comyn",NA, NA, NA, NA, NA)
+nm<-c("naomie_morin","naomie","morin",NA, NA, NA, NA, NA)
+etudiant_bon<-rbind(etudiant_bon,eb)
+etudiant_bon<-rbind(etudiant_bon,gm)
+etudiant_bon<-rbind(etudiant_bon,kh)
+etudiant_bon<-rbind(etudiant_bon,mv)
+etudiant_bon<-rbind(etudiant_bon,mc)
+etudiant_bon<-rbind(etudiant_bon,nm)
+
 #corrections region admin
 etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "monterigie"]<- "monteregie"
 etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "bas-st-laurent"]<- "bas-saint-laurent"
@@ -276,6 +290,7 @@ collab_bon$etudiant1[collab_bon$etudiant1%in% "jonathan_rondeau_leclaire"]<-"jon
 collab_bon$etudiant1[collab_bon$etudiant1%in% "justine_lebelle"]<-"justine_labelle"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "laurie_anne_cournoyer"]<-"laurie-anne_cournoyer"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "louis-phillippe_theriault"]<-"louis-philippe_theriault"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "madyson_mcclean"]<-"madyson_mclean"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "mael_guerin"]<-"mael_gerin"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_burghin"]<-"marie_bughin"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
@@ -285,6 +300,7 @@ collab_bon$etudiant1[collab_bon$etudiant1%in% "peneloppe_robert"]<-"penelope_rob
 collab_bon$etudiant1[collab_bon$etudiant1%in% "philippe_barette"]<-"philippe_barrette"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "phillippe_bourassa"]<-"philippe_bourassa"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "philippe_bourrassa"]<-"philippe_bourassa"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "philippe_leonard_dufour"]<-"philippe_leonard-dufour"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "raphael_charlesbois"]<-"raphael_charlebois"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "sabrica_leclercq"]<-"sabrina_leclercq"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "sara_jade_lamontagne"]<-"sara-jade_lamontagne"
@@ -306,6 +322,7 @@ collab_bon$etudiant2[collab_bon$etudiant2%in% "jonathan_rondeau_leclaire"]<-"jon
 collab_bon$etudiant2[collab_bon$etudiant2%in% "justine_lebelle"]<-"justine_labelle"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "laurie_anne_cournoyer"]<-"laurie-anne_cournoyer"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "louis-phillippe_theriault"]<-"louis-philippe_theriault"                   
+collab_bon$etudiant2[collab_bon$etudiant2%in% "madyson_mcclean"]<-"madyson_mclean"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "mael_guerin"]<-"mael_gerin"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "marie_burghin"]<-"marie_bughin"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
@@ -315,6 +332,7 @@ collab_bon$etudiant2[collab_bon$etudiant2%in% "peneloppe_robert"]<-"penelope_rob
 collab_bon$etudiant2[collab_bon$etudiant2%in% "philippe_barette"]<-"philippe_barrette"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "phillippe_bourassa"]<-"philippe_bourassa"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "philippe_bourrassa"]<-"philippe_bourassa"
+collab_bon$etudiant2[collab_bon$etudiant2%in% "philippe_leonard_dufour"]<-"philippe_leonard-dufour"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "raphael_charlesbois"]<-"raphael_charlebois"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "sabrica_leclercq"]<-"sabrina_leclercq"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "sara_jade_lamontagne"]<-"sara-jade_lamontagne"
@@ -472,20 +490,18 @@ rownames(matrice_collab)=noms
 colnames(matrice_collab)=noms
 
 #definir la boucle
-for (i in 1:nb_etudiant) {
-  for (j in 1:nb_etudiant){
+for (i in noms) {
  selection_et1<-subset(collab_bon, etudiant1=i)
   selection_et2<-unique(selection_et1$etudiant2)
   bon_noms<-which(selection_et2<=nb_etudiant,arr.ind=TRUE)
   matrice_collab[selection_et2[bon_noms], i] <-1
-}
 }
 
 
 #matrice_collab[matrice_collab[,j] %in% selection_et2, i]<-1
 #suggestion du prof :
 for (i in noms) {
-  et2 <- unique(collab_bon$etudiant2[collab_bon$etudiant1 == TRUE])
+  et2 <- unique(collab_bon$etudiant2[collab_bon$etudiant1 ==1])
   matrice_collab[et2, i] <-1
 }
 
