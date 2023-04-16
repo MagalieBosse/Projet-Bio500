@@ -441,7 +441,7 @@ head(nb_lienetudiant)
 
 #requete 3 cours ayant le plus de collab
 sql_requete3<-"
-SELECT sigle, session, count(DISTINCT etudiant1) AS nb_etudiant
+SELECT sigle, count(DISTINCT etudiant1) AS nb_etudiant
 FROM collaboration_sql
 INNER JOIN cours_sql USING (sigle)
 GROUP BY sigle
@@ -484,6 +484,7 @@ nb_collab<-collab_total$nb_collabtotal
 #figures
 noms<-unique(etudiant_bon$prenom_nom)
 
+#Tableau 1
 #1 creer une matrice etudiant1/etudiant2
 matrice_collab<-matrix(0,nrow=nb_etudiant,ncol=nb_etudiant)
 rownames(matrice_collab)=noms
@@ -536,3 +537,16 @@ V(graph_reseau)$size=col.vec[nb_collab_etudiant]
 plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 #changer la disposition des noeuds
 plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.circle(graph_reseau))
+
+#Tableau 2
+colors<-rainbow(length(resume_sigle$sigle))
+barplot(resume_sigle$nb_etudiant,names.arg=resume_sigle$sigle,main="Nombre de collaboration par cours",ylab="Nombre de collaboration",col=colors,las=2)
+mtext("Sigle du cours",side=1,line=3,padj=2)
+#Tableau 3
+colors2<-rainbow(length(collab_session$nb_collab_session))
+barplot(collab_session$nb_collab_session,names.arg=collab_session$session,ylab="Nombre de collaboration",col=colors2,las=2)
+title(main="Nombre de collaboration par session")
+mtext("Nom de la session",side=1,line=3,padj=2)
+
+#Tableau : faire dans markdown 
+print(etudiantprog)
