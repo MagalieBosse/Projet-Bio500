@@ -464,12 +464,15 @@ collab_total<-dbGetQuery(con, sql_requete7)
 nb_collab<-collab_total$nb_collabtotal
 
 #figures
-noms<-etudiant_bon$prenom_nom
-
+noms<-unique(etudiant_bon$prenom_nom)
+noms2<-t(noms)
+view(noms2)
+view(noms)
 #1 creer une matrice etudiant1/etudiant2
 matrice_collab<-matrix(0,nrow=nb_etudiant,ncol=nb_etudiant)
 rownames(matrice_collab)=noms
-colnames(matrice_collab)=noms
+colnames(matrice_collab)=noms2
+
 #definir la boucle
 for (i in matrice_collab) {
   for (j in matrice_collab){
@@ -483,6 +486,22 @@ for (i in matrice_collab) {
   et2 <- unique(collab_bon$etudiant2[collab_bon$etudiant1 == 1])
   matrice_collab[et2, i] <-1
 }
+
+#test suggestion prof 
+for(etu1 in noms){
+  sub <- subset(collab_bon, etudiant1 = etu1)
+  sub_et2 <- unique(sub$etudiant2)
+  if(length(sub_et2) == 0){
+    next
+  }
+else{
+  matrice_collab[rownames(matrice_collab) %in% sub_et2] <- 1
+}
+}
+view(matrice_collab)
+
+
+
 #creer un objet igraph
 graph_reseau<-graph.adjacency(matrice_collab)
 #voir figure sans fleche
