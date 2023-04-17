@@ -37,7 +37,7 @@ collab10<-read.csv("./donnees_BIO500/10_collaboration.csv",sep=";")
 cours10<-read.csv("./donnees_BIO500/10_cours.csv",sep=";")
 etudiant10<-read.csv("./donnees_BIO500/10_etudiant.csv",sep=";")
 
-
+#Nettoyage donnees
 #changement cours 5 
 cours5 <- cours5[-(36:40),]
 
@@ -87,7 +87,7 @@ head(cours4,2)
 cours4<-cours4[-(28),]
 
 #changement etudiant 8
-# Charger le fichier CSV
+#Charger le fichier CSV
 data <- read.csv("./donnees_BIO500/8_etudiant.csv", quote = "")
 
 #changement cours 9
