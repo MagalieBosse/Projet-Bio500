@@ -518,12 +518,13 @@ else{
 }
 view(matrice_collab)
 
-
+test <- table(collab_bon[,c("etudiant1","etudiant2")])
+test_matrix <- igraph::graph.adjacency(test)
 
 #creer un objet igraph
 graph_reseau<-graph.adjacency(matrice_collab)
 #voir figure sans fleche
-plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
+plot(test_matrix,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 #varier la couleur des points selon le nombre de collaborations faites par la paire d'etudiant
 nombre_collab_paire<-sql_requete2
 col.vec<-rainbow(noms, s = 1, v = 1, start = 0, end = max(1, n - 1)/n,
