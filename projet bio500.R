@@ -519,7 +519,9 @@ else{
 }
 view(matrice_collab)
 
-
+test <- table(collab_bon[,c("etudiant1","etudiant2")])
+test_matrix <- igraph::graph.adjacency(test)
+plot(test_matrix,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 
 #creer un objet igraph
 graph_reseau<-graph.adjacency(matrice_collab)
