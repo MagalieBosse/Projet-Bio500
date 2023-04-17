@@ -228,6 +228,20 @@ etudiant_bon$nom[etudiant_bon$nom%in% "guilemette"]<- "guillemette"
 etudiant_bon$nom[etudiant_bon$nom%in% "gobin"]<- "godin"
 etudiant_bon$nom[etudiant_bon$nom%in% "baumier"]<- "beaumier"
 
+#ajout des lignes oubliees
+eb<-c("eloise_bernier","eloise","bernier",NA, NA, NA, NA, NA)
+gm<-c("gabrielle_moreault","gabrielle","moreault",NA, NA, NA, NA, NA)
+kh<-c("karim_hamzaoui","karim","hamzaoui",NA, NA, NA, NA, NA)
+mv<-c("maude_viens","maude","viens",NA, NA, NA, NA, NA)
+mc<-c("maxence_comyn","maxence","comyn",NA, NA, NA, NA, NA)
+nm<-c("naomie_morin","naomie","morin",NA, NA, NA, NA, NA)
+etudiant_bon<-rbind(etudiant_bon,eb)
+etudiant_bon<-rbind(etudiant_bon,gm)
+etudiant_bon<-rbind(etudiant_bon,kh)
+etudiant_bon<-rbind(etudiant_bon,mv)
+etudiant_bon<-rbind(etudiant_bon,mc)
+etudiant_bon<-rbind(etudiant_bon,nm)
+
 #corrections region admin
 etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "monterigie"]<- "monteregie"
 etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "bas-st-laurent"]<- "bas-saint-laurent"
@@ -276,6 +290,7 @@ collab_bon$etudiant1[collab_bon$etudiant1%in% "jonathan_rondeau_leclaire"]<-"jon
 collab_bon$etudiant1[collab_bon$etudiant1%in% "justine_lebelle"]<-"justine_labelle"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "laurie_anne_cournoyer"]<-"laurie-anne_cournoyer"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "louis-phillippe_theriault"]<-"louis-philippe_theriault"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "madyson_mcclean"]<-"madyson_mclean"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "mael_guerin"]<-"mael_gerin"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_burghin"]<-"marie_bughin"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
@@ -285,6 +300,7 @@ collab_bon$etudiant1[collab_bon$etudiant1%in% "peneloppe_robert"]<-"penelope_rob
 collab_bon$etudiant1[collab_bon$etudiant1%in% "philippe_barette"]<-"philippe_barrette"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "phillippe_bourassa"]<-"philippe_bourassa"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "philippe_bourrassa"]<-"philippe_bourassa"
+collab_bon$etudiant1[collab_bon$etudiant1%in% "philippe_leonard_dufour"]<-"philippe_leonard-dufour"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "raphael_charlesbois"]<-"raphael_charlebois"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "sabrica_leclercq"]<-"sabrina_leclercq"
 collab_bon$etudiant1[collab_bon$etudiant1%in% "sara_jade_lamontagne"]<-"sara-jade_lamontagne"
@@ -306,6 +322,7 @@ collab_bon$etudiant2[collab_bon$etudiant2%in% "jonathan_rondeau_leclaire"]<-"jon
 collab_bon$etudiant2[collab_bon$etudiant2%in% "justine_lebelle"]<-"justine_labelle"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "laurie_anne_cournoyer"]<-"laurie-anne_cournoyer"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "louis-phillippe_theriault"]<-"louis-philippe_theriault"                   
+collab_bon$etudiant2[collab_bon$etudiant2%in% "madyson_mcclean"]<-"madyson_mclean"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "mael_guerin"]<-"mael_gerin"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "marie_burghin"]<-"marie_bughin"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
@@ -315,6 +332,7 @@ collab_bon$etudiant2[collab_bon$etudiant2%in% "peneloppe_robert"]<-"penelope_rob
 collab_bon$etudiant2[collab_bon$etudiant2%in% "philippe_barette"]<-"philippe_barrette"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "phillippe_bourassa"]<-"philippe_bourassa"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "philippe_bourrassa"]<-"philippe_bourassa"
+collab_bon$etudiant2[collab_bon$etudiant2%in% "philippe_leonard_dufour"]<-"philippe_leonard-dufour"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "raphael_charlesbois"]<-"raphael_charlebois"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "sabrica_leclercq"]<-"sabrina_leclercq"
 collab_bon$etudiant2[collab_bon$etudiant2%in% "sara_jade_lamontagne"]<-"sara-jade_lamontagne"
@@ -423,7 +441,7 @@ head(nb_lienetudiant)
 
 #requete 3 cours ayant le plus de collab
 sql_requete3<-"
-SELECT sigle, session, count(DISTINCT etudiant1) AS nb_etudiant
+SELECT sigle, count(DISTINCT etudiant1) AS nb_etudiant
 FROM collaboration_sql
 INNER JOIN cours_sql USING (sigle)
 GROUP BY sigle
@@ -465,25 +483,26 @@ nb_collab<-collab_total$nb_collabtotal
 
 #figures
 noms<-unique(etudiant_bon$prenom_nom)
-noms2<-t(noms)
-view(noms2)
-view(noms)
+
+#Tableau 1
 #1 creer une matrice etudiant1/etudiant2
 matrice_collab<-matrix(0,nrow=nb_etudiant,ncol=nb_etudiant)
 rownames(matrice_collab)=noms
-colnames(matrice_collab)=noms2
+colnames(matrice_collab)=noms
 
 #definir la boucle
-for (i in matrice_collab) {
-  for (j in matrice_collab){
+for (i in noms) {
  selection_et1<-subset(collab_bon, etudiant1=i)
   selection_et2<-unique(selection_et1$etudiant2)
- matrice_collab[matrice_collab[,j] %in% selection_et2, i]<-1
-  }
+  bon_noms<-which(selection_et2<=nb_etudiant,arr.ind=TRUE)
+  matrice_collab[selection_et2[bon_noms], i] <-1
 }
+
+
+#matrice_collab[matrice_collab[,j] %in% selection_et2, i]<-1
 #suggestion du prof :
-for (i in matrice_collab) {
-  et2 <- unique(collab_bon$etudiant2[collab_bon$etudiant1 == 1])
+for (i in noms) {
+  et2 <- unique(collab_bon$etudiant2[collab_bon$etudiant1 ==1])
   matrice_collab[et2, i] <-1
 }
 
@@ -518,3 +537,16 @@ V(graph_reseau)$size=col.vec[nb_collab_etudiant]
 plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 #changer la disposition des noeuds
 plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.circle(graph_reseau))
+
+#Tableau 2
+colors<-rainbow(length(resume_sigle$sigle))
+barplot(resume_sigle$nb_etudiant,names.arg=resume_sigle$sigle,main="Nombre de collaboration par cours",ylab="Nombre de collaboration",col=colors,las=2)
+mtext("Sigle du cours",side=1,line=3,padj=2)
+#Tableau 3
+colors2<-rainbow(length(collab_session$nb_collab_session))
+barplot(collab_session$nb_collab_session,names.arg=collab_session$session,ylab="Nombre de collaboration",col=colors2,las=2)
+title(main="Nombre de collaboration par session")
+mtext("Nom de la session",side=1,line=3,padj=2)
+
+#Tableau : faire dans markdown 
+print(etudiantprog)
