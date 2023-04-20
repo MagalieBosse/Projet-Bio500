@@ -39,7 +39,7 @@ etudiant10<-read.csv("./donnees_BIO500/10_etudiant.csv",sep=";")
 
 #Nettoyage donnees
 #changement cours 5 
-cours5 <- cours5[-(36:40),]
+cours5<-cours5[-(36:40),]
 
 #changement etudiant 8
 etudiant8_test<- subset(etudiant8,select = -c(...9))
