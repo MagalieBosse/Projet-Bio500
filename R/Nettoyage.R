@@ -39,7 +39,7 @@ etudiant10<-read.csv("./donnees_BIO500/10_etudiant.csv",sep=";")
 
 #Nettoyage donnees
 #changement cours 5 
-cours5<-cours5[-(36:40),]
+cours5 <- cours5[-(36:40),]
 
 #changement etudiant 8
 etudiant8_test<- subset(etudiant8,select = -c(...9))
@@ -172,11 +172,6 @@ cours_bon<-unique(cours_bon,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 cours_bon<-cours_bon%>%
   arrange(sigle)
 unique(cours_bon$sigle)
-
-#retirer les liens entre meme etudiant
-
-collab_bon<-collab_bon %>%
-  distinct(etudiant1,etudiant2,.keep_all=TRUE)
 
 #FIN CORRECTIONS COURS BON
 
@@ -380,142 +375,3 @@ unique(collab_bon$sigle)
 collab_bon<-collab_bon[-(3201:3207),]
 
 #FIN CORRECTIONS COLLABORATION
-
-#creation des tables
-con<-dbConnect(SQLite(),dbname="./data.db")
-etudiant_sql<- '
-CREATE TABLE etudiant(
-  prenom_nom VARCHAR(40),
-  prenom VARCHAR(20),
-  nom VARCHAR(20),
-  region_administrative VARCHAR(40),
-  regime_coop BOLEAN,
-  formation_prealable VARCHAR(30),
-  annee_debut VARCHAR(10),
-  programme VARCHAR(10),
-  PRIMARY KEY (prenom_nom)
-);'
-
-dbSendQuery(con,etudiant_sql)
-dbListTables(con)
-
-cours_sql<-'
-CREATE TABLE cours(
-  sigle VARCHAR(10),
-  optionnel BOLEAN,
-  credits INTEGER,
-  PRIMARY KEY (sigle)
-);'
-dbSendQuery(con,cours_sql)
-dbListTables(con)
-
-collaboration_sql<-'CREATE TABLE collaboration (
-  etudiant1     VARCHAR(40),
-  etudiant2     VARCHAR(40),
-  cours   VARCHAR(20),
-  PRIMARY KEY (etudiant1, etudiant2, cours),
-  FOREIGN KEY (etudiant1) REFERENCES etudiant(prenom_nom),
-  FOREIGN KEY (etudiant2) REFERENCES etudiant(prenom_nom),
-  FOREIGN KEY (cours) REFERENCES cours(sigle)
-);'
-dbSendQuery(con,collaboration_sql)
-dbListTables(con)
-
-#base de donnees
-dbWriteTable(con, append =TRUE, name ="etudiant_sql", value = etudiant_bon, row.names =FALSE)
-dbWriteTable(con, append =TRUE, name = "cours_sql", value = cours_bon, row.names =FALSE)
-dbWriteTable(con, append =TRUE, name ="collaboration_sql", value = collab_bon, row.names =FALSE)
-
-#requete 1 nombre de liens par etudiant
-sql_requete1<-"
-SELECT etudiant1, count(etudiant2) AS nb_collaborations
-FROM collaboration_sql
-GROUP BY etudiant1
-ORDER BY nb_collaborations DESC;"
-nb_collab<-dbGetQuery(con,sql_requete1)
-head(nb_collab)
-
-#requete 2 decompte de liens par paire d'etudiants
-sql_requete2<-"
-SELECT etudiant1, etudiant2, COUNT (sigle) AS nb_liens 
-FROM collaboration_sql
-GROUP BY etudiant1, etudiant2
-ORDER BY nb_liens DESC;"
-nb_lienetudiant<-dbGetQuery(con,sql_requete2)
-head(nb_lienetudiant)
-
-#requete 3 cours ayant le plus de collab
-sql_requete3<-"
-SELECT sigle, count(DISTINCT etudiant1) AS nb_etudiant
-FROM collaboration_sql
-INNER JOIN cours_sql USING (sigle)
-GROUP BY sigle
-ORDER BY nb_etudiant DESC;"
-resume_sigle<-dbGetQuery(con,sql_requete3)
-head(resume_sigle)
-
-#requete 4 nombre etudiant par programme
-sql_requete4<-"
-SELECT programme, count(prenom_nom) AS nb_par_prog
-FROM etudiant_sql
-GROUP BY programme;"
-etudiantprog<-dbGetQuery(con,sql_requete4)
-
-#requete 5 nombre de collaboration par session
-sql_requete5<-"
-SELECT session, COUNT(*) AS nb_collab_session
-FROM collaboration_sql
-GROUP BY session;"
-collab_session<-dbGetQuery(con,sql_requete5)
-
-#requete 6 nb etudiants en tout
-sql_requete6<-"
-SELECT COUNT (*) AS nb_etudianttotal
-FROM etudiant_sql"
-et_total<-dbGetQuery(con, sql_requete6)
-#sauver le nombre etudiant total
-nb_etudiant<-et_total$nb_etudianttotal
-
-#requete 7 nb collaboration
-sql_requete7<-"
-SELECT COUNT (*) AS nb_collabtotal
-FROM collaboration_sql"
-collab_total<-dbGetQuery(con, sql_requete7)
-#sauver le nombre de lignes de collab
-nb_collaboration<-collab_total$nb_collabtotal
-
-#figures
-noms<-unique(etudiant_bon$prenom_nom)
-
-#Tableau 1
-#1 creer une matrice etudiant1/etudiant2
-tableau_collab<-table(collab_bon[,c("etudiant1","etudiant2")])
-matrice_collab<-igraph::graph.adjacency(tableau_collab)
-#creer objet igraph
-graph_reseau<-plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
-
-#varier la couleur des points selon le nombre de collaborations faites par la paire d'etudiant
-nombre_collab_paire<-nb_collab$nb_collaborations
-rk<-rank(nombre_collab_paire)
-col.vec<-rainbow(length(noms))
-V(matrice_collab)$color=col.vec[rk]
-plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
-#varier la taille des points selon le nombre de collaboration de l'etudiant
-col.vec.2<-nb_lienetudiant$nb_liens
-V(matrice_collab)$size=col.vec.2[rk]
-plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
-#changer la disposition des noeuds
-plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.kamada.kawai(matrice_collab))
-
-#Tableau 2
-colors<-rainbow(length(resume_sigle$sigle))
-barplot(resume_sigle$nb_etudiant,names.arg=resume_sigle$sigle,main="Nombre de collaboration par cours",ylab="Nombre de collaboration",col=colors,las=2)
-mtext("Sigle du cours",side=1,line=3,padj=2)
-#Tableau 3
-colors2<-rainbow(length(collab_session$nb_collab_session))
-barplot(collab_session$nb_collab_session,names.arg=collab_session$session,ylab="Nombre de collaboration",col=colors2,las=2)
-title(main="Nombre de collaboration par session")
-mtext("Nom de la session",side=1,line=3,padj=2)
-
-#Tableau : faire dans markdown 
-print(etudiantprog)
