@@ -209,7 +209,72 @@ list(
     "FAUX",
     cours_bon$optionnel[cours_bon$optionnel%in% "Faux"]
   ),
-  tar_target
+  tar_target(
+    cours_bon$optionnel,
+    ifelse(cours_bon$sigle=="BCM112",'FAUX', cours_bon$optionnel)
+  ),
+  tar_target(
+    cours_bon$optionnel,
+    ifelse(cours_bon$sigle=="BCM113",'FAUX', cours_bon$optionnel)
+  ),
+  tar_target(
+  cours_bon$optionnel,
+  ifelse(cours_bon$sigle=="ECL406",'FAUX', cours_bon$optionnel)
+  ),
+  tar_target(
+    cours_bon$optionnel,
+    ifelse(cours_bon$sigle=="ECL527",'FAUX', cours_bon$optionnel)
+  ),
+  tar_target(
+  cours_bon$optionnel,
+  ifelse(cours_bon$sigle=="ECL610",'FAUX', cours_bon$optionnel)
+  ),
+  tar_target(
+    cours_bon$optionnel,
+    ifelse(cours_bon$sigle=="ECL611",'FAUX', cours_bon$optionnel)
+  ),
+  tar-target(
+    cours_bon$optionnel,
+    ifelse(cours_bon$sigle=="TSB303",'FAUX', cours_bon$optionnel)
+  ),
+  tar_target(
+    cours_bon$optionnel,
+    ifelse(cours_bon$sigle=="BIO401",'VRAI', cours_bon$optionnel)
+  ),
+  tar_target(
+    cours_bon$optionnel,
+    ifelse(cours_bon$sigle=="ECL215",'VRAI', cours_bon$optionnel)
+  ),
+  tar_target(
+    cours_bon$optionnel,
+    ifelse(cours_bon$sigle=="ECL315",'VRAI', cours_bon$optionnel)
+  ),
+  tar_target(
+    cours_bon$optionnel,
+    ifelse(cours_bon$sigle=="ECL522",'VRAI', cours_bon$optionnel)
+  ),
+  tar_target(
+    cours_bon$optionnel,
+    ifelse(cours_bon$sigle=="ECL544",'VRAI', cours_bon$optionnel)
+  ),
+  tar_target(
+    cours_bon$optionnel,
+    ifelse(cours_bon$sigle=="ZOO304",'VRAI', cours_bon$optionnel)
+  ),
+  tar_target(
+    cours_bon$credits,
+    ifelse(cours_bon$sigle=="BIO109",'1', cours_bon$credits)
+  ),
+  tar_target(
+    cours_bon$credits,
+    ifelse(cours_bon$sigle=="ECL515",'2', cours_bon$credits)
+  ),
+  tar_target(
+    cours_bon$credits,
+    ifelse(cours_bon$sigle=="TSB303",'2', cours_bon$credits)
+  ),
+  #rendu 158
+  )
     
 ###Rendu à la ligne 136 dans projet bio500.R
 
