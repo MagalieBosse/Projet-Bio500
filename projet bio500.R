@@ -455,7 +455,6 @@ SELECT programme, count(prenom_nom) AS nb_par_prog
 FROM etudiant_sql
 GROUP BY programme;"
 etudiantprog<-dbGetQuery(con,sql_requete4)
-view(etudiantprog)
 
 #requete 5 nombre de collaboration par session
 sql_requete5<-"
@@ -463,7 +462,6 @@ SELECT session, COUNT(*) AS nb_collab_session
 FROM collaboration_sql
 GROUP BY session;"
 collab_session<-dbGetQuery(con,sql_requete5)
-view(collab_session)
 
 #requete 6 nb etudiants en tout
 sql_requete6<-"
@@ -479,66 +477,30 @@ SELECT COUNT (*) AS nb_collabtotal
 FROM collaboration_sql"
 collab_total<-dbGetQuery(con, sql_requete7)
 #sauver le nombre de lignes de collab
-nb_collab<-collab_total$nb_collabtotal
+nb_collaboration<-collab_total$nb_collabtotal
 
 #figures
 noms<-unique(etudiant_bon$prenom_nom)
 
 #Tableau 1
 #1 creer une matrice etudiant1/etudiant2
-matrice_collab<-matrix(0,nrow=nb_etudiant,ncol=nb_etudiant)
-rownames(matrice_collab)=noms
-colnames(matrice_collab)=noms
+tableau_collab<-table(collab_bon[,c("etudiant1","etudiant2")])
+matrice_collab<-igraph::graph.adjacency(tableau_collab)
+#creer objet igraph
+graph_reseau<-plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 
-#definir la boucle
-for (i in noms) {
- selection_et1<-subset(collab_bon, etudiant1=i)
-  selection_et2<-unique(selection_et1$etudiant2)
-  bon_noms<-which(selection_et2<=nb_etudiant,arr.ind=TRUE)
-  matrice_collab[selection_et2[bon_noms], i] <-1
-}
-
-
-#matrice_collab[matrice_collab[,j] %in% selection_et2, i]<-1
-#suggestion du prof :
-for (i in noms) {
-  et2 <- unique(collab_bon$etudiant2[collab_bon$etudiant1 ==1])
-  matrice_collab[et2, i] <-1
-}
-
-#test suggestion prof 
-for(etu1 in noms){
-  sub <- subset(collab_bon, etudiant1 = etu1)
-  sub_et2 <- unique(sub$etudiant2)
-  if(length(sub_et2) == 0){
-    next
-  }
-else{
-  matrice_collab[rownames(matrice_collab) %in% sub_et2] <- 1
-}
-}
-view(matrice_collab)
-
-test <- table(collab_bon[,c("etudiant1","etudiant2")])
-test_matrix <- igraph::graph.adjacency(test)
-plot(test_matrix,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
-
-#creer un objet igraph
-graph_reseau<-graph.adjacency(matrice_collab)
-#voir figure sans fleche
-plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 #varier la couleur des points selon le nombre de collaborations faites par la paire d'etudiant
-nombre_collab_paire<-sql_requete2
-col.vec<-rainbow(noms, s = 1, v = 1, start = 0, end = max(1, n - 1)/n,
-                 alpha, rev = FALSE)
-V(graph_reseau)$color=col.vec(nombre_collab_paire)
-plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
+nombre_collab_paire<-nb_collab$nb_collaborations
+rk<-rank(nombre_collab_paire)
+col.vec<-rainbow(length(noms))
+V(matrice_collab)$color=col.vec[rk]
+plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 #varier la taille des points selon le nombre de collaboration de l'etudiant
-nb_collab_etudiant<-sql_requete1
-V(graph_reseau)$size=col.vec[nb_collab_etudiant]
-plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
+col.vec.2<-nb_lienetudiant$nb_liens
+V(matrice_collab)$size=col.vec.2[rk]
+plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 #changer la disposition des noeuds
-plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.circle(graph_reseau))
+plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.kamada.kawai(matrice_collab))
 
 #Tableau 2
 colors<-rainbow(length(resume_sigle$sigle))
