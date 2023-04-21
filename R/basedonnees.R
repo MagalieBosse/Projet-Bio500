@@ -1,4 +1,6 @@
 create_con = function(Nettoyage){
+#creation des tables
+
 con<-dbConnect(SQLite(),dbname="./data.db")
 }
 
@@ -47,3 +49,19 @@ create_collab = function(create_con){
   dbListTables(con)  
   dbWriteTable(con, append =TRUE, name ="collaboration_sql", value = collab, row.names =FALSE)
 }
+collaboration_sql<-'CREATE TABLE collaboration (
+  etudiant1     VARCHAR(40),
+  etudiant2     VARCHAR(40),
+  cours   VARCHAR(20),
+  PRIMARY KEY (etudiant1, etudiant2, cours),
+  FOREIGN KEY (etudiant1) REFERENCES etudiant(prenom_nom),
+  FOREIGN KEY (etudiant2) REFERENCES etudiant(prenom_nom),
+  FOREIGN KEY (cours) REFERENCES cours(sigle)
+);'
+dbSendQuery(con,collaboration_sql)
+dbListTables(con)
+
+#base de donnees
+dbWriteTable(con, append =TRUE, name ="etudiant_sql", value = etudiant_bon, row.names =FALSE)
+dbWriteTable(con, append =TRUE, name = "cours_sql", value = cours_bon, row.names =FALSE)
+dbWriteTable(con, append =TRUE, name ="collaboration_sql", value = collab_bon, row.names =FALSE)

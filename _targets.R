@@ -26,12 +26,12 @@ list(
   ), 
 
   tar_target(
-    name = data,
-    command = list.files(path, full.names = TRUE)
+    name = data, # Cible pour l'objet de donnees
+    command = list.files(path, full.names = TRUE) # Lecture des donnees
   ),
   
   tar_target(
-    name = Nettoyage,
+    name = Nettoyage, #fonction qui nettoye toutes les bases de donnees et les fusionnent
     command = clean_data(data)
   ),
   tar_target(
@@ -51,7 +51,7 @@ list(
     command = clean_data_collab(data)
   )
 )  
-  
+
 ##Creation sql##
 source("R/basedonnees.R")
 
