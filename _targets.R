@@ -34,12 +34,12 @@ list(
   ), 
 
   tar_target(
-    name = data, # Cible pour l'objet de données
-    command = list.files(path, full.names = TRUE) # Lecture des données
+    name = data, # Cible pour l'objet de donnees
+    command = list.files(path, full.names = TRUE) # Lecture des donnees
   ),
   
   tar_target(
-    name = Nettoyage1,
+    name = Nettoyage, #fonction qui nettoye toutes les bases de donnees et les fusionnent
     command = clean_data(data)
 )
 )  
