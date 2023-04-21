@@ -4,6 +4,10 @@
 library(targets)
 tar_option_set(packages=c("targets","dplyr", "rmarkdown", "tidyverse", "RSQLite", "igraph","stringr"))
 
+
+#Scripts R reference#
+source("R/analyse.R")
+
 ##Pipeline##
 
 ##Packages
@@ -99,4 +103,20 @@ list(
 #    name=Figures,
 #    command = fig_session(analyse)
 #  )
+)
+
+source("R/Figures.R")
+list(
+  tar_target(
+    name=Figures,
+    command = fig_relation(analyse)
+  ),
+  tar_target(
+    name=Figures,
+    command = fig_sigle(analyse)
+  ),
+  tar_target(
+    name=Figures,
+    command = fig_session(analyse)
+  )
 )
