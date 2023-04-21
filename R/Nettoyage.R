@@ -2,6 +2,20 @@ clean_data = function(data){
   data_list = lapply(data, function(x) read.table(x, sep=';'))
 }
 
+<<<<<<< HEAD
+clean_data_collab = function{
+  blablalba
+}
+
+#packages
+library(dplyr)
+library(rmarkdown)
+library(tidyverse)
+library(RSQLite)
+library(igraph)
+
+=======
+>>>>>>> dac65a6700e66071b0ccd2c455a934f9eff0194a
 #Nettoyage donnees
 #changement cours 5 
 data_list[[16]]<-data_list[[16]][-(36:40),]

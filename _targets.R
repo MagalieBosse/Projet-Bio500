@@ -13,10 +13,24 @@ tar_option_set(packages=c("MASS","igraph"))
 #source("R/Nettoyage.R")
 #source("R/basedonnees.R")
 #source("R/analyse.R")
+<<<<<<< HEAD
+
+=======
 source("R/Nettoyage.R")
+>>>>>>> dac65a6700e66071b0ccd2c455a934f9eff0194a
 
 ##Pipeline##
 #Nettoyage#
+list_packages <- c("dplyr", "rmarkdown", "tidyverse", "RSQLite", "igraph")
+
+tar_target(
+  packages,
+  command = {
+    library(targets)
+    install.packages(list_packages)
+  }
+)
+
 list(
   tar_target(
     name = path, # Cible
@@ -30,8 +44,13 @@ list(
   ),
   
   tar_target(
+<<<<<<< HEAD
+    name = data_cleaned,
+    command = Nettoyage(data)
+=======
     name = Nettoyage,
     command = clean_data(data)
+>>>>>>> dac65a6700e66071b0ccd2c455a934f9eff0194a
   )
-
 )
+  
