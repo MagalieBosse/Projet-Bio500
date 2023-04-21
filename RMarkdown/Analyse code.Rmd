@@ -33,6 +33,8 @@ keywords:
 ## must be one of: pnasresearcharticle (usual two-column layout), pnasmathematics (one column layout), or pnasinvited (invited submissions only)
 pnas_type: pnasresearcharticle
 
+watermark: none
+
 bibliography: Méthode.bib
 csl: pnas.csl
 
@@ -40,6 +42,16 @@ csl: pnas.csl
 lineno: false
 
 output: rticles::pnas_article
+
+latex_engine: xelatex
+
+fig_caption: yes
+
+header-includes:
+  - \usepackage{draftwatermark}
+  - \SetWatermarkText{}
+  - \SetWatermarkAngle{0}
+  - \SetWatermarkScale{1}
 ---
 
 
@@ -79,6 +91,8 @@ Tableaux {#references .unnumbered}
   \caption{Réseaux d'interactions entre les étudiants du cours}
   \label{fig:matrice}
 \end{figure*}
+
+\setboolean{displaywatermark}{false}
 
 Discussion {#Discussion .unnumbered}
 ------
