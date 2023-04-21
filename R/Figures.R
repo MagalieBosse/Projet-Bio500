@@ -15,14 +15,14 @@ fig_relation = function(analyse){
 }
 
 fig_sigle = function(analyse){
-colors<-rainbow(length(resume_sigle$sigle))
-barplot(resume_sigle$nb_etudiant,names.arg=resume_sigle$sigle,main="Nombre de collaboration par cours",ylab="Nombre de collaboration",col=colors,las=2)
-mtext("Sigle du cours",side=1,line=3,padj=2)
+  colors<-rainbow(length(resume_sigle$sigle))
+  barplot(resume_sigle$nb_etudiant,names.arg=resume_sigle$sigle,main="Nombre de collaboration par cours",ylab="Nombre de collaboration",col=colors,las=2)
+  mtext("Sigle du cours",side=1,line=3,padj=2)
 }
 
 fig_session = function(analyse){
-colors2<-rainbow(length(collab_session$nb_collab_session))
-barplot(collab_session$nb_collab_session,names.arg=collab_session$session,ylab="Nombre de collaboration",col=colors2,las=2)
-title(main="Nombre de collaboration par session")
-mtext("Nom de la session",side=1,line=3,padj=2)
+  colors2<-rainbow(length(collab_session$nb_collab_session))
+  barplot(collab_session$nb_collab_session,names.arg=collab_session$session,ylab="Nombre de collaboration",col=colors2,las=2)
+  title(main="Nombre de collaboration par session")
+  mtext("Nom de la session",side=1,line=3,padj=2)
 }
