@@ -17,8 +17,7 @@ source("R/Nettoyage.R")
 
 ##Pipeline##
 #Nettoyage#
-list_packages <- c("dplyr", "rmarkdown", "tidyverse", "RSQLite", "igraph")
-
+list_packages <- c("target","dplyr", "rmarkdown", "tidyverse", "RSQLite", "igraph")
 tar_target(
   packages,
   command = {
