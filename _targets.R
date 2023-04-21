@@ -17,10 +17,20 @@ source("R/Nettoyage.R")
 
 ##Pipeline##
 #Nettoyage#
+list_packages <- c("dplyr", "rmarkdown", "tidyverse", "RSQLite", "igraph")
+
+tar_target(
+  packages,
+  command = {
+    library(targets)
+    install.packages(list_packages)
+  }
+)
+
 list(
   tar_target(
     name = path, # Cible
-    command = "./donnees_BIO500", # Emplacement du fichier, cré fichier txt ou on met.db?
+    command = "./donnees_BIO500", # Emplacement du fichier
     format = "file"
   ), 
 
@@ -32,6 +42,24 @@ list(
   tar_target(
     name = Nettoyage,
     command = clean_data(data)
-  )
+  ),
+  tar_target(
+    name = Nettoyage,
+    command = clean_uniforme(data)
+  ),
+  tar_target(
+    name = Nettoyage,
+    command = clean_data_cours(data)
+  ),
+  tar_target(
+    name = Nettoyage,
+    command = clean_data_etudiant(data)
+  ),
+  tar_target(
+    name = Nettoyage,
+    command = clean_data(data)
+  ),
 
-)
+)  
+  
+  
