@@ -13,7 +13,7 @@ tar_option_set(packages=c("MASS","igraph"))
 #source("R/Nettoyage.R")
 #source("R/basedonnees.R")
 #source("R/analyse.R")
-source("R/clean_data.R")
+source("R/Nettoyage.R")
 
 ##Pipeline##
 #Nettoyage#
@@ -30,7 +30,7 @@ list(
   ),
   
   tar_target(
-    name = data_cleaned,
+    name = Nettoyage,
     command = clean_data(data)
   )
 
