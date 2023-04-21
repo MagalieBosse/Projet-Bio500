@@ -1,7 +1,7 @@
 create_etudiant = function(Nettoyage){
   
-con<-dbConnect(SQLite(),dbname="./data.db")
-#create table etudiant_sql
+  con<-dbConnect(SQLite(),dbname="./data.db")
+  #create table etudiant_sql
   etudiant_sql<- '
   CREATE TABLE etudiant(
     prenom_nom VARCHAR(40),
@@ -17,7 +17,7 @@ con<-dbConnect(SQLite(),dbname="./data.db")
   dbSendQuery(con,etudiant_sql)
   dbListTables(con)
   dbWriteTable(con, append =TRUE, name ="etudiant_sql", value = etudiant, row.names =FALSE)
-#cours
+  #cours
   cours_sql<-'
   CREATE TABLE cours(
     sigle VARCHAR(10),
@@ -28,7 +28,7 @@ con<-dbConnect(SQLite(),dbname="./data.db")
   dbSendQuery(con,cours_sql)
   dbListTables(con)
   dbWriteTable(con, append =TRUE, name = "cours_sql", value = cours, row.names =FALSE)
-#collab
+  #collab
   collaboration_sql<-'CREATE TABLE collaboration (
     etudiant1     VARCHAR(40),
     etudiant2     VARCHAR(40),
