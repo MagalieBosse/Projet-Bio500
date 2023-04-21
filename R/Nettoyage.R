@@ -1,44 +1,29 @@
-clean_data_cours = function(data){
+clean_data = function(data){
   data_list = lapply(data, function(x) read.table(x, sep=';'))
-  cours1 = data_list[[1]]
-  etud1 = data_list[[2]]
-  
 }
-
-
-clean_data_collab = function{
-  blablalba
-}
-
-#packages
-library(dplyr)
-library(rmarkdown)
-library(tidyverse)
-library(RSQLite)
-library(igraph)
 
 #Nettoyage donnees
 #changement cours 5 
-cours5 <- cours5[-(36:40),]
+data_list[[16]]<-data_list[[16]][-(36:40),]
 
 #changement etudiant 8
-etudiant8_test<- subset(etudiant8,select = -c(...9))
+data_list[[26]]<-subset(data_list[[26]],select = -c(...9))
 head(etudiant8_test, 2)
 
 #changement etudiant 6
-etudiant6_test<- subset(etudiant6,select = -c(X))
-head(etudiant6_test, 2)
+data_list[[20]]<-subset(data_list[[20]],select = -c(X))
+head(data_list[[20]], 2)
 
 #changement etudiant 2
-etudiant2_test<- subset(etudiant2,select = -c(X))
-head(etudiant2_test, 2)
+data_list[[8]]<-subset(data_list[[8]],select = -c(X))
+head(data_list[[8]], 2)
 
 #changement etudiant 3
-etudiant3_test2.0<- subset(etudiant3,select = -c(X))
-head(etudiant3_test2.0, 2)
+data_list[[11]]<-subset(data_list[[11]],select = -c(X))
+head(data_list[[11]], 2)
 
 #changement collab 6
-collab6_test<- subset(collab6,select = -c(X, X.1, X.2, X.3, X.4))
+data_list[[21]]<- subset(collab6,select = -c(X, X.1, X.2, X.3, X.4))
 head(collab6_test,2)
 
 #changement cours 6
