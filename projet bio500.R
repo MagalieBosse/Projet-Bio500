@@ -494,7 +494,8 @@ tableau_collab<-table(collab_bon[,c("etudiant1","etudiant2")])
 matrice_collab<-igraph::graph.adjacency(tableau_collab)
 #creer objet igraph
 plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
-
+#supprimer la ligne NA à la fin de nb_collab
+nb_collab<-na.omit(nb_collab)
 #varier la couleur des points selon le nombre de collaborations faites par la paire d'etudiant
 nombre_collab_paire<-nb_collab$nb_collaborations
 rk<-rank(nombre_collab_paire)
@@ -506,9 +507,17 @@ col.vec.2<-nb_lienetudiant$nb_liens
 V(matrice_collab)$size=col.vec.2[rk]
 plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 #changer la disposition des noeuds
+<<<<<<< HEAD
+plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.kamada.kawai(matrice_collab))
+
+#Essai enregistrement figure en .png
+dev.print(device=png, file="Projet-Bio500",width=200)
+ggsave("Projet-Bio500.png", width=200, height=200, dpi=300)
+=======
 graph_reseau<-plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.kamada.kawai(matrice_collab))
 #enregistrer graph en image.png
 
+>>>>>>> 1b2009b1da02057a81df7c5c15fea23c2c5dc506
 
 #Tableau 2
 colors<-rainbow(length(resume_sigle$sigle))
