@@ -4,6 +4,7 @@ library(rmarkdown)
 library(tidyverse)
 library(RSQLite)
 library(igraph)
+library(tinytex)
 
 #lecture des fichiers
 collab1<-read.csv("./donnees_BIO500/1_collaboration.csv",sep=";")
