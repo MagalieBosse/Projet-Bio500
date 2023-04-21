@@ -1,15 +1,23 @@
 clean_data = function(data){
-  data_list = lapply(data, function(x) read.table(x, sep=';'))
-  #data_8 = lapply(data,read.table("./donnees_BIO500/8_etudiant.csv", quote = ""))
+#lire les tables de donnees
+  data_list = lapply(data[-c(grep('8', data))], function(x) read.table(x, sep=';',header=TRUE))
+  data_8 = lapply(data[c(grep('8', data))], function(x) read.csv(x, quote="",header=TRUE))
+
 #retirer les lignes en trop
   data_list[[16]]<-data_list[[16]][-(36:40),]
 #retirer les colonnes pas rapport
-  data_list[[26]]<-subset(data_list[[26]],select = -c("...9"))
-  data_list[[20]]<-subset(data_list[[20]],select = -c("X"))
-  data_list[[8]]<-subset(data_list[[8]],select = -c("X"))
-  data_list[[11]]<-subset(data_list[[11]],select = -c("X"))
-  data_list[[21]]<- subset(data_list[[21]],select = -c("X", "X.1", "X.2", "X.3", "X.4"))
-  data_list[[19]]<- subset(data_list[[19]],select = -c("X", "X.1", "X.2", "X.3", "X.4", "X.5"))
+  data_list[[9]]<- subset(data_list[[9]],select = -c(X))
+  names(data_list[[12]])<-c("prenom_nom","prenom","nom","region_administrative","regime_coop","formation_prealable","annee_debut","programme","X")
+  data_list[[12]]<- subset(data_list[[12]],select = -c(X))
+  data_list[[14]]<- subset(data_list[[14]],select = -c(X))
+  data_list[[20]]<-subset(data_list[[20]],select = -c(X,X.1,X.2,X.3,X.4,X.5))
+  data_list[[19]]<-subset(data_list[[19]],select = -c(X,X.1,X.2,X.3,X.4))
+  data_list[[21]]<- subset(data_list[[21]],select = -c(X))
+  names(data_8[[3]])<-c("prenom_nom","prenom","nom","region_administrative","regime_coop","formation_prealable","annee_debut","programme","X")
+  data_8[[3]]<-subset(data_list[[21]],select = c(prenom_nom,prenom,nom,region_administrative,regime_coop,formation_prealable,annee_debut,programme))
+  names(data_8[[1]])<-c("etudiant1","etudiant2","sigle","session")
+  names(data_8[[2]])<-c("sigle","optionnel","credits")
+  names(data_list[[12]])<-c("prenom_nom","prenom","nom","region_administrative","regime_coop","formation_prealable","annee_debut","programme")
 #ligne en trop
   data_list[[19]]<-data_list[[19]][-(13:235),]
 #ajuster nom colonne
@@ -18,14 +26,13 @@ clean_data = function(data){
   data_list[[15]]<-data_list[[15]][-(723),]
   colnames(data_list[[10]])[colnames(data_list[[10]]) == "ï..sigle"] <- "sigle"
   colnames(data_list[[10]]) <- colnames(data_list[[10]])
-  data_list[[13]]<- subset(data_list[[13]],select = -c("X"))
   data_list[[13]]<-data_list[[13]][-(28),]
-  data_list[[28]]<-data_list[[28]][-(25:29),]
+  data_list[[25]]<-data_list[[25]][-(25:29),]
   data_list[[17]]<-data_list[[17]][-(52:59),]
 #fusionner les tables
-  etudiant<-rbind(data_list[[2]],data_list[[8]],data_list[[11]],data_list[[14]],data_list[[17]],data_list[[20]],data_list[[23]],data_list[[26]],data_list[[29]],data_list[[5]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
-  collab<-rbind(data_list[[3]],data_list[[9]],data_list[[12]],data_list[[15]],data_list[[18]],data_list[[21]],data_list[[24]],data_list[[27]],data_list[[30]],data_list[[6]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
-  cours<-rbind(data_list[[1]],data_list[[7]],data_list[[10]],data_list[[13]],data_list[[16]],data_list[[19]],data_list[[22]],data_list[[25]],data_list[[28]],data_list[[4]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
+  etudiant<-rbind(data_list[[3]],data_list[[6]],data_list[[9]],data_list[[12]],data_list[[15]],data_list[[18]],data_list[[21]],data_8[[3]],data_list[[24]],data_list[[27]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
+  collab<-rbind(data_list[[1]],data_list[[4]],data_list[[7]],data_list[[10]],data_list[[13]],data_list[[16]],data_list[[19]],data_8[[1]],data_list[[22]],data_list[[25]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
+  cours<-rbind(data_list[[2]],data_list[[5]],data_list[[8]],data_list[[11]],data_list[[14]],data_list[[17]],data_list[[20]],data_8[[2]],data_list[[23]],data_list[[26]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
 #retirer les lignes en trop
   etudiant<-etudiant[-(396),]
   collab<-collab[-(5203),]
@@ -41,7 +48,6 @@ clean_data = function(data){
   etudiant$regime_coop[etudiant$regime_coop%in% "FALSE"]<- "FAUX"
   etudiant$regime_coop[etudiant$regime_coop%in% "TRUE"]<- "VRAI"
 #nettoyage cours
-  cours<-clean_uniforme[[3]]
   cours<-cours[-(326),]
   cours<- cours[cours$sigle!="TRUE",]
   cours$optionnel[cours$optionnel%in% "FALSE"]<- "FAUX"
@@ -230,5 +236,5 @@ clean_data = function(data){
   collab$session[collab$session%in% "E2023"]<-"E2022"
   collab<-collab[-(3201:3207),]  
 #lister les sorties
-  return(list(etudiant, collab, cours))
+  return(list(etudiant = etudiant, collab = collab, cours = cours))
 }
