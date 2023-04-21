@@ -2,22 +2,12 @@
 
 #Dependances#
 library(targets)
-library(dplyr)
-library(rmarkdown)
-library(tidyverse)
-library(RSQLite)
-library(igraph)
 tar_option_set(packages=c("MASS","igraph"))
 
-#Scripts R reference#
-#source("R/Nettoyage.R")
-#source("R/basedonnees.R")
-#source("R/analyse.R")
-source("R/Nettoyage.R")
-
 ##Pipeline##
-#Nettoyage#
-list_packages <- c("target","dplyr", "rmarkdown", "tidyverse", "RSQLite", "igraph")
+
+##Packages
+list_packages <- c("targets","dplyr", "rmarkdown", "tidyverse", "RSQLite", "igraph")
 tar_target(
   packages,
   command = {
@@ -26,16 +16,18 @@ tar_target(
   }
 )
 
+#Nettoyage#
+source("R/Nettoyage.R")
 list(
   tar_target(
-    name = path, # Cible
-    command = "./donnees_BIO500", # Emplacement du fichier
+    name = path,
+    command = "./donnees_BIO500",
     format = "file"
   ), 
 
   tar_target(
-    name = data, # Cible pour l'objet de données
-    command = list.files(path, full.names = TRUE) # Lecture des données
+    name = data,
+    command = list.files(path, full.names = TRUE)
   ),
   
   tar_target(
@@ -56,9 +48,78 @@ list(
   ),
   tar_target(
     name = Nettoyage,
-    command = clean_data(data)
-  ),
-
+    command = clean_data_collab(data)
+  )
 )  
   
-  
+##Creation sql##
+source("R/basedonnees.R")
+
+list(
+  tar_target(
+    name = basedonnees,
+    command = create_con(Nettoyage)
+  ),
+  tar_target(
+    name = basedonnees,
+    command = create_etudiant(Nettoyage)
+  ),
+  tar_target(
+    name = basedonnees,
+    command = create_cours(Nettoyage)
+  ),
+  tar_target(
+    name = basedonnees,
+    command = create_collab(Nettoyage)
+  )
+)  
+##Requetes sql##
+source("R/analyse.R")
+ 
+list( 
+  tar_target(
+    name = analyse,
+    command = requete1(basedonnees)
+  ),
+  tar_target(
+    name = analyse,
+    command = requete2(basedonnees)
+  ),
+  tar_target(
+    name = analyse,
+    command = requete3(basedonnees)
+  ),
+  tar_target(
+    name = analyse,
+    command = requete4(basedonnees)
+  ),
+  tar_target(
+    name = analyse,
+    command = requete5(basedonnees)
+  ),
+  tar_target(
+    name = analyse,
+    command = requete6(basedonnees)
+  ),
+  tar_target(
+    name = analyse,
+    command = requete7(basedonnees)
+  )
+) 
+
+##Figures##
+source("R/Figures.R")
+list(
+  tar_target(
+    name=Figures,
+    command = fig_relation(analyse)
+  ),
+  tar_target(
+    name=Figures,
+    command = fig_sigle(analyse)
+  ),
+  tar_target(
+    name=Figures,
+    command = fig_session(analyse)
+  )
+)
