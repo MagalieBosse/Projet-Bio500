@@ -23,28 +23,28 @@ data_list[[11]]<-subset(data_list[[11]],select = -c(X))
 head(data_list[[11]], 2)
 
 #changement collab 6
-data_list[[21]]<- subset(collab6,select = -c(X, X.1, X.2, X.3, X.4))
-head(collab6_test,2)
+data_list[[21]]<- subset(data_list[[21]],select = -c(X, X.1, X.2, X.3, X.4))
+head(data_list[[21]],2)
 
 #changement cours 6
-cours6_test<- subset(cours6,select = -c(X, X.1, X.2, X.3, X.4, X.5))
-head(cours6_test,2)
+data_list[[19]]<- subset(data_list[[19]],select = -c(X, X.1, X.2, X.3, X.4, X.5))
+head(data_list[[19]],2)
 
 #changement cours 6_test
-cours6_test<-cours6_test[-(13:235),]
+data_list[[19]]<-data_list[[19]][-(13:235),]
 
 #changement etudiant 3
-colnames(etudiant3_test2.0)[colnames(etudiant3_test2.0) == "prenom_nom."] <- "prenom_nom"
-colnames(etudiant3_test2.0) <- colnames(etudiant3_test2.0)
-names(etudiant3_test2.0)
+colnames(data_list[[11]])[colnames(data_list[[11]]) == "prenom_nom."] <- "prenom_nom"
+colnames(data_list[[11]]) <- colnames(data_list[[11]])
+names(data_list[[11]])
 
 #changement collab4
-collab4_test<-collab4[-(723),]
+data_list[[15]]<-data_list[[15]][-(723),]
 
 #changement cours 3
-colnames(cours3)[colnames(cours3) == "ï..sigle"] <- "sigle"
-colnames(cours3) <- colnames(cours3)
-names(cours3)
+colnames(data_list[[10]])[colnames(data_list[[10]]) == "ï..sigle"] <- "sigle"
+colnames(data_list[[10]]) <- colnames(data_list[[10]])
+names(data_list[[10]])
 
 #changement cours 4
 cours4<- subset(cours4,select = -c(X))
