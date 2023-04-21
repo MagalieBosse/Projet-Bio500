@@ -509,18 +509,19 @@ plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 #changer la disposition des noeuds
 graph_reseau<-plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.kamada.kawai(matrice_collab))
 #enregistrer graph en image.png
-
+dev.print(device=png,file="matrice.png",width=1000)
 
 #Tableau 2
 colors<-rainbow(length(resume_sigle$sigle))
 barplot(resume_sigle$nb_etudiant,names.arg=resume_sigle$sigle,main="Nombre de collaboration par cours",ylab="Nombre de collaboration",col=colors,las=2)
 mtext("Sigle du cours",side=1,line=3,padj=2)
-dev.print(device=png,file="silge.png",width=1000)
+dev.print(device=png,file="sigle.png",width=1000)
 #Tableau 3
 colors2<-rainbow(length(collab_session$nb_collab_session))
 barplot(collab_session$nb_collab_session,names.arg=collab_session$session,ylab="Nombre de collaboration",col=colors2,las=2)
 title(main="Nombre de collaboration par session")
 mtext("Nom de la session",side=1,line=3,padj=2)
+dev.print(device=png,file="session.png",width=1000)
 
 #Tableau : faire dans markdown 
 print(etudiantprog)
