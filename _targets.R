@@ -2,13 +2,22 @@
 
 #Dependances#
 library(targets)
+library(dplyr)
+library(rmarkdown)
+library(tidyverse)
+library(RSQLite)
+library(igraph)
 tar_option_set(packages=c("MASS","igraph"))
 
 #Scripts R reference#
 #source("R/Nettoyage.R")
 #source("R/basedonnees.R")
 #source("R/analyse.R")
+<<<<<<< HEAD
 
+=======
+source("R/Nettoyage.R")
+>>>>>>> dac65a6700e66071b0ccd2c455a934f9eff0194a
 
 ##Pipeline##
 #Nettoyage#
@@ -35,8 +44,13 @@ list(
   ),
   
   tar_target(
+<<<<<<< HEAD
     name = data_cleaned,
     command = Nettoyage(data)
+=======
+    name = Nettoyage,
+    command = clean_data(data)
+>>>>>>> dac65a6700e66071b0ccd2c455a934f9eff0194a
   )
 )
   
