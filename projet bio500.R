@@ -4,6 +4,7 @@ library(rmarkdown)
 library(tidyverse)
 library(RSQLite)
 library(igraph)
+library(tinytex)
 
 #lecture des fichiers
 collab1<-read.csv("./donnees_BIO500/1_collaboration.csv",sep=";")
@@ -37,9 +38,9 @@ collab10<-read.csv("./donnees_BIO500/10_collaboration.csv",sep=";")
 cours10<-read.csv("./donnees_BIO500/10_cours.csv",sep=";")
 etudiant10<-read.csv("./donnees_BIO500/10_etudiant.csv",sep=";")
 
-
+#Nettoyage donnees
 #changement cours 5 
-cours5 <- cours5[-(36:40),]
+cours5<-cours5[-(36:40),]
 
 #changement etudiant 8
 etudiant8_test<- subset(etudiant8,select = -c(...9))
@@ -87,7 +88,7 @@ head(cours4,2)
 cours4<-cours4[-(28),]
 
 #changement etudiant 8
-# Charger le fichier CSV
+#Charger le fichier CSV
 data <- read.csv("./donnees_BIO500/8_etudiant.csv", quote = "")
 
 #changement cours 9
@@ -172,6 +173,11 @@ cours_bon<-unique(cours_bon,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 cours_bon<-cours_bon%>%
   arrange(sigle)
 unique(cours_bon$sigle)
+
+#retirer les liens entre meme etudiant
+
+collab_bon<-collab_bon %>%
+  distinct(etudiant1,etudiant2,.keep_all=TRUE)
 
 #FIN CORRECTIONS COURS BON
 
@@ -441,7 +447,7 @@ head(nb_lienetudiant)
 
 #requete 3 cours ayant le plus de collab
 sql_requete3<-"
-SELECT sigle, session, count(DISTINCT etudiant1) AS nb_etudiant
+SELECT sigle, count(DISTINCT etudiant1) AS nb_etudiant
 FROM collaboration_sql
 INNER JOIN cours_sql USING (sigle)
 GROUP BY sigle
@@ -455,7 +461,6 @@ SELECT programme, count(prenom_nom) AS nb_par_prog
 FROM etudiant_sql
 GROUP BY programme;"
 etudiantprog<-dbGetQuery(con,sql_requete4)
-view(etudiantprog)
 
 #requete 5 nombre de collaboration par session
 sql_requete5<-"
@@ -463,7 +468,6 @@ SELECT session, COUNT(*) AS nb_collab_session
 FROM collaboration_sql
 GROUP BY session;"
 collab_session<-dbGetQuery(con,sql_requete5)
-view(collab_session)
 
 #requete 6 nb etudiants en tout
 sql_requete6<-"
@@ -479,16 +483,19 @@ SELECT COUNT (*) AS nb_collabtotal
 FROM collaboration_sql"
 collab_total<-dbGetQuery(con, sql_requete7)
 #sauver le nombre de lignes de collab
-nb_collab<-collab_total$nb_collabtotal
+nb_collaboration<-collab_total$nb_collabtotal
 
 #figures
 noms<-unique(etudiant_bon$prenom_nom)
 
+#Tableau 1
 #1 creer une matrice etudiant1/etudiant2
-matrice_collab<-matrix(0,nrow=nb_etudiant,ncol=nb_etudiant)
-rownames(matrice_collab)=noms
-colnames(matrice_collab)=noms
+tableau_collab<-table(collab_bon[,c("etudiant1","etudiant2")])
+matrice_collab<-igraph::graph.adjacency(tableau_collab)
+#creer objet igraph
+graph_reseau<-plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 
+<<<<<<< HEAD
 #definir la boucle
 for (i in noms) {
  selection_et1<-subset(collab_bon, etudiant1=i)
@@ -525,15 +532,30 @@ test_matrix <- igraph::graph.adjacency(test)
 graph_reseau<-graph.adjacency(matrice_collab)
 #voir figure sans fleche
 plot(test_matrix,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
+=======
+>>>>>>> dac65a6700e66071b0ccd2c455a934f9eff0194a
 #varier la couleur des points selon le nombre de collaborations faites par la paire d'etudiant
-nombre_collab_paire<-sql_requete2
-col.vec<-rainbow(noms, s = 1, v = 1, start = 0, end = max(1, n - 1)/n,
-                 alpha, rev = FALSE)
-V(graph_reseau)$color=col.vec(nombre_collab_paire)
-plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
+nombre_collab_paire<-nb_collab$nb_collaborations
+rk<-rank(nombre_collab_paire)
+col.vec<-rainbow(length(noms))
+V(matrice_collab)$color=col.vec[rk]
+plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 #varier la taille des points selon le nombre de collaboration de l'etudiant
-nb_collab_etudiant<-sql_requete1
-V(graph_reseau)$size=col.vec[nb_collab_etudiant]
-plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
+col.vec.2<-nb_lienetudiant$nb_liens
+V(matrice_collab)$size=col.vec.2[rk]
+plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 #changer la disposition des noeuds
-plot(graph_reseau,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.circle(graph_reseau))
+plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.kamada.kawai(matrice_collab))
+
+#Tableau 2
+colors<-rainbow(length(resume_sigle$sigle))
+barplot(resume_sigle$nb_etudiant,names.arg=resume_sigle$sigle,main="Nombre de collaboration par cours",ylab="Nombre de collaboration",col=colors,las=2)
+mtext("Sigle du cours",side=1,line=3,padj=2)
+#Tableau 3
+colors2<-rainbow(length(collab_session$nb_collab_session))
+barplot(collab_session$nb_collab_session,names.arg=collab_session$session,ylab="Nombre de collaboration",col=colors2,las=2)
+title(main="Nombre de collaboration par session")
+mtext("Nom de la session",side=1,line=3,padj=2)
+
+#Tableau : faire dans markdown 
+print(etudiantprog)
