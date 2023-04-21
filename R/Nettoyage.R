@@ -5,7 +5,6 @@ clean_data_cours = function(data){
   
 }
 
-
 clean_data_collab = function{
   blablalba
 }
