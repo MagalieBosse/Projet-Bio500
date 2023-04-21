@@ -32,25 +32,8 @@ list(
   
   tar_target(
     name = Nettoyage,
-    command = clean_data(data)
-  ),
-  tar_target(
-    name = Nettoyage,
-    command = clean_uniforme(data)
-  ),
-  tar_target(
-    name = Nettoyage,
     command = clean_data_cours(data)
-  ),
-  tar_target(
-    name = Nettoyage,
-    command = clean_data_etudiant(data)
-  ),
-  tar_target(
-    name = Nettoyage,
-    command = clean_data_collab(data)
-  )
-)  
+) 
   
 ##Creation sql##
 source("R/basedonnees.R")
