@@ -30,7 +30,7 @@ tar_target(
 list(
   tar_target(
     name = path, # Cible
-    command = "./donnees_BIO500", # Emplacement du fichier, cré fichier txt ou on met.db?
+    command = "./donnees_BIO500", # Emplacement du fichier
     format = "file"
   ), 
 
