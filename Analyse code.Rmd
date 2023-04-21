@@ -1,0 +1,239 @@
+---
+title: Rapport sur les interactions entre étudiants de l'Université de Sherbrooke
+
+# Use letters for affiliations, numbers to show equal authorship (if applicable) and to indicate the corresponding author
+author:
+  - name: Gabrielle Beauchesne
+    affiliation: a,1,2
+  - name: Magalie Bossé
+    affiliation: a,b
+  - name: Amélie Pelletier
+    affiliation: a,b,c
+    
+address:
+  a: "Université de Sherbrooke, Départment de biologie, 2500 Boulevard de l'Université, Sherbrooke, Québec, J1K 2R1"
+  b: "Université de Sherbrooke, Départment de biologie, 2500 Boulevard de l'Université, Sherbrooke, Québec, J1K 2R1"
+  c: "Université de Sherbrooke, Départment de biologie, 2500 Boulevard de l'Université, Sherbrooke, Québec, J1K 2R1"
+    
+
+corresponding_author:
+  code: 2
+  text: "To whom correspondence should be addressed. E-mail: bob@email.com"
+
+# For footer text
+lead_author_surname: Anonymous
+
+## Remove this if not required    
+equal_authors:
+  code: 1
+  text: "A.O.(Author One) and A.T. (Author Two) contributed equally to this work (remove if not applicable)."
+
+
+author_contributions: |
+  Please provide details of author contributions here.
+
+
+abstract: |
+  Please provide an abstract of no more than 250 words in a single paragraph. Abstracts should explain to the general reader the major contributions of the article. References in the abstract must be cited in full within the abstract itself and cited in the text.
+
+
+significance: |
+  Authors must submit a 120-word maximum statement about the significance of their research paper written at a level understandable to an undergraduate educated scientist outside their field of speciality. The primary goal of the Significance Statement is to explain the relevance of the work in broad context to a broad readership. The Significance Statement appears in the paper itself and is required for all research papers.
+
+acknowledgements: |
+  Please include your acknowledgments here, set in a single paragraph. Please do not include any acknowledgments in the Supporting Information, or anywhere else in the manuscript.
+
+keywords:
+  - one
+  - two
+  - optional
+  - optional
+  - optional
+
+## must be one of: pnasresearcharticle (usual two-column layout), pnasmathematics (one column layout), or pnasinvited (invited submissions only)
+pnas_type: pnasresearcharticle
+
+bibliography: Méthode.bib
+csl: pnas.csl
+
+## change to true to add optional line numbering
+lineno: false
+
+output: rticles::pnas_article
+---
+
+
+Introduction {.unnumbered}
+========================================
+Dans le baccalauréat en biologie à l’Université de Sherbrooke, il est possible de s’inscrire à un des quatre programmes présentés soit : biologie générale, biologie cellulaire, écologie et microbiologie. À travers ces différents programmes, il y a chevauchement de plusieurs cours entrainant ainsi des interactions multiples entre les étudiants de ces quatre programmes. Les interactions sont également possibles dans des cours optionnels où d’autres programmes viennent s’ajouter à ces quatre programmes. D’où la question : est-ce que les propriétés du réseau de collaboration entre étudiants en écologie diffèrent de celles d’un réseau écologique ? Il sera donc question d’évaluation des interactions produites par chaque membre pour représenter le réseau de collaboration des étudiants puis de comparer ce réseau avec des réseaux écologiques. 
+
+Méthodologie {#Méthodologie .unnumbered}
+-------------------
+Concernant la méthodologie, la classe a été divisée en plusieurs équipes de 3 à 4 personnes pour monter leur propre fichier de données concernant les collaborations effectuées par chaque membre de l’équipe depuis le début de leur baccalauréat. Certaines données supplémentaires concernant les cours auxquels chacun a participé ainsi que les renseignements sur chaque membre de l’équipe, programme choisi, session de début, etc. ont été compilés en même temps que les collaborations. Par la suite, nous avons combiner les données de chaque équipe pour former trois grandes tables : cours, étudiant et collaboration. Nous avons nettoyé les tables puis opérer diverses manœuvres dans R pour effectuer nos analyses. Nous avons créé des requêtes SQL pour nos analyses et pour visualiser celles-ci. Un fichier target a également été conçu. Finalement, nous avons utiliser RMarkdown pour la mise en page de ce rapport.  
+
+Résultats {#Résultats .unnumbered}
+----------------------
+
+
+Discussion {#Discussion .unnumbered}
+------
+Dans une communauté écologique plusieurs interactions peuvent subvenir entre les individus. C’est le même principe pour les étudiants de l’université. Dans l’écologie des communautés, on parle de richesse spécifique pour décrire le nombre d’espèces présentes sur le lieu de l’étude. Pour les étudiants, la richesse spécifique serait en fait le nombre d’étudiants présent dans le cours de méthode en écologie computationnelle. Il est possible en utilisant les liens effectués entre les différentes espèces ou entre les étudiants de produire une matrice d’adjacence qui décrirait les interactions entre les individus ainsi que le niveau d’interaction entre ces individus [@saavedra_structural_2017]. 
+Pour différencier les types d’interactions on peut utiliser des réseaux binaires qui ne décrivent pas la direction du lien en question. On peut aussi utiliser des réseaux directionnels et valués qui permettent de décrire la direction de l’interaction et son intensité séparément. Ces réseaux sont utiles pour décrire des interactions fortes ou des interactions différentes en fonction du sens de l’interaction. Dans une communauté écologique, une relation de prédation de l’espèce 1 à l’espèce 2 ne sera pas représenté de la même façon dans un réseau directionnel par exemple [@delmas_analysing_2019].
+Dans l’étude réalisée ici, on se contentera d’utiliser des interactions binaires entre les étudiants étant donné qu’on ne différencie pas le type d’interaction. 
+En écologie des communautés on parle de degré de nœud pour décrire le nombre de liens qu’une espèce fait avec d’autres espèces. Plus il y a de liens d’effectuées, plus le degré du nœud sera élevé. Il est possible de retrouver la même logique dans les relations entre étudiants. Certains étudiants ont tendances à former plus de liens avec leurs pairs que d’autres. 
+Les étudiants qui ont plusieurs interactions avec plusieurs élèves différents seront les nœuds centraux de la matrice. En effet, ce sont eux qui permettent de former le plus d’interactions entre les étudiants [@delmas_analysing_2019].
+Plus un nœud est central et avec un degré élevé, plus son retrait dans une communauté écologique impactera le réseau. Le même principe peut être appliqué aux étudiants de l’université. Si on retire les étudiants centraux de notre réseau, plusieurs interactions entres d’autres étudiants ne seraient possiblement pas survenues [@berquer_analyse_nodate].
+Plusieurs types d’interactions peuvent survenir dans un milieu écologique. On retrouve par exemple de la prédation, des interactions symbiotiques, du commensalisme et plusieurs autres [@berquer_analyse_nodate]. Chez les étudiants de l’université, on observe surtout des interactions qui se rapprochent d’une symbiose en écologie. En effet, certains étudiants ont plutôt tendance à former des groupes pour s’entraider et on observe de grandes quantités d’interactions à l’intérieur de ces groupes en question. 
+
+
+Conclusion {#Conclusion .unnumbered}
+-----------------
+Il est possible de dire que les interactions entres les étudiants de l’université est comparable dans certaines mesures à un système d’interaction d’une communauté écologique. En effet, dans les deux cas on observe une tendance à former des groupes symbiotiques dans lesquels on observe une grande quantité d’interactions entre les entités. Aussi, dans les deux cas on observe un fort impact du retrait des nœuds centraux sur les interactions dans la communauté. 
+Pour pousser d’avantage la réflexion, il serait possible de tenter d’inclure dans l’analyse le type d’interaction entre les étudiants. Par exemple, ces interactions pourraient être de l’entraide, de l’aide donnée par un étudiant à un autre ou encore des mésentendus entres étudiants. Ainsi, il pourrait être possible de pousser les analyses pour déterminer non seulement si les réseaux d’interactions sont comparables, mais aussi si les types d’interactions sont régis de la même façon entre les deux types de communautés. 
+
+
+References {#references .unnumbered}
+----------
+
+
+Data Archival {#data-archival .unnumbered}
+-------------
+
+
+
+Language-Editing Services {#language-editing-services .unnumbered}
+-------------------------
+
+
+![Placeholder image of a frog with a long example caption to show
+justification setting.<span data-label="fig:frog"></span>](frog.png)
+
+Digital Figures {#sec:figures .unnumbered}
+---------------
+
+Only TIFF, EPS, and high-resolution PDF for Mac or PC are allowed for
+figures that will appear in the main text, and images must be final
+size. Authors may submit U3D or PRC files for 3D images; these must be
+accompanied by 2D representations in TIFF, EPS, or high-resolution PDF
+format. Color images must be in RGB (red, green, blue) mode. Include the
+font files for any text.
+
+Figures and Tables should be labelled and referenced in the standard way
+using the `\label{}` and `\ref{}` commands.
+
+Figure \[fig:frog\] shows an example of how to insert a column-wide
+figure. To insert a figure wider than one column, please use the
+`\begin{figure*}...\end{figure*}` environment. Figures wider than one
+column should be sized to 11.4 cm or 17.8 cm wide.
+
+Single column equations {#single-column-equations .unnumbered}
+-----------------------
+
+Authors may use 1- or 2-column equations in their article, according to
+their preference.
+
+To allow an equation to span both columns, options are to use the
+`\begin{figure*}...\end{figure*}` environment mentioned above for
+figures, or to use the `\begin{widetext}...\end{widetext}` environment
+as shown in equation \[eqn:example\] below.
+
+Please note that this option may run into problems with floats and
+footnotes, as mentioned in the [cuted package
+documentation](http://texdoc.net/pkg/cuted). In the case of problems
+with footnotes, it may be possible to correct the situation using
+commands `\footnotemark` and `\footnotetext`.
+
+$$\begin{aligned}
+(x+y)^3&=(x+y)(x+y)^2\\
+       &=(x+y)(x^2+2xy+y^2) \label{eqn:example} \\
+       &=x^3+3x^2y+3xy^3+x^3. 
+\end{aligned}$$
+
+
+
+<!-- pandoc writes all tables using longtable, which fails in 2-column mode
+
+  Species                    CBS     CV     G3
+  ----------------------- ------ ------ ------
+  1\. Acetaldehyde           0.0    0.0    0.0
+  2\. Vinyl alcohol          9.1    9.6   13.5
+  3\. Hydroxyethylidene     50.8   51.2   54.0
+
+  : Comparison of the fitted potential energy surfaces and ab initio
+  benchmark electronic energy calculations
+
+-->
+
+Supporting Information (SI) {#supporting-information-si .unnumbered}
+---------------------------
+
+
+The main text of the paper must stand on its own without the SI. Refer
+to SI in the manuscript at an appropriate point in the text. Number
+supporting figures and tables starting with S1, S2, etc. Authors are
+limited to no more than 10 SI files, not including movie files. Authors
+who place detailed materials and methods in SI must provide sufficient
+detail in the main text methods to enable a reader to follow the logic
+of the procedures and results and also must reference the online
+methods. If a paper is fundamentally a study of a new method or
+technique, then the methods must be described completely in the main
+text. Because PNAS edits SI and composes it into a single PDF, authors
+must provide the following file formats only.
+
+### SI Text {#si-text .unnumbered}
+
+Supply Word, RTF, or LaTeX files (LaTeX files must be accompanied by a
+PDF with the same file name for visual reference).
+
+### SI Figures {#si-figures .unnumbered}
+
+Provide a brief legend for each supporting figure after the supporting
+text. Provide figure images in TIFF, EPS, high-resolution PDF, JPEG, or
+GIF format; figures may not be embedded in manuscript text. When saving
+TIFF files, use only LZW compression; do not use JPEG compression. Do
+not save figure numbers, legends, or author names as part of the image.
+Composite figures must be pre-assembled.
+
+### 3D Figures {#d-figures .unnumbered}
+
+Supply a composable U3D or PRC file so that it may be edited and
+composed. Authors may submit a PDF file but please note it will be
+published in raw format and will not be edited or composed.
+
+### SI Tables {#si-tables .unnumbered}
+
+Supply Word, RTF, or LaTeX files (LaTeX files must be accompanied by a
+PDF with the same file name for visual reference); include only one
+table per file. Do not use tabs or spaces to separate columns in Word
+tables.
+
+### SI Datasets {#si-datasets .unnumbered}
+
+Supply Excel (.xls), RTF, or PDF files. This file type will be published
+in raw format and will not be edited or composed.
+
+### SI Movies {#si-movies .unnumbered}
+
+Supply Audio Video Interleave (avi), Quicktime (mov), Windows Media
+(wmv), animated GIF (gif), or MPEG files and submit a brief legend for
+each movie in a Word or RTF file. All movies should be submitted at the
+desired reproduction size and length. Movies should be no more than 10
+MB in size.
+
+### Still images {#still-images .unnumbered}
+
+Authors must provide a still image from each video file. Supply TIFF,
+EPS, high-resolution PDF, JPEG, or GIF files.
+
+### Appendices {#appendices .unnumbered}
+
+PNAS prefers that authors submit individual source files to ensure
+readability. If this is not possible, supply a single PDF file that
+contains all of the SI associated with the paper. This file type will be
+published in raw format and will not be edited or composed.
+
+
+<!-- Leave these lines as they are at the end of your .Rmd file to ensure placement of methods & acknowledgements sections before the references-->
+\showmatmethods
+\showacknow
+\pnasbreak
