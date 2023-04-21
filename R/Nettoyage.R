@@ -1,11 +1,11 @@
 clean_data = function(data){
-#lire les tables de donnees
+  #lire les tables de donnees
   data_list = lapply(data[-c(grep('8', data))], function(x) read.table(x, sep=';',header=TRUE))
   data_8 = lapply(data[c(grep('8', data))], function(x) read.csv(x, quote="",header=TRUE))
-
-#retirer les lignes en trop
+  
+  #retirer les lignes en trop
   data_list[[16]]<-data_list[[16]][-(36:40),]
-#retirer les colonnes pas rapport
+  #retirer les colonnes pas rapport
   data_list[[9]]<- subset(data_list[[9]],select = -c(X))
   names(data_list[[12]])<-c("prenom_nom","prenom","nom","region_administrative","regime_coop","formation_prealable","annee_debut","programme","X")
   data_list[[12]]<- subset(data_list[[12]],select = -c(X))
@@ -18,9 +18,9 @@ clean_data = function(data){
   names(data_8[[1]])<-c("etudiant1","etudiant2","sigle","session")
   names(data_8[[2]])<-c("sigle","optionnel","credits")
   names(data_list[[12]])<-c("prenom_nom","prenom","nom","region_administrative","regime_coop","formation_prealable","annee_debut","programme")
-#ligne en trop
+  #ligne en trop
   data_list[[19]]<-data_list[[19]][-(13:235),]
-#ajuster nom colonne
+  #ajuster nom colonne
   colnames(data_list[[11]])[colnames(data_list[[11]]) == "prenom_nom."] <- "prenom_nom"
   colnames(data_list[[11]]) <- colnames(data_list[[11]])
   data_list[[15]]<-data_list[[15]][-(723),]
@@ -29,25 +29,25 @@ clean_data = function(data){
   data_list[[13]]<-data_list[[13]][-(28),]
   data_list[[25]]<-data_list[[25]][-(25:29),]
   data_list[[17]]<-data_list[[17]][-(52:59),]
-#fusionner les tables
+  #fusionner les tables
   etudiant<-rbind(data_list[[3]],data_list[[6]],data_list[[9]],data_list[[12]],data_list[[15]],data_list[[18]],data_list[[21]],data_8[[3]],data_list[[24]],data_list[[27]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
   collab<-rbind(data_list[[1]],data_list[[4]],data_list[[7]],data_list[[10]],data_list[[13]],data_list[[16]],data_list[[19]],data_8[[1]],data_list[[22]],data_list[[25]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
   cours<-rbind(data_list[[2]],data_list[[5]],data_list[[8]],data_list[[11]],data_list[[14]],data_list[[17]],data_list[[20]],data_8[[2]],data_list[[23]],data_list[[26]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
-#retirer les lignes en trop
+  #retirer les lignes en trop
   etudiant<-etudiant[-(396),]
   collab<-collab[-(5203),]
-#ajouter des na dan les cases vides
+  #ajouter des na dan les cases vides
   etudiant[etudiant==""]<-NA
   collab[collab==""]<-NA
   cours[cours==""]<-NA
-#retirer les entrees doubles
+  #retirer les entrees doubles
   cours<-unique(cours,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
   collab<-unique(collab,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
   etudiant<-unique(etudiant,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
-#version francaise
+  #version francaise
   etudiant$regime_coop[etudiant$regime_coop%in% "FALSE"]<- "FAUX"
   etudiant$regime_coop[etudiant$regime_coop%in% "TRUE"]<- "VRAI"
-#nettoyage cours
+  #nettoyage cours
   cours<-cours[-(326),]
   cours<- cours[cours$sigle!="TRUE",]
   cours$optionnel[cours$optionnel%in% "FALSE"]<- "FAUX"
@@ -69,7 +69,7 @@ clean_data = function(data){
   cours$credits<-ifelse(cours$sigle=="BIO109",'1', cours$credits)
   cours$credits<-ifelse(cours$sigle=="ECL515",'2', cours$credits)
   cours$credits<-ifelse(cours$sigle=="TSB303",'2', cours$credits)
-#retirer les espaces bizarres
+  #retirer les espaces bizarres
   for(col in names(cours)){
     cours[,col]<-str_replace_all(cours[,col],pattern="\\s",replacement="")
   }
@@ -80,7 +80,7 @@ clean_data = function(data){
     cours[,col]<-str_replace_all(cours[,col],pattern="�",replacement="")
   }
   cours<-unique(cours,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
-#nettoyer etudiant
+  #nettoyer etudiant
   etudiant$prenom_nom[etudiant$prenom_nom%in% "mael_guerin"]<-"mael_gerin"
   etudiant$prenom_nom[etudiant$prenom_nom%in% "marie_burghin"]<-"marie_bughin"
   etudiant$prenom_nom[etudiant$prenom_nom%in% "philippe_barette"]<-"philippe_barrette" 
@@ -127,7 +127,7 @@ clean_data = function(data){
   etudiant$nom[etudiant$nom%in% "guilemette"]<- "guillemette"
   etudiant$nom[etudiant$nom%in% "gobin"]<- "godin"
   etudiant$nom[etudiant$nom%in% "baumier"]<- "beaumier"
-#ajouter les entrees manquantes
+  #ajouter les entrees manquantes
   eb<-c("eloise_bernier","eloise","bernier",NA, NA, NA, NA, NA)
   gm<-c("gabrielle_moreault","gabrielle","moreault",NA, NA, NA, NA, NA)
   kh<-c("karim_hamzaoui","karim","hamzaoui",NA, NA, NA, NA, NA)
@@ -140,12 +140,12 @@ clean_data = function(data){
   etudiant<-rbind(etudiant,mv)
   etudiant<-rbind(etudiant,mc)
   etudiant<-rbind(etudiant,nm)
-#suite correction
+  #suite correction
   etudiant$region_administrative[etudiant$region_administrative%in% "monterigie"]<- "monteregie"
   etudiant$region_administrative[etudiant$region_administrative%in% "bas-st-laurent"]<- "bas-saint-laurent"
   doubles_etudiant<-duplicated(etudiant$prenom_nom)
   extrait_etudiant<-subset(etudiant,doubles_etudiant)
-#retirer les espaces bizarres
+  #retirer les espaces bizarres
   for(col in names(etudiant)){
     etudiant[,col]<-str_replace_all(etudiant[,col],pattern="\\s",replacement="")
   }
@@ -155,13 +155,13 @@ clean_data = function(data){
   for(col in names(etudiant)){
     etudiant[,col]<-str_replace_all(etudiant[,col],pattern="�",replacement="")
   }
-#ordre voulu
+  #ordre voulu
   etudiant<-etudiant%>%
     arrange(region_administrative)
   etudiant<-subset(etudiant,!duplicated(etudiant$prenom_nom))
   etudiant<-etudiant%>%
     arrange(prenom_nom)
-#correction collab
+  #correction collab
   collab$etudiant1[collab$etudiant1%in% "arianne_barette"]<-"ariane_barrette"
   collab$etudiant1[collab$etudiant1%in% "amelie_harbeck_bastien"]<-"amelie_harbeck-bastien"
   collab$etudiant1[collab$etudiant1%in% "cassandra_gobin"]<-"cassandra_godin"
@@ -223,7 +223,7 @@ clean_data = function(data){
   collab$etudiant2[collab$etudiant2%in% "yannick_sageau"]<-"yanick_sageau"
   collab$etudiant2[collab$etudiant2%in% "yanick_sagneau"]<-"yanick_sageau"
   collab$sigle[collab$sigle%in%"GAE500"]<-"GAE550"
-#retirer les espaces bizarres
+  #retirer les espaces bizarres
   for(col in names(collab)){
     collab[,col]<-str_replace_all(collab[,col],pattern="\\s",replacement="")
   }
@@ -235,6 +235,6 @@ clean_data = function(data){
   }
   collab$session[collab$session%in% "E2023"]<-"E2022"
   collab<-collab[-(3201:3207),]  
-#lister les sorties
+  #lister les sorties
   return(list(etudiant = etudiant, collab = collab, cours = cours))
 }
