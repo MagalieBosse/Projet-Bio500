@@ -1,5 +1,21 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-clean_data|function|ecebd54ac789fd0d|||||||||||||||
-data|stem|64511b54ea90096e|71948d4e0817f43c|fabaeb8fd3d68bcc|1588979285||t19467.9605030815s|9208ff4405c91373|218|rds|local|vector|||0||
+clean_data|function|3534bba713a82901|||||||||||||||
+create_collab|function|aacdecc8970f40db|||||||||||||||
+create_con|function|0718ea717fb03f10|||||||||||||||
+create_cours|function|31a9f561f30ebc00|||||||||||||||
+create_etudiant|function|dc7fd1a299bb33c6|||||||||||||||
+data|stem|0bf690f9cb137472|71948d4e0817f43c|8c7c1f1e9760dce7|1588979285||t19468.7847659435s|74c6dee26eb45e63|210|rds|local|vector|||0||
 data_cleaned|stem|a4266d7c9a17ee4d|2ba455f5c74230d9|f3883833ffd8169e|516190505||t19467.9714248297s|8b757424e0dac5e1|26954|rds|local|vector|||0.04|line 1 appears to contain embedded nulls. ligne finale incomplète trouvée par readTableHeader dans .donnees_BIO500data.db|
-path|stem|8bd105e1cf1c2ae9|decec87a50c1e77e|ef46db3751d8e999|-1383433547|./donnees_BIO500|t19460.7428818691s|c7827d29f759aa2c|8192|file|local|vector|||0.23||
+etudiant_sql|stem||42b7432f6fcb38ac|7320d9ffead5b0a4|-1241743826||t19468.9043264849s||0|rds|local|vector|||0.02||table etudiant already exists
+fig_relation|function|2b7aa2ac951ff02e|||||||||||||||
+fig_session|function|42d3c0345fd3598c|||||||||||||||
+fig_sigle|function|2b218d7dfa9552b7|||||||||||||||
+Nettoyage|stem|6196b5150244cc08|2ba455f5c74230d9|05365ec8ed8aedc4|1647492064||t19468.8907180082s|4e7c872d6668ab35|26436|rds|local|vector|||0.63||
+path|stem|fccc128885ac4d7a|decec87a50c1e77e|ef46db3751d8e999|-1383433547|./donnees_BIO500|t19468.7914396998s|c8fc69c6c41e109f|12288|file|local|vector|||1.28||
+requete1|function|b50bbe8eb7935cca|||||||||||||||
+requete2|function|0822910b07298151|||||||||||||||
+requete3|function|3bcb280cb23ed450|||||||||||||||
+requete4|function|fa569fd6c7622941|||||||||||||||
+requete5|function|2722c223e5cd8699|||||||||||||||
+requete6|function|b94622e7329352f3|||||||||||||||
+requete7|function|b6452c6275fc0df8|||||||||||||||
