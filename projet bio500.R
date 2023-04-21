@@ -493,47 +493,8 @@ noms<-unique(etudiant_bon$prenom_nom)
 tableau_collab<-table(collab_bon[,c("etudiant1","etudiant2")])
 matrice_collab<-igraph::graph.adjacency(tableau_collab)
 #creer objet igraph
-graph_reseau<-plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
+plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 
-<<<<<<< HEAD
-#definir la boucle
-for (i in noms) {
- selection_et1<-subset(collab_bon, etudiant1=i)
-  selection_et2<-unique(selection_et1$etudiant2)
-  bon_noms<-which(selection_et2<=nb_etudiant,arr.ind=TRUE)
-  matrice_collab[selection_et2[bon_noms], i] <-1
-}
-
-
-#matrice_collab[matrice_collab[,j] %in% selection_et2, i]<-1
-#suggestion du prof :
-for (i in noms) {
-  et2 <- unique(collab_bon$etudiant2[collab_bon$etudiant1 ==1])
-  matrice_collab[et2, i] <-1
-}
-
-#test suggestion prof 
-for(etu1 in noms){
-  sub <- subset(collab_bon, etudiant1 = etu1)
-  sub_et2 <- unique(sub$etudiant2)
-  if(length(sub_et2) == 0){
-    next
-  }
-else{
-  matrice_collab[rownames(matrice_collab) %in% sub_et2] <- 1
-}
-}
-view(matrice_collab)
-
-test <- table(collab_bon[,c("etudiant1","etudiant2")])
-test_matrix <- igraph::graph.adjacency(test)
-
-#creer un objet igraph
-graph_reseau<-graph.adjacency(matrice_collab)
-#voir figure sans fleche
-plot(test_matrix,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
-=======
->>>>>>> dac65a6700e66071b0ccd2c455a934f9eff0194a
 #varier la couleur des points selon le nombre de collaborations faites par la paire d'etudiant
 nombre_collab_paire<-nb_collab$nb_collaborations
 rk<-rank(nombre_collab_paire)
@@ -545,7 +506,7 @@ col.vec.2<-nb_lienetudiant$nb_liens
 V(matrice_collab)$size=col.vec.2[rk]
 plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 #changer la disposition des noeuds
-plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.kamada.kawai(matrice_collab))
+graph_reseau<-plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.kamada.kawai(matrice_collab))
 
 #Tableau 2
 colors<-rainbow(length(resume_sigle$sigle))
