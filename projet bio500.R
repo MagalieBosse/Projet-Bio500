@@ -507,16 +507,23 @@ col.vec.2<-nb_lienetudiant$nb_liens
 V(matrice_collab)$size=col.vec.2[rk]
 plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 #changer la disposition des noeuds
+<<<<<<< HEAD
 plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.kamada.kawai(matrice_collab))
 
 #Essai enregistrement figure en .png
 dev.print(device=png, file="Projet-Bio500",width=200)
 ggsave("Projet-Bio500.png", width=200, height=200, dpi=300)
+=======
+graph_reseau<-plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.kamada.kawai(matrice_collab))
+#enregistrer graph en image.png
+
+>>>>>>> 1b2009b1da02057a81df7c5c15fea23c2c5dc506
 
 #Tableau 2
 colors<-rainbow(length(resume_sigle$sigle))
 barplot(resume_sigle$nb_etudiant,names.arg=resume_sigle$sigle,main="Nombre de collaboration par cours",ylab="Nombre de collaboration",col=colors,las=2)
 mtext("Sigle du cours",side=1,line=3,padj=2)
+dev.print(device=png,file="silge.png",width=1000)
 #Tableau 3
 colors2<-rainbow(length(collab_session$nb_collab_session))
 barplot(collab_session$nb_collab_session,names.arg=collab_session$session,ylab="Nombre de collaboration",col=colors2,las=2)
