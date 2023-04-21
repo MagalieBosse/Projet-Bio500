@@ -507,6 +507,8 @@ V(matrice_collab)$size=col.vec.2[rk]
 plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
 #changer la disposition des noeuds
 graph_reseau<-plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA,layout=layout.kamada.kawai(matrice_collab))
+#enregistrer graph en image.png
+
 
 #Tableau 2
 colors<-rainbow(length(resume_sigle$sigle))
