@@ -1,28 +1,27 @@
 clean_data = function(data){
   data_list = lapply(data, function(x) read.table(x, sep=';'))
-  data_8 = lapply(data,read.table("./donnees_BIO500/8_etudiant.csv", quote = ""))
+  #data_8 = lapply(data,read.table("./donnees_BIO500/8_etudiant.csv", quote = ""))
   data_list[[16]]<-data_list[[16]][-(36:40),]
-  data_list[[26]]<-subset(data_list[[26]],select = -c(...9))
-  data_list[[20]]<-subset(data_list[[20]],select = -c(X))
-  data_list[[8]]<-subset(data_list[[8]],select = -c(X))
-  data_list[[11]]<-subset(data_list[[11]],select = -c(X))
-  data_list[[21]]<- subset(data_list[[21]],select = -c(X, X.1, X.2, X.3, X.4))
-  data_list[[19]]<- subset(data_list[[19]],select = -c(X, X.1, X.2, X.3, X.4, X.5))
+  data_list[[26]]<-subset(data_list[[26]],select = -c("...9"))
+  data_list[[20]]<-subset(data_list[[20]],select = -c("X"))
+  data_list[[8]]<-subset(data_list[[8]],select = -c("X"))
+  data_list[[11]]<-subset(data_list[[11]],select = -c("X"))
+  data_list[[21]]<- subset(data_list[[21]],select = -c("X", "X.1", "X.2", "X.3", "X.4"))
+  data_list[[19]]<- subset(data_list[[19]],select = -c("X", "X.1", "X.2", "X.3", "X.4", "X.5"))
   data_list[[19]]<-data_list[[19]][-(13:235),]
   colnames(data_list[[11]])[colnames(data_list[[11]]) == "prenom_nom."] <- "prenom_nom"
   colnames(data_list[[11]]) <- colnames(data_list[[11]])
   data_list[[15]]<-data_list[[15]][-(723),]
   colnames(data_list[[10]])[colnames(data_list[[10]]) == "ï..sigle"] <- "sigle"
   colnames(data_list[[10]]) <- colnames(data_list[[10]])
-  data_list[[13]]<- subset(data_list[[13]],select = -c(X))
+  data_list[[13]]<- subset(data_list[[13]],select = -c("X"))
   data_list[[13]]<-data_list[[13]][-(28),]
   data_list[[28]]<-data_list[[28]][-(25:29),]
   data_list[[17]]<-data_list[[17]][-(52:59),]
   etudiant<-rbind(data_list[[2]],data_list[[8]],data_list[[11]],data_list[[14]],data_list[[17]],data_list[[20]],data_list[[23]],data_list[[26]],data_list[[29]],data_list[[5]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
   collab<-rbind(data_list[[3]],data_list[[9]],data_list[[12]],data_list[[15]],data_list[[18]],data_list[[21]],data_list[[24]],data_list[[27]],data_list[[30]],data_list[[6]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
   cours<-rbind(data_list[[1]],data_list[[7]],data_list[[10]],data_list[[13]],data_list[[16]],data_list[[19]],data_list[[22]],data_list[[25]],data_list[[28]],data_list[[4]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
-}
-clean_uniforme = function(clean_data){
+
   etudiant<-etudiant[-(396),]
   collab<-collab[-(5203),]
   etudiant[etudiant==""]<-NA
@@ -33,8 +32,8 @@ clean_uniforme = function(clean_data){
   etudiant<-unique(etudiant,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
   etudiant$regime_coop[etudiant$regime_coop%in% "FALSE"]<- "FAUX"
   etudiant$regime_coop[etudiant$regime_coop%in% "TRUE"]<- "VRAI"
-}
-clean_data_cours = function(clean_uniforme){
+  
+  cours<-clean_uniforme[[3]]
   cours<-cours[-(326),]
   cours<- cours[cours$sigle!="TRUE",]
   cours$optionnel[cours$optionnel%in% "FALSE"]<- "FAUX"
@@ -66,8 +65,7 @@ clean_data_cours = function(clean_uniforme){
     cours[,col]<-str_replace_all(cours[,col],pattern="�",replacement="")
   }
   cours<-unique(cours,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
-}
-clean_data_etudiant = function(clean_uniforme){
+  
   etudiant$prenom_nom[etudiant$prenom_nom%in% "mael_guerin"]<-"mael_gerin"
   etudiant$prenom_nom[etudiant$prenom_nom%in% "marie_burghin"]<-"marie_bughin"
   etudiant$prenom_nom[etudiant$prenom_nom%in% "philippe_barette"]<-"philippe_barrette" 
@@ -144,9 +142,7 @@ clean_data_etudiant = function(clean_uniforme){
   etudiant<-subset(etudiant,!duplicated(etudiant$prenom_nom))
   etudiant<-etudiant%>%
     arrange(prenom_nom)
-}
 
-clean_data_collab = function(clean_uniforme){
   collab$etudiant1[collab$etudiant1%in% "arianne_barette"]<-"ariane_barrette"
   collab$etudiant1[collab$etudiant1%in% "amelie_harbeck_bastien"]<-"amelie_harbeck-bastien"
   collab$etudiant1[collab$etudiant1%in% "cassandra_gobin"]<-"cassandra_godin"
@@ -219,4 +215,5 @@ clean_data_collab = function(clean_uniforme){
   }
   collab$session[collab$session%in% "E2023"]<-"E2022"
   collab<-collab[-(3201:3207),]  
-}
+  return(list(etudiant, collab, cours))
+  }

@@ -1,4 +1,5 @@
 #creation des tables
+
 con<-dbConnect(SQLite(),dbname="./data.db")
 etudiant_sql<- '
 CREATE TABLE etudiant(
