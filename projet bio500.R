@@ -174,6 +174,11 @@ cours_bon<-cours_bon%>%
   arrange(sigle)
 unique(cours_bon$sigle)
 
+#retirer les liens entre meme etudiant
+
+collab_bon<-collab_bon %>%
+  distinct(etudiant1,etudiant2,.keep_all=TRUE)
+
 #FIN CORRECTIONS COURS BON
 
 #ETUDIANT
