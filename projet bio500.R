@@ -28,9 +28,9 @@ etudiant6<-read.csv("./donnees_BIO500/6_etudiant.csv",sep=";")
 collab7<-read.csv("./donnees_BIO500/7_collaboration.csv",sep=";")
 cours7<-read.csv("./donnees_BIO500/7_cours.csv",sep=";")
 etudiant7<-read.csv("./donnees_BIO500/7_etudiant.csv",sep=";")
-collab8<-read.csv("./donnees_BIO500/8_collaboration.csv",sep=",")
-cours8<-read.csv("./donnees_BIO500/8_cours.csv",sep=",")
-etudiant8<-read.csv("./donnees_BIO500/8_etudiant.csv",sep=",")
+collab8<-read.csv("./donnees_BIO500/8_collaboration.csv",sep=";")
+cours8<-read.csv("./donnees_BIO500/8_cours.csv",sep=";")
+etudiant8<-read.csv("./donnees_BIO500/8_etudiant.csv",sep=";")
 collab9<-read.csv("./donnees_BIO500/9_collaboration.csv",sep=";")
 cours9<-read.csv("./donnees_BIO500/9_cours.csv",sep=";")
 etudiant9<-read.csv("./donnees_BIO500/9_etudiant.csv",sep=";")
@@ -53,10 +53,6 @@ head(etudiant6, 2)
 #changement etudiant 2
 etudiant2<- subset(etudiant2,select = -c(X))
 head(etudiant2, 2)
-
-#changement etudiant 3
-etudiant3<- subset(etudiant3,select = -c(X))
-head(etudiant, 2)
 
 #changement collab 6
 collab6<- subset(collab6,select = -c(X, X.1, X.2, X.3, X.4))
@@ -81,6 +77,9 @@ collab4<-collab4[-(723),]
 colnames(cours3)[colnames(cours3) == "ï..sigle"] <- "sigle"
 colnames(cours3) <- colnames(cours3)
 names(cours3)
+
+#changement etudiant 3
+etudiant3<- subset(etudiant3,select = -c(X))
 
 #changement cours 4
 cours4<- subset(cours4,select = -c(X))
@@ -173,11 +172,6 @@ cours<-unique(cours,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 cours<-cours%>%
   arrange(sigle)
 unique(cours$sigle)
-
-#retirer les liens entre meme etudiant
-
-collab<-collab %>%
-  distinct(etudiant1,etudiant2,.keep_all=TRUE)
 
 #FIN CORRECTIONS COURS BON
 
@@ -282,6 +276,12 @@ etudiant<-etudiant%>%
 #FIN CORRECTIONS ETUDIANT BON
 
 #COLLABORATION
+
+#retirer les liens entre meme etudiant
+
+collab<-collab %>%
+  distinct(etudiant1,etudiant2,.keep_all=TRUE)
+
 #correction collab_bon etudiant 1
 collab$etudiant1[collab$etudiant1%in% "arianne_barette"]<-"ariane_barrette"
 collab$etudiant1[collab$etudiant1%in% "amelie_harbeck_bastien"]<-"amelie_harbeck-bastien"
@@ -438,7 +438,7 @@ head(nb_collab)
 
 #requete 2 decompte de liens par paire d'etudiants
 sql_requete2<-"
-SELECT etudiant1, etudiant2, COUNT (sigle) AS nb_liens 
+SELECT DISTINCT etudiant1, etudiant2, COUNT (*) AS nb_liens 
 FROM collaboration_sql
 GROUP BY etudiant1, etudiant2
 ORDER BY nb_liens DESC;"
