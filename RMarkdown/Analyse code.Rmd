@@ -66,7 +66,7 @@ Concernant la méthodologie, la classe a été divisée en plusieurs équipes de
 Résultats {#Résultats .unnumbered}
 ----------------------
 Comme on peut voir à la figure 1, les sessions avec le plus de collaborations étaient en hiver 2021 et en hiver 2023. Les sessions avec le moins de collaborations étaient en été 2021 et à l'automne 2020.  
-À la figure 2, on constate que le cours TSB 303 avec 83 collaborations et BCM 104 faisaient parti des cours avec le plus de collaborations tandis que ALM 300 et BCM 111 étaient certains des cours avec le moins de collaborations entre les étudiants. 
+À la figure 2, on constate que le cours TSB 303 avec 85 collaborations et BCM 104 faisaient parti des cours avec le plus de collaborations tandis que ALM 300 et BCM 111 étaient certains des cours avec le moins de collaborations entre les étudiants. 
 
 Tableaux {#references .unnumbered}
 ----------
