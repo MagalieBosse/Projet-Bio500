@@ -1,7 +1,7 @@
 clean_data = function(data){
   #lire les tables de donnees
   data<-function(data)
-  data_list = lapply(data, function(x) read.csv(x, sep=';',header=TRUE))
+  data_list<-lapply(data, function(x) read.table(x, sep=';',header=TRUE))
   
   #retirer les lignes en trop
   data_list[[16]]<-data_list[[16]][-(36:40),]
