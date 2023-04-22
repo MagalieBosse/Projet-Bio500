@@ -2,6 +2,10 @@ create_etudiant = function(Nettoyage){
   
   con<-dbConnect(SQLite(),dbname="./data.db")
   #create table etudiant_sql
+  #appeler les bonnes commandes
+  etudiant<-Nettoyage[[1]]
+  collab<-Nettoyage[[2]]
+  cours<-Nettoyage[[3]]
   etudiant_sql<- '
   CREATE TABLE etudiant(
     prenom_nom VARCHAR(40),
@@ -16,7 +20,7 @@ create_etudiant = function(Nettoyage){
   );'
   dbSendQuery(con,etudiant_sql)
   dbListTables(con)
-  dbWriteTable(con, append =TRUE, name ="etudiant_sql", value = etudiant, row.names =FALSE)
+  dbWriteTable(con, append =TRUE, name ="etudiant_sql", value = Nettoyage[[etudiant]], row.names =FALSE)
   #cours
   cours_sql<-'
   CREATE TABLE cours(
