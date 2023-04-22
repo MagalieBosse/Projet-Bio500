@@ -33,6 +33,7 @@ clean_data = function(data){
   etudiant<-rbind(data_list[[3]],data_list[[6]],data_list[[9]],data_list[[12]],data_list[[15]],data_list[[18]],data_list[[21]],data_8[[3]],data_list[[24]],data_list[[27]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
   collab<-rbind(data_list[[1]],data_list[[4]],data_list[[7]],data_list[[10]],data_list[[13]],data_list[[16]],data_list[[19]],data_8[[1]],data_list[[22]],data_list[[25]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
   cours<-rbind(data_list[[2]],data_list[[5]],data_list[[8]],data_list[[11]],data_list[[14]],data_list[[17]],data_list[[20]],data_8[[2]],data_list[[23]],data_list[[26]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
+ 
   #retirer les lignes en trop
   etudiant<-etudiant[-(396),]
   collab<-collab[-(5203),]
@@ -237,8 +238,7 @@ clean_data = function(data){
   collab<-collab[-(3201:3207),]  
   
   #retirer les liens pour les memes etudiants (entre eux meme)
-  collab<-collab%>%
-    distinct(etudiant1,etudiant2,keep_all=TRUE)
+  collab<-subset(collab,etudiant1!=etudiant2)
   
   #lister les sorties
   nett_list<-list(etudiant,collab,cours)
