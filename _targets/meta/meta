@@ -1,11 +1,11 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-clean_data|function|dfb379dd2dc70205|||||||||||||||
+clean_data|function|07ac6d25803aee50|||||||||||||||
 create_collab|function|aacdecc8970f40db|||||||||||||||
 create_con|function|0718ea717fb03f10|||||||||||||||
 create_cours|function|31a9f561f30ebc00|||||||||||||||
 create_etudiant|function|7071cce48abb37c8|||||||||||||||
 create_sql|function|4595df9e40f744bc|||||||||||||||
-data|stem|0bf690f9cb137472|71948d4e0817f43c|8c7c1f1e9760dce7|1588979285||t19468.7847659435s|74c6dee26eb45e63|210|rds|local|vector|||0||
+data|stem|0bf690f9cb137472|71948d4e0817f43c|21f1ee8c6c3e10b8|1588979285||t19469.7669899085s|74c6dee26eb45e63|210|rds|local|vector|||0||
 data_cleaned|stem|a4266d7c9a17ee4d|2ba455f5c74230d9|f3883833ffd8169e|516190505||t19467.9714248297s|8b757424e0dac5e1|26954|rds|local|vector|||0.04|line 1 appears to contain embedded nulls. ligne finale incomplète trouvée par readTableHeader dans .donnees_BIO500data.db|
 data1|stem|0bf690f9cb137472|71948d4e0817f43c|8c7c1f1e9760dce7|1703810975||t19469.081684185s|74c6dee26eb45e63|210|rds|local|vector|||0||
 etudiant_sql|stem||42b7432f6fcb38ac|797a61bf5d8fa190|-1241743826||t19468.9043264849s||0|rds|local|vector|||0.03||table etudiant already exists
@@ -13,9 +13,9 @@ fig_final|function|45789424adddc856|||||||||||||||
 fig_relation|function|2b7aa2ac951ff02e|||||||||||||||
 fig_session|function|42d3c0345fd3598c|||||||||||||||
 fig_sigle|function|2b218d7dfa9552b7|||||||||||||||
-nettoyage|stem||2ba455f5c74230d9|9efbfe3c8b1b213e|1246646879||t19469.0886289693s||0|rds|local|vector|||0.72||cannot coerce type closure to vector of type character
+nettoyage|stem||2ba455f5c74230d9|5623e60680886203|1246646879||t19469.0886289693s||0|rds|local|vector|||0.6||objet data_list introuvable
 Nettoyage|stem|5d7481597d2f9529|d0ef3b8f407b1a19|489aa373882ef646|1647492064||t19468.962048955s||26407|rds|local|vector|||0.58||objet de type closure non indiçable
-path|stem|fccc128885ac4d7a|decec87a50c1e77e|ef46db3751d8e999|-1383433547|./donnees_BIO500|t19468.7914396998s|c8fc69c6c41e109f|12288|file|local|vector|||1.28||
+path|stem|97a89e5a45c86bbb|decec87a50c1e77e|ef46db3751d8e999|-1383433547|./donnees_BIO500|t19469.6918815349s|45180a364e766ff0|279310|file|local|vector|||1.52||
 requete1|function|b50bbe8eb7935cca|||||||||||||||
 requete2|function|0822910b07298151|||||||||||||||
 requete3|function|3bcb280cb23ed450|||||||||||||||
