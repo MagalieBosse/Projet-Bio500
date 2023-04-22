@@ -6,6 +6,7 @@ create_sql = function(nettoyage){
   etudiant<-nett_list[[1]]
   collab<-nett_list[[2]]
   cours<-nett_list[[3]]
+  #creation table etudiant
   etudiant_sql<- '
   CREATE TABLE etudiant(
     prenom_nom VARCHAR(40),
@@ -20,8 +21,9 @@ create_sql = function(nettoyage){
   );'
   dbSendQuery(con,etudiant_sql)
   dbListTables(con)
+  #injection des donnees
   dbWriteTable(con, append =TRUE, name ="etudiant_sql", value = etudiant, row.names =FALSE)
-  #création table cours
+  #creation table cours
   cours_sql<-'
   CREATE TABLE cours(
     sigle VARCHAR(10),
@@ -31,6 +33,7 @@ create_sql = function(nettoyage){
   );'
   dbSendQuery(con,cours_sql)
   dbListTables(con)
+  #injection des donnees
   dbWriteTable(con, append =TRUE, name = "cours_sql", value = cours, row.names =FALSE)
   #creation table collaboration
   collaboration_sql<-'CREATE TABLE collaboration (
@@ -44,6 +47,7 @@ create_sql = function(nettoyage){
   );'
   dbSendQuery(con,collaboration_sql)
   dbListTables(con)  
+  #Injection des donnees
   dbWriteTable(con, append =TRUE, name ="collaboration_sql", value = collab, row.names =FALSE)
   table_sql<-list(etudiant_sql,collaboration_sql,cours_sql)
   return(table_sql)
