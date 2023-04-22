@@ -86,10 +86,6 @@ cours4<- subset(cours4,select = -c(X))
 head(cours4,2)
 cours4<-cours4[-(28),]
 
-#changement etudiant 8
-#Charger le fichier CSV
-data <- read.csv("./donnees_BIO500/8_etudiant.csv", quote = "")
-
 #changement cours 9
 cours9<-cours9[-(25:29),]
 
