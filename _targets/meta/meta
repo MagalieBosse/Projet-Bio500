@@ -1,5 +1,9 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+<<<<<<< HEAD
 clean_data|function|838750439f0c71d2|||||||||||||||
+=======
+clean_data|function|1c126fa549147353|||||||||||||||
+>>>>>>> 470792fcd40995f829217c604a6e5384310ce614
 create_collab|function|aacdecc8970f40db|||||||||||||||
 create_con|function|0718ea717fb03f10|||||||||||||||
 create_cours|function|31a9f561f30ebc00|||||||||||||||
@@ -13,9 +17,15 @@ fig_final|function|75f9b5d0feb85e4c|||||||||||||||
 fig_relation|function|2b7aa2ac951ff02e|||||||||||||||
 fig_session|function|42d3c0345fd3598c|||||||||||||||
 fig_sigle|function|2b218d7dfa9552b7|||||||||||||||
+<<<<<<< HEAD
 nettoyage|stem||2ba455f5c74230d9|dbf39a63dac6bfaa|1246646879||t19469.0886289693s||0|rds|local|vector|||0.41||objet data_list introuvable
 Nettoyage|stem|5d7481597d2f9529|d0ef3b8f407b1a19|489aa373882ef646|1647492064||t19468.962048955s||26407|rds|local|vector|||0.58||objet de type closure non indiçable
 path|stem|97a89e5a45c86bbb|decec87a50c1e77e|ef46db3751d8e999|-1383433547|./donnees_BIO500|t19469.8918505855s|c7827d29f759aa2c|8192|file|local|vector|||1.52||
+=======
+nettoyage|stem||2ba455f5c74230d9|f51f6e10651fde2b|1246646879||t19469.0886289693s||0|rds|local|vector|||0.57||objet data_list introuvable
+Nettoyage|stem|5d7481597d2f9529|d0ef3b8f407b1a19|489aa373882ef646|1647492064||t19468.962048955s||26407|rds|local|vector|||0.58||objet de type closure non indiçable
+path|stem|97a89e5a45c86bbb|decec87a50c1e77e|ef46db3751d8e999|-1383433547|./donnees_BIO500|t19469.6952806293s|c8fc69c6c41e109f|12288|file|local|vector|||1.52||
+>>>>>>> 470792fcd40995f829217c604a6e5384310ce614
 requete1|function|b50bbe8eb7935cca|||||||||||||||
 requete2|function|0822910b07298151|||||||||||||||
 requete3|function|3bcb280cb23ed450|||||||||||||||

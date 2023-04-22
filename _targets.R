@@ -17,7 +17,7 @@ list(
   tar_target(
     name = path,
     command = "./donnees_BIO500",
-    format = "file"
+    format = file
   ),
   
 #base de donnees
