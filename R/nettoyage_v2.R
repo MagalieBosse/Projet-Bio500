@@ -1,8 +1,7 @@
 clean_data = function(data){
   #lire les tables de donnees
   data<-function(data)
-  data_list = lapply(data[-c(grep('8', data))], function(x) read.csv(x, sep=';',header=TRUE))
-  data_8 = lapply(data[c(grep('8', data))], function(x) read.csv(x, quote="",header=TRUE))
+  data_list = lapply(data, function(x) read.csv(x, sep=';',header=TRUE))
   
   #retirer les lignes en trop
   data_list[[16]]<-data_list[[16]][-(36:40),]
@@ -236,6 +235,11 @@ clean_data = function(data){
   }
   collab$session[collab$session%in% "E2023"]<-"E2022"
   collab<-collab[-(3201:3207),]  
+  
+  #retirer les liens pour les memes etudiants (entre eux meme)
+  collab<-collab%>%
+    distinct(etudiant1,etudiant2,keep_all=TRUE)
+  
   #lister les sorties
   nett_list<-list(etudiant,collab,cours)
   return(nett_list)
