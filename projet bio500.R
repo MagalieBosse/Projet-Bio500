@@ -43,39 +43,39 @@ etudiant10<-read.csv("./donnees_BIO500/10_etudiant.csv",sep=";")
 cours5<-cours5[-(36:40),]
 
 #changement etudiant 8
-etudiant8_test<- subset(etudiant8,select = -c(...9))
-head(etudiant8_test, 2)
+etudiant8<- subset(etudiant8,select = -c(...9))
+head(etudiant8, 2)
 
 #changement etudiant 6
-etudiant6_test<- subset(etudiant6,select = -c(X))
-head(etudiant6_test, 2)
+etudiant6<- subset(etudiant6,select = -c(X))
+head(etudiant6, 2)
 
 #changement etudiant 2
-etudiant2_test<- subset(etudiant2,select = -c(X))
-head(etudiant2_test, 2)
+etudiant2<- subset(etudiant2,select = -c(X))
+head(etudiant2, 2)
 
 #changement etudiant 3
-etudiant3_test2.0<- subset(etudiant3,select = -c(X))
-head(etudiant3_test2.0, 2)
+etudiant3<- subset(etudiant3,select = -c(X))
+head(etudiant, 2)
 
 #changement collab 6
-collab6_test<- subset(collab6,select = -c(X, X.1, X.2, X.3, X.4))
-head(collab6_test,2)
+collab6<- subset(collab6,select = -c(X, X.1, X.2, X.3, X.4))
+head(collab6,2)
 
 #changement cours 6
-cours6_test<- subset(cours6,select = -c(X, X.1, X.2, X.3, X.4, X.5))
-head(cours6_test,2)
+cours6<- subset(cours6,select = -c(X, X.1, X.2, X.3, X.4, X.5))
+head(cours6,2)
 
 #changement cours 6_test
-cours6_test<-cours6_test[-(13:235),]
+cours6<-cours6[-(13:235),]
 
 #changement etudiant 3
-colnames(etudiant3_test2.0)[colnames(etudiant3_test2.0) == "prenom_nom."] <- "prenom_nom"
-colnames(etudiant3_test2.0) <- colnames(etudiant3_test2.0)
-names(etudiant3_test2.0)
+colnames(etudiant3)[colnames(etudiant3) == "prenom_nom."] <- "prenom_nom"
+colnames(etudiant3) <- colnames(etudiant3)
+names(etudiant3)
 
 #changement collab4
-collab4_test<-collab4[-(723),]
+collab4<-collab4[-(723),]
 
 #changement cours 3
 colnames(cours3)[colnames(cours3) == "ï..sigle"] <- "sigle"
@@ -98,141 +98,141 @@ cours9<-cours9[-(25:29),]
 etudiant5<-etudiant5[-(52:59),]
 
 #fusion des tables
-etudiant_all<-rbind(etudiant1,etudiant2_test,etudiant3_test2.0,etudiant4,etudiant5,etudiant6_test,etudiant7,etudiant8_test,etudiant9,etudiant10,deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
-collab_all<-rbind(collab1,collab2,collab3,collab4_test,collab5,collab6_test,collab7,collab8,collab9,collab10,deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
-cours_all<-rbind(cours1,cours2,cours3,cours4,cours5,cours6_test,cours7,cours8,cours9,cours10,deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
+etudiant<-rbind(etudiant1,etudiant2,etudiant3,etudiant4,etudiant5,etudiant6,etudiant7,etudiant8,etudiant9,etudiant10,deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
+collab<-rbind(collab1,collab2,collab3,collab4,collab5,collab6,collab7,collab8,collab9,collab10,deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
+cours<-rbind(cours1,cours2,cours3,cours4,cours5,cours6,cours7,cours8,cours9,cours10,deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
 
 #enlever ligne fin etudiant all
-etudiant_all<-etudiant_all[-(396),]
+etudiant<-etudiant[-(396),]
 
 #enlever ligne collab all
-collab_all<-collab_all[-(5203),]
+collab<-collab[-(5203),]
 
 #ajouter les NA une fois que les fichiers sont mis ensemble
-etudiant_all[etudiant_all==""]<-NA #ou collab est le nom de la base de donnees fusionnee
-collab_all[collab_all==""]<-NA
-cours_all[cours_all==""]<-NA
+etudiant[etudiant==""]<-NA #ou collab est le nom de la base de donnees fusionnee
+collab[collab==""]<-NA
+cours[cours==""]<-NA
 
 #supprimer les doublons
-cours_bon<-unique(cours_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
-collab_bon<-unique(collab_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
-etudiant_bon<-unique(etudiant_all,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
+cours<-unique(cours,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
+collab<-unique(collab,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
+etudiant<-unique(etudiant,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 
 #remplacer les false et true par version française
-etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "FALSE"]<- "FAUX"
-etudiant_bon$regime_coop[etudiant_bon$regime_coop%in% "TRUE"]<- "VRAI"
+etudiant$regime_coop[etudiant$regime_coop%in% "FALSE"]<- "FAUX"
+etudiant$regime_coop[etudiant$regime_coop%in% "TRUE"]<- "VRAI"
 
 #COURS
 #correction table cours
 
-#supprimer ligne cours bon
-cours_bon<-cours_bon[-(326),]
+#supprimer ligne cours
+cours<-cours[-(326),]
 
-cours_bon <- cours_bon[cours_bon$sigle!="TRUE",]
+cours<-cours[cours$sigle!="TRUE",]
 
-cours_bon$optionnel[cours_bon$optionnel%in% "FALSE"]<- "FAUX"
-cours_bon$optionnel[cours_bon$optionnel%in% "TRUE"]<- "VRAI"
-cours_bon$optionnel[cours_bon$optionnel%in% "Faux"]<- "FAUX"
+cours$optionnel[cours$optionnel%in% "FALSE"]<- "FAUX"
+cours$optionnel[cours$optionnel%in% "TRUE"]<- "VRAI"
+cours$optionnel[cours$optionnel%in% "Faux"]<- "FAUX"
 
 #corrections optionnel faux
-cours_bon$optionnel<-ifelse(cours_bon$sigle=="BCM112",'FAUX', cours_bon$optionnel)
-cours_bon$optionnel<-ifelse(cours_bon$sigle=="BCM113",'FAUX', cours_bon$optionnel)
-cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL406",'FAUX', cours_bon$optionnel)
-cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL527",'FAUX', cours_bon$optionnel)
-cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL610",'FAUX', cours_bon$optionnel)
-cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL611",'FAUX', cours_bon$optionnel)
-cours_bon$optionnel<-ifelse(cours_bon$sigle=="TSB303",'FAUX', cours_bon$optionnel)
+cours$optionnel<-ifelse(cours$sigle=="BCM112",'FAUX', cours$optionnel)
+cours$optionnel<-ifelse(cours$sigle=="BCM113",'FAUX', cours$optionnel)
+cours$optionnel<-ifelse(cours$sigle=="ECL406",'FAUX', cours$optionnel)
+cours$optionnel<-ifelse(cours$sigle=="ECL527",'FAUX', cours$optionnel)
+cours$optionnel<-ifelse(cours$sigle=="ECL610",'FAUX', cours$optionnel)
+cours$optionnel<-ifelse(cours$sigle=="ECL611",'FAUX', cours$optionnel)
+cours$optionnel<-ifelse(cours$sigle=="TSB303",'FAUX', cours$optionnel)
 
 #corrections optionnel VRAI
-cours_bon$optionnel<-ifelse(cours_bon$sigle=="BIO401",'VRAI', cours_bon$optionnel)
-cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL215",'VRAI', cours_bon$optionnel)
-cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL315",'VRAI', cours_bon$optionnel)
-cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL522",'VRAI', cours_bon$optionnel)
-cours_bon$optionnel<-ifelse(cours_bon$sigle=="ECL544",'VRAI', cours_bon$optionnel)
-cours_bon$optionnel<-ifelse(cours_bon$sigle=="ZOO304",'VRAI', cours_bon$optionnel)
+cours$optionnel<-ifelse(cours$sigle=="BIO401",'VRAI', cours$optionnel)
+cours$optionnel<-ifelse(cours$sigle=="ECL215",'VRAI', cours$optionnel)
+cours$optionnel<-ifelse(cours$sigle=="ECL315",'VRAI', cours$optionnel)
+cours$optionnel<-ifelse(cours$sigle=="ECL522",'VRAI', cours$optionnel)
+cours$optionnel<-ifelse(cours$sigle=="ECL544",'VRAI', cours$optionnel)
+cours$optionnel<-ifelse(cours$sigle=="ZOO304",'VRAI', cours$optionnel)
 
 #corrections credits
-cours_bon$credits<-ifelse(cours_bon$sigle=="BIO109",'1', cours_bon$credits)
-cours_bon$credits<-ifelse(cours_bon$sigle=="ECL515",'2', cours_bon$credits)
-cours_bon$credits<-ifelse(cours_bon$sigle=="TSB303",'2', cours_bon$credits)
+cours$credits<-ifelse(cours$sigle=="BIO109",'1', cours$credits)
+cours$credits<-ifelse(cours$sigle=="ECL515",'2', cours$credits)
+cours$credits<-ifelse(cours$sigle=="TSB303",'2', cours$credits)
 
 # retirer les espaces
-for(col in names(cours_bon)){
-  cours_bon[,col]<-str_replace_all(cours_bon[,col],pattern="\\s",replacement="")
+for(col in names(cours)){
+  cours[,col]<-str_replace_all(cours[,col],pattern="\\s",replacement="")
 }
-for(col in names(cours_bon)){
-  cours_bon[,col]<-str_replace_all(cours_bon[,col],pattern="<a0>",replacement="")
+for(col in names(cours)){
+  cours[,col]<-str_replace_all(cours[,col],pattern="<a0>",replacement="")
 }
-for(col in names(cours_bon)){
-  cours_bon[,col]<-str_replace_all(cours_bon[,col],pattern="�",replacement="")
+for(col in names(cours)){
+  cours[,col]<-str_replace_all(cours[,col],pattern="�",replacement="")
 }
 
-cours_bon<-unique(cours_bon,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
+cours<-unique(cours,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
 
 #valider sigle
-cours_bon<-cours_bon%>%
+cours<-cours%>%
   arrange(sigle)
-unique(cours_bon$sigle)
+unique(cours$sigle)
 
 #retirer les liens entre meme etudiant
 
-collab_bon<-collab_bon %>%
+collab<-collab %>%
   distinct(etudiant1,etudiant2,.keep_all=TRUE)
 
 #FIN CORRECTIONS COURS BON
 
 #ETUDIANT
 #corrections table etudiant, colonne prenom_nom 
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "mael_guerin"]<-"mael_gerin"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "marie_burghin"]<-"marie_bughin"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "philippe_barette"]<-"philippe_barrette" 
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "phillippe_bourassa"]<- "philippe_bourassa"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "sabrina_leclerc"]<-"sabrina_leclercq"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "samule_fortin"]<- "samuel_fortin"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% c("yannick_sageau","yanick_sagneau")]<-"yanick_sageau"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% c("amelie_harbeck bastien","amelie_harbeck_bastien")]<-"amelie_harbeck-bastien"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "arianne_barette"]<-"ariane_barrette"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "francis_bolly"]<-"francis_boily"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "ihuoma_elsie-ebere"]<-"ihuoma_elsie_ebere"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "jonathan_rondeau_leclaire"]<-"jonathan_rondeau-leclaire"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "kayla_trempe-kay"]<-"kayla_trempe_kay"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "peneloppe_robert"]<-"penelope_robert"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "sara-jade_lamontagne"]<- "sara_jade_lamontagne"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "louis-phillippe_theriault"]<- "louis-philippe_theriault"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "catherine_viel_lapointe"]<- "catherine_viel-lapointe"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "louis_philipe_raymond"]<- "louis-philippe_raymond"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "cassandra_gobin"]<- "cassandra_godin"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "edouard_nadon-baumier"]<- "edouard_nadon-beaumier"
-etudiant_bon$prenom_nom[etudiant_bon$prenom_nom%in% "marie_christine_arseneau"]<- "marie-christine_arseneau"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "mael_guerin"]<-"mael_gerin"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "marie_burghin"]<-"marie_bughin"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "philippe_barette"]<-"philippe_barrette" 
+etudiant$prenom_nom[etudiant$prenom_nom%in% "phillippe_bourassa"]<- "philippe_bourassa"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "sabrina_leclerc"]<-"sabrina_leclercq"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "samule_fortin"]<- "samuel_fortin"
+etudiant$prenom_nom[etudiant$prenom_nom%in% c("yannick_sageau","yanick_sagneau")]<-"yanick_sageau"
+etudiant$prenom_nom[etudiant$prenom_nom%in% c("amelie_harbeck bastien","amelie_harbeck_bastien")]<-"amelie_harbeck-bastien"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "arianne_barette"]<-"ariane_barrette"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "francis_bolly"]<-"francis_boily"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "ihuoma_elsie-ebere"]<-"ihuoma_elsie_ebere"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "jonathan_rondeau_leclaire"]<-"jonathan_rondeau-leclaire"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "kayla_trempe-kay"]<-"kayla_trempe_kay"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "peneloppe_robert"]<-"penelope_robert"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "sara-jade_lamontagne"]<- "sara_jade_lamontagne"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "louis-phillippe_theriault"]<- "louis-philippe_theriault"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "catherine_viel_lapointe"]<- "catherine_viel-lapointe"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "louis_philipe_raymond"]<- "louis-philippe_raymond"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "cassandra_gobin"]<- "cassandra_godin"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "edouard_nadon-baumier"]<- "edouard_nadon-beaumier"
+etudiant$prenom_nom[etudiant$prenom_nom%in% "marie_christine_arseneau"]<- "marie-christine_arseneau"
 
 #corrections table etudiant, colonne prenom
-etudiant_bon$prenom[etudiant_bon$prenom%in% "yannick"]<-"yanick"
-etudiant_bon$prenom[etudiant_bon$prenom%in% "arianne"]<-"ariane"
-etudiant_bon$prenom[etudiant_bon$prenom%in% "peneloppe"]<-"penelope"
-etudiant_bon$prenom[etudiant_bon$prenom%in% "sara-jade"]<- "sara_jade"
-etudiant_bon$prenom[etudiant_bon$prenom%in% "louis-phillipe"]<- "louis-philippe"
-etudiant_bon$prenom[etudiant_bon$prenom%in% "cassandre"]<- "cassandra"
-etudiant_bon$prenom[etudiant_bon$prenom%in% "louis_philippe"]<- "louis-philippe"
+etudiant$prenom[etudiant$prenom%in% "yannick"]<-"yanick"
+etudiant$prenom[etudiant$prenom%in% "arianne"]<-"ariane"
+etudiant$prenom[etudiant$prenom%in% "peneloppe"]<-"penelope"
+etudiant$prenom[etudiant$prenom%in% "sara-jade"]<- "sara_jade"
+etudiant$prenom[etudiant$prenom%in% "louis-phillipe"]<- "louis-philippe"
+etudiant$prenom[etudiant$prenom%in% "cassandre"]<- "cassandra"
+etudiant$prenom[etudiant$prenom%in% "louis_philippe"]<- "louis-philippe"
 
 #corrections table etudiant, colonne nom
-etudiant_bon$nom[etudiant_bon$nom%in% "guerin"]<-"gerin"
-etudiant_bon$nom[etudiant_bon$nom%in% "burghin"]<-"bughin"
-etudiant_bon$nom[etudiant_bon$nom%in% "barette"]<-"barrette" 
-etudiant_bon$nom[etudiant_bon$nom%in% "leclerc"]<-"leclercq"
-etudiant_bon$nom[etudiant_bon$nom%in% "sagneau"]<-"sageau"
-etudiant_bon$nom[etudiant_bon$nom%in% "harbeck_bastien"]<-"harbeck-bastien"
-etudiant_bon$nom[etudiant_bon$nom%in% "barette"]<-"barrette"
-etudiant_bon$nom[etudiant_bon$nom%in% "bolly"]<-"boily"
-etudiant_bon$nom[etudiant_bon$nom%in% "elsie-ebere"]<-"elsie_ebere"
-etudiant_bon$nom[etudiant_bon$nom%in% "rondeau_leclaire"]<-"rondeau-leclaire"
-etudiant_bon$nom[etudiant_bon$nom%in% "trempe-kay"]<-"trempe_kay"
-etudiant_bon$nom[etudiant_bon$nom%in% "therrien"]<- "theriault"
-etudiant_bon$nom[etudiant_bon$nom%in% "ramond"]<- "raymond"
-etudiant_bon$nom[etudiant_bon$nom%in% "viel_lapointe"]<- "viel-lapointe"
-etudiant_bon$nom[etudiant_bon$nom%in% "bovin"]<- "boivin"
-etudiant_bon$nom[etudiant_bon$nom%in% "guilemette"]<- "guillemette"
-etudiant_bon$nom[etudiant_bon$nom%in% "gobin"]<- "godin"
-etudiant_bon$nom[etudiant_bon$nom%in% "baumier"]<- "beaumier"
+etudiant$nom[etudiant$nom%in% "guerin"]<-"gerin"
+etudiant$nom[etudiant$nom%in% "burghin"]<-"bughin"
+etudiant$nom[etudiant$nom%in% "barette"]<-"barrette" 
+etudiant$nom[etudiant$nom%in% "leclerc"]<-"leclercq"
+etudiant$nom[etudiant$nom%in% "sagneau"]<-"sageau"
+etudiant$nom[etudiant$nom%in% "harbeck_bastien"]<-"harbeck-bastien"
+etudiant$nom[etudiant$nom%in% "barette"]<-"barrette"
+etudiant$nom[etudiant$nom%in% "bolly"]<-"boily"
+etudiant$nom[etudiant$nom%in% "elsie-ebere"]<-"elsie_ebere"
+etudiant$nom[etudiant$nom%in% "rondeau_leclaire"]<-"rondeau-leclaire"
+etudiant$nom[etudiant$nom%in% "trempe-kay"]<-"trempe_kay"
+etudiant$nom[etudiant$nom%in% "therrien"]<- "theriault"
+etudiant$nom[etudiant$nom%in% "ramond"]<- "raymond"
+etudiant$nom[etudiant$nom%in% "viel_lapointe"]<- "viel-lapointe"
+etudiant$nom[etudiant$nom%in% "bovin"]<- "boivin"
+etudiant$nom[etudiant$nom%in% "guilemette"]<- "guillemette"
+etudiant$nom[etudiant$nom%in% "gobin"]<- "godin"
+etudiant$nom[etudiant$nom%in% "baumier"]<- "beaumier"
 
 #ajout des lignes oubliees
 eb<-c("eloise_bernier","eloise","bernier",NA, NA, NA, NA, NA)
@@ -241,144 +241,144 @@ kh<-c("karim_hamzaoui","karim","hamzaoui",NA, NA, NA, NA, NA)
 mv<-c("maude_viens","maude","viens",NA, NA, NA, NA, NA)
 mc<-c("maxence_comyn","maxence","comyn",NA, NA, NA, NA, NA)
 nm<-c("naomie_morin","naomie","morin",NA, NA, NA, NA, NA)
-etudiant_bon<-rbind(etudiant_bon,eb)
-etudiant_bon<-rbind(etudiant_bon,gm)
-etudiant_bon<-rbind(etudiant_bon,kh)
-etudiant_bon<-rbind(etudiant_bon,mv)
-etudiant_bon<-rbind(etudiant_bon,mc)
-etudiant_bon<-rbind(etudiant_bon,nm)
+etudiant<-rbind(etudiant,eb)
+etudiant<-rbind(etudiant,gm)
+etudiant<-rbind(etudiant,kh)
+etudiant<-rbind(etudiant,mv)
+etudiant<-rbind(etudiant,mc)
+etudiant<-rbind(etudiant,nm)
 
 #corrections region admin
-etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "monterigie"]<- "monteregie"
-etudiant_bon$region_administrative[etudiant_bon$region_administrative%in% "bas-st-laurent"]<- "bas-saint-laurent"
+etudiant$region_administrative[etudiant$region_administrative%in% "monterigie"]<- "monteregie"
+etudiant$region_administrative[etudiant$region_administrative%in% "bas-st-laurent"]<- "bas-saint-laurent"
 
 #trouver les lignes qui se répètent
-doubles_etudiant<-duplicated(etudiant_bon$prenom_nom)
-extrait_etudiant<-subset(etudiant_bon,doubles_etudiant)
+doubles_etudiant<-duplicated(etudiant$prenom_nom)
+extrait_etudiant<-subset(etudiant,doubles_etudiant)
 
 #retirer les espaces bizarres
 
-for(col in names(etudiant_bon)){
-  etudiant_bon[,col]<-str_replace_all(etudiant_bon[,col],pattern="\\s",replacement="")
+for(col in names(etudiant)){
+  etudiant[,col]<-str_replace_all(etudiant[,col],pattern="\\s",replacement="")
 }
-for(col in names(etudiant_bon)){
-  etudiant_bon[,col]<-str_replace_all(etudiant_bon[,col],pattern="<a0>",replacement="")
+for(col in names(etudiant)){
+  etudiant[,col]<-str_replace_all(etudiant[,col],pattern="<a0>",replacement="")
 }
-for(col in names(etudiant_bon)){
-  etudiant_bon[,col]<-str_replace_all(etudiant_bon[,col],pattern="�",replacement="")
+for(col in names(etudiant)){
+  etudiant[,col]<-str_replace_all(etudiant[,col],pattern="�",replacement="")
 }
 
 #mettre dans cet ordre pour que subset garde les doublons avec des regions administrative (garde le premier lu)
-etudiant_bon<-etudiant_bon%>%
+etudiant<-etudiant%>%
   arrange(region_administrative)
 
 #supprimer les lignes qui ont le meme prenom_nom
-etudiant_bon<-subset(etudiant_bon,!duplicated(etudiant_bon$prenom_nom))
+etudiant<-subset(etudiant,!duplicated(etudiant$prenom_nom))
 
 #validation en ordre alphabétique
-etudiant_bon<-etudiant_bon%>%
+etudiant<-etudiant%>%
   arrange(prenom_nom)
 
 #FIN CORRECTIONS ETUDIANT BON
 
 #COLLABORATION
 #correction collab_bon etudiant 1
-collab_bon$etudiant1[collab_bon$etudiant1%in% "arianne_barette"]<-"ariane_barrette"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "amelie_harbeck_bastien"]<-"amelie_harbeck-bastien"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "cassandra_gobin"]<-"cassandra_godin"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "catherine_viel_lapointe"]<-"catherine_viel-lapointe"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "edouard_nadon-baumier"]<-"edouard_nadon-beaumier"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "francis_bolly"]<-"francis_boily"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "francis_bourrassa"]<-"francis_bourassa"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "frederick_laberge"]<-"frederic_laberge"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "ihuoma_elsie-ebere"]<-"ihuoma_elsie_ebere"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "jonathan_rondeau_leclaire"]<-"jonathan_rondeau-leclaire"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "justine_lebelle"]<-"justine_labelle"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "laurie_anne_cournoyer"]<-"laurie-anne_cournoyer"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "louis-phillippe_theriault"]<-"louis-philippe_theriault"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "madyson_mcclean"]<-"madyson_mclean"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "mael_guerin"]<-"mael_gerin"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_burghin"]<-"marie_bughin"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "marie_eve_gagne"]<-"marie-eve_gagne"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "noemie_perrier-mallette"]<-"noemie_perrier-malette"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "peneloppe_robert"]<-"penelope_robert"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "philippe_barette"]<-"philippe_barrette"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "phillippe_bourassa"]<-"philippe_bourassa"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "philippe_bourrassa"]<-"philippe_bourassa"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "philippe_leonard_dufour"]<-"philippe_leonard-dufour"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "raphael_charlesbois"]<-"raphael_charlebois"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "sabrica_leclercq"]<-"sabrina_leclercq"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "sara_jade_lamontagne"]<-"sara-jade_lamontagne"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "savier_samson"]<-"xavier_samson"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "yannick_sageau"]<-"yanick_sageau"
-collab_bon$etudiant1[collab_bon$etudiant1%in% "yanick_sagneau"]<-"yanick_sageau"
+collab$etudiant1[collab$etudiant1%in% "arianne_barette"]<-"ariane_barrette"
+collab$etudiant1[collab$etudiant1%in% "amelie_harbeck_bastien"]<-"amelie_harbeck-bastien"
+collab$etudiant1[collab$etudiant1%in% "cassandra_gobin"]<-"cassandra_godin"
+collab$etudiant1[collab$etudiant1%in% "catherine_viel_lapointe"]<-"catherine_viel-lapointe"
+collab$etudiant1[collab$etudiant1%in% "edouard_nadon-baumier"]<-"edouard_nadon-beaumier"
+collab$etudiant1[collab$etudiant1%in% "francis_bolly"]<-"francis_boily"
+collab$etudiant1[collab$etudiant1%in% "francis_bourrassa"]<-"francis_bourassa"
+collab$etudiant1[collab$etudiant1%in% "frederick_laberge"]<-"frederic_laberge"
+collab$etudiant1[collab$etudiant1%in% "ihuoma_elsie-ebere"]<-"ihuoma_elsie_ebere"
+collab$etudiant1[collab$etudiant1%in% "jonathan_rondeau_leclaire"]<-"jonathan_rondeau-leclaire"
+collab$etudiant1[collab$etudiant1%in% "justine_lebelle"]<-"justine_labelle"
+collab$etudiant1[collab$etudiant1%in% "laurie_anne_cournoyer"]<-"laurie-anne_cournoyer"
+collab$etudiant1[collab$etudiant1%in% "louis-phillippe_theriault"]<-"louis-philippe_theriault"
+collab$etudiant1[collab$etudiant1%in% "madyson_mcclean"]<-"madyson_mclean"
+collab$etudiant1[collab$etudiant1%in% "mael_guerin"]<-"mael_gerin"
+collab$etudiant1[collab$etudiant1%in% "marie_burghin"]<-"marie_bughin"
+collab$etudiant1[collab$etudiant1%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
+collab$etudiant1[collab$etudiant1%in% "marie_eve_gagne"]<-"marie-eve_gagne"
+collab$etudiant1[collab$etudiant1%in% "noemie_perrier-mallette"]<-"noemie_perrier-malette"
+collab$etudiant1[collab$etudiant1%in% "peneloppe_robert"]<-"penelope_robert"
+collab$etudiant1[collab$etudiant1%in% "philippe_barette"]<-"philippe_barrette"
+collab$etudiant1[collab$etudiant1%in% "phillippe_bourassa"]<-"philippe_bourassa"
+collab$etudiant1[collab$etudiant1%in% "philippe_bourrassa"]<-"philippe_bourassa"
+collab$etudiant1[collab$etudiant1%in% "philippe_leonard_dufour"]<-"philippe_leonard-dufour"
+collab$etudiant1[collab$etudiant1%in% "raphael_charlesbois"]<-"raphael_charlebois"
+collab$etudiant1[collab$etudiant1%in% "sabrica_leclercq"]<-"sabrina_leclercq"
+collab$etudiant1[collab$etudiant1%in% "sara_jade_lamontagne"]<-"sara-jade_lamontagne"
+collab$etudiant1[collab$etudiant1%in% "savier_samson"]<-"xavier_samson"
+collab$etudiant1[collab$etudiant1%in% "yannick_sageau"]<-"yanick_sageau"
+collab$etudiant1[collab$etudiant1%in% "yanick_sagneau"]<-"yanick_sageau"
 
 #correction collab_bon etudiant 2
-collab_bon$etudiant2[collab_bon$etudiant2%in% "arianne_barette"]<-"ariane_barrette"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "amelie_harbeck_bastien"]<-"amelie_harbeck-bastien"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "cassandra_gobin"]<-"cassandra_godin"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "catherine_viel_lapointe"]<-"catherine_viel-lapointe"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "edouard_nadon-baumier"]<-"edouard_nadon-beaumier"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "francis_bolly"]<-"francis_boily"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "francis_bourrassa"]<-"francis_bourassa"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "frederick_laberge"]<-"frederic_laberge"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "ihuoma_elsie-ebere"]<-"ihuoma_elsie_ebere"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "jonathan_rondeau_leclaire"]<-"jonathan_rondeau-leclaire"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "justine_lebelle"]<-"justine_labelle"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "laurie_anne_cournoyer"]<-"laurie-anne_cournoyer"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "louis-phillippe_theriault"]<-"louis-philippe_theriault"                   
-collab_bon$etudiant2[collab_bon$etudiant2%in% "madyson_mcclean"]<-"madyson_mclean"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "mael_guerin"]<-"mael_gerin"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "marie_burghin"]<-"marie_bughin"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "marie_eve_gagne"]<-"marie-eve_gagne"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "noemie_perrier-mallette"]<-"noemie_perrier-malette"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "peneloppe_robert"]<-"penelope_robert"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "philippe_barette"]<-"philippe_barrette"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "phillippe_bourassa"]<-"philippe_bourassa"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "philippe_bourrassa"]<-"philippe_bourassa"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "philippe_leonard_dufour"]<-"philippe_leonard-dufour"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "raphael_charlesbois"]<-"raphael_charlebois"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "sabrica_leclercq"]<-"sabrina_leclercq"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "sara_jade_lamontagne"]<-"sara-jade_lamontagne"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "savier_samson"]<-"xavier_samson"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "yannick_sageau"]<-"yanick_sageau"
-collab_bon$etudiant2[collab_bon$etudiant2%in% "yanick_sagneau"]<-"yanick_sageau"
+collab$etudiant2[collab$etudiant2%in% "arianne_barette"]<-"ariane_barrette"
+collab$etudiant2[collab$etudiant2%in% "amelie_harbeck_bastien"]<-"amelie_harbeck-bastien"
+collab$etudiant2[collab$etudiant2%in% "cassandra_gobin"]<-"cassandra_godin"
+collab$etudiant2[collab$etudiant2%in% "catherine_viel_lapointe"]<-"catherine_viel-lapointe"
+collab$etudiant2[collab$etudiant2%in% "edouard_nadon-baumier"]<-"edouard_nadon-beaumier"
+collab$etudiant2[collab$etudiant2%in% "francis_bolly"]<-"francis_boily"
+collab$etudiant2[collab$etudiant2%in% "francis_bourrassa"]<-"francis_bourassa"
+collab$etudiant2[collab$etudiant2%in% "frederick_laberge"]<-"frederic_laberge"
+collab$etudiant2[collab$etudiant2%in% "ihuoma_elsie-ebere"]<-"ihuoma_elsie_ebere"
+collab$etudiant2[collab$etudiant2%in% "jonathan_rondeau_leclaire"]<-"jonathan_rondeau-leclaire"
+collab$etudiant2[collab$etudiant2%in% "justine_lebelle"]<-"justine_labelle"
+collab$etudiant2[collab$etudiant2%in% "laurie_anne_cournoyer"]<-"laurie-anne_cournoyer"
+collab$etudiant2[collab$etudiant2%in% "louis-phillippe_theriault"]<-"louis-philippe_theriault"                   
+collab$etudiant2[collab$etudiant2%in% "madyson_mcclean"]<-"madyson_mclean"
+collab$etudiant2[collab$etudiant2%in% "mael_guerin"]<-"mael_gerin"
+collab$etudiant2[collab$etudiant2%in% "marie_burghin"]<-"marie_bughin"
+collab$etudiant2[collab$etudiant2%in% "marie_christine_arseneau"]<-"marie-christine_arseneau"
+collab$etudiant2[collab$etudiant2%in% "marie_eve_gagne"]<-"marie-eve_gagne"
+collab$etudiant2[collab$etudiant2%in% "noemie_perrier-mallette"]<-"noemie_perrier-malette"
+collab$etudiant2[collab$etudiant2%in% "peneloppe_robert"]<-"penelope_robert"
+collab$etudiant2[collab$etudiant2%in% "philippe_barette"]<-"philippe_barrette"
+collab$etudiant2[collab$etudiant2%in% "phillippe_bourassa"]<-"philippe_bourassa"
+collab$etudiant2[collab$etudiant2%in% "philippe_bourrassa"]<-"philippe_bourassa"
+collab$etudiant2[collab$etudiant2%in% "philippe_leonard_dufour"]<-"philippe_leonard-dufour"
+collab$etudiant2[collab$etudiant2%in% "raphael_charlesbois"]<-"raphael_charlebois"
+collab$etudiant2[collab$etudiant2%in% "sabrica_leclercq"]<-"sabrina_leclercq"
+collab$etudiant2[collab$etudiant2%in% "sara_jade_lamontagne"]<-"sara-jade_lamontagne"
+collab$etudiant2[collab$etudiant2%in% "savier_samson"]<-"xavier_samson"
+collab$etudiant2[collab$etudiant2%in% "yannick_sageau"]<-"yanick_sageau"
+collab$etudiant2[collab$etudiant2%in% "yanick_sagneau"]<-"yanick_sageau"
 
 #modification sigle 
-collab_bon$sigle[collab_bon$sigle%in%"GAE500"]<-"GAE550"
+collab$sigle[collab$sigle%in%"GAE500"]<-"GAE550"
 
-for(col in names(collab_bon)){
-  collab_bon[,col]<-str_replace_all(collab_bon[,col],pattern="\\s",replacement="")
+for(col in names(collab)){
+  collab[,col]<-str_replace_all(collab[,col],pattern="\\s",replacement="")
 }
-for(col in names(collab_bon)){
-  collab_bon[,col]<-str_replace_all(collab_bon[,col],pattern="<a0>",replacement="")
+for(col in names(collab)){
+  collab[,col]<-str_replace_all(collab[,col],pattern="<a0>",replacement="")
 }
-for(col in names(collab_bon)){
-  collab_bon[,col]<-str_replace_all(collab_bon[,col],pattern="�",replacement="")
+for(col in names(collab)){
+  collab[,col]<-str_replace_all(collab[,col],pattern="�",replacement="")
 }
 
 #corriger lignes qui voient dans le futur
-collab_bon$session[collab_bon$session%in% "E2023"]<-"E2022"
+collab$session[collab$session%in% "E2023"]<-"E2022"
 
 #vérification collab compare a etudiant
-collab_bon<-collab_bon%>%
+collab<-collab%>%
   arrange(etudiant1)
-unique(collab_bon$etudiant1)
+unique(collab$etudiant1)
 #etudiant 2
-collab_bon<-collab_bon%>%
+collab<-collab%>%
   arrange(etudiant2)
-unique(collab_bon$etudiant2)
+unique(collab$etudiant2)
 
 #valider sigle
-collab_bon<-collab_bon%>%
+collab<-collab%>%
   arrange(sigle)
-unique(collab_bon$sigle)
+unique(collab$sigle)
 
 # enlever ligne 3201 à 3207 de NA
 
-collab_bon<-collab_bon[-(3201:3207),]
+collab<-collab[-(3201:3207),]
 
 #FIN CORRECTIONS COLLABORATION
 
@@ -423,9 +423,9 @@ dbSendQuery(con,collaboration_sql)
 dbListTables(con)
 
 #base de donnees
-dbWriteTable(con, append =TRUE, name ="etudiant_sql", value = etudiant_bon, row.names =FALSE)
-dbWriteTable(con, append =TRUE, name = "cours_sql", value = cours_bon, row.names =FALSE)
-dbWriteTable(con, append =TRUE, name ="collaboration_sql", value = collab_bon, row.names =FALSE)
+dbWriteTable(con, append =TRUE, name ="etudiant_sql", value = etudiant, row.names =FALSE)
+dbWriteTable(con, append =TRUE, name = "cours_sql", value = cours, row.names =FALSE)
+dbWriteTable(con, append =TRUE, name ="collaboration_sql", value = collab, row.names =FALSE)
 
 #requete 1 nombre de liens par etudiant
 sql_requete1<-"
@@ -486,11 +486,11 @@ collab_total<-dbGetQuery(con, sql_requete7)
 nb_collaboration<-collab_total$nb_collabtotal
 
 #figures
-noms<-unique(etudiant_bon$prenom_nom)
+noms<-unique(etudiant$prenom_nom)
 
 #Tableau 1
 #1 creer une matrice etudiant1/etudiant2
-tableau_collab<-table(collab_bon[,c("etudiant1","etudiant2")])
+tableau_collab<-table(collab[,c("etudiant1","etudiant2")])
 matrice_collab<-igraph::graph.adjacency(tableau_collab)
 #creer objet igraph
 plot(matrice_collab,vertex.label=NA,edge.arrow.mode=0,vertex.frame.color=NA)
