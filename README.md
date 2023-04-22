@@ -1,2 +1,4 @@
 # Projet-Bio500 : contient les données
-Fichier target contient le code target
+
+Code vers le dépot github:
+https://github.com/MagalieBosse/Projet-Bio500
