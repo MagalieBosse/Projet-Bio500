@@ -237,5 +237,6 @@ clean_data = function(data){
   collab$session[collab$session%in% "E2023"]<-"E2022"
   collab<-collab[-(3201:3207),]  
   #lister les sorties
-  return(list(etudiant = etudiant, collab = collab, cours = cours))
+  nett_list<-list(etudiant,collab,cours)
+  return(nett_list)
 }
