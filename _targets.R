@@ -15,32 +15,32 @@ tar_option_set(packages=c("targets","dplyr", "rmarkdown", "tidyverse", "RSQLite"
 #)
 
 #Nettoyage#
-source("R/Nettoyage.R")
-source("R/basedonnees.R")
-source("R/analyse.R")
-source("R/Figures.R")
+source("R/nettoyage_v2.R")
+#source("R/basedonnees.R")
+#source("R/analyse.R")
+#source("R/Figures.R")
 
 list(
   tar_target(
     name = path,
     command = "./donnees_BIO500",
     format = "file"
-  ), 
+  ),
   
   tar_target(
     name = data, # Cible pour l'objet de donnees
     command = list.files(path, full.names = TRUE) # Lecture des donnees
   ),
-  
   tar_target(
-    name = Nettoyage, #fonction qui nettoye toutes les bases de donnees et les fusionnent
+    name = nettoyage, #fonction qui nettoye toutes les bases de donnees et les fusionnent
     command = clean_data(data)
-  ),
-  ##Creation sql##
-  tar_target(
-    name = etudiant_sql,
-    command = create_etudiant(Nettoyage)
   )
+)
+  ##Creation sql##
+#  tar_target(
+#   name = table_sql,
+#   command = create_etudiant(Nettoyage)
+# )
   #  tar_target(
   #    name = etudiant_sql,
   #    command = dbConnect(SQLite(),dbname="./data.db")
@@ -99,4 +99,4 @@ list(
   #    name=Figures,
   #    command = fig_session(analyse)
   #  )
-)
+#)
