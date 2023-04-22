@@ -50,3 +50,4 @@ list(
       command = fig_final(requete_donnees)
     )
 )
+tar_make()
