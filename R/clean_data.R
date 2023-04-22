@@ -4,8 +4,3 @@ clean_data_cours = function(data){
   etud1 = data_list[[2]]
   
 }
-
-
-clean_data_collab = function{
-  blablalba
-}
