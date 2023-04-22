@@ -14,19 +14,7 @@ address:
   a: "Université de Sherbrooke, Département de biologie, 2500 Boulevard de l'Université, Sherbrooke, Québec, J1K 2R1"
   b: "Université de Sherbrooke, Département de biologie, 2500 Boulevard de l'Université, Sherbrooke, Québec, J1K 2R1"
   c: "Université de Sherbrooke, Département de biologie, 2500 Boulevard de l'Université, Sherbrooke, Québec, J1K 2R1"
-    
 
-corresponding_author:
-  code: 2
-  text: "To whom correspondence should be addressed. E-mail: bob@email.com"
-
-# For footer text
-lead_author_surname: Anonymous
-
-## Remove this if not required    
-equal_authors:
-  code: 1
-  text: "A.O.(Author One) and A.T. (Author Two) contributed equally to this work (remove if not applicable)."
 
 
 abstract: |
@@ -37,11 +25,9 @@ acknowledgements: |
 
 
 keywords:
-  - one
-  - two
-  - optional
-  - optional
-  - optional
+  - interactions
+  - écologie
+  - communautés
 
 ## must be one of: pnasresearcharticle (usual two-column layout), pnasmathematics (one column layout), or pnasinvited (invited submissions only)
 pnas_type: pnasresearcharticle
@@ -66,7 +52,25 @@ Concernant la méthodologie, la classe a été divisée en plusieurs équipes de
 
 Résultats {#Résultats .unnumbered}
 ----------------------
+Comme on peut voir à la figure 1, les sessions avec le plus de collaborations étaient en hiver 2021 et en hiver 2023. Les sessions avec le moins de collaborations étaient en été 2021 et à l'automne 2020.  
+À la figure 2, on constate que les cours TSB 303 et BCM 104 faisaient parti des cours avec le plus de collaborations tandis que ALM 300 et BCM 111 étaient certains des cours avec le moins de collaborations entre les étudiants. 
 
+Tableaux {#references .unnumbered}
+----------
+\begin{figure*}
+  \centering
+  \includegraphics[width=\linewidth]{session.png}
+  \caption{Légende de l'image}
+  \label{fig:session}
+\end{figure*}
+
+
+\begin{figure*}
+  \centering
+  \includegraphics[width=\linewidth]{sigle.png}
+  \caption{Légende de l'image}
+  \label{fig:sigle}
+\end{figure*}
 
 Discussion {#Discussion .unnumbered}
 ------
@@ -79,44 +83,16 @@ Plus un nœud est central et avec un degré élevé, plus son retrait dans une c
 Plusieurs types d’interactions peuvent survenir dans un milieu écologique. On retrouve par exemple de la prédation, des interactions symbiotiques, du commensalisme et plusieurs autres [@berquer_analyse_nodate]. Chez les étudiants de l’université, on observe surtout des interactions qui se rapprochent d’une symbiose en écologie. En effet, certains étudiants ont plutôt tendance à former des groupes pour s’entraider et on observe de grandes quantités d’interactions à l’intérieur de ces groupes en question. 
 
 
+
+
 Conclusion {#Conclusion .unnumbered}
 -----------------
 Il est possible de dire que les interactions entres les étudiants de l’université est comparable dans certaines mesures à un système d’interaction d’une communauté écologique. En effet, dans les deux cas on observe une tendance à former des groupes symbiotiques dans lesquels on observe une grande quantité d’interactions entre les entités. Aussi, dans les deux cas on observe un fort impact du retrait des nœuds centraux sur les interactions dans la communauté. 
 Pour pousser d’avantage la réflexion, il serait possible de tenter d’inclure dans l’analyse le type d’interaction entre les étudiants. Par exemple, ces interactions pourraient être de l’entraide, de l’aide donnée par un étudiant à un autre ou encore des mésentendus entres étudiants. Ainsi, il pourrait être possible de pousser les analyses pour déterminer non seulement si les réseaux d’interactions sont comparables, mais aussi si les types d’interactions sont régis de la même façon entre les deux types de communautés. 
 
 
-References {#references .unnumbered}
-----------
-
-
-![Placeholder image of a frog with a long example caption to show
-justification setting.<span data-label="fig:frog"></span>](frog.png)
-
-Digital Figures {#sec:figures .unnumbered}
----------------
-
-Only TIFF, EPS, and high-resolution PDF for Mac or PC are allowed for
-figures that will appear in the main text, and images must be final
-size. Authors may submit U3D or PRC files for 3D images; these must be
-accompanied by 2D representations in TIFF, EPS, or high-resolution PDF
-format. Color images must be in RGB (red, green, blue) mode. Include the
-font files for any text.
-
-Figures and Tables should be labelled and referenced in the standard way
-using the `\label{}` and `\ref{}` commands.
-
-Figure \[fig:frog\] shows an example of how to insert a column-wide
-figure. To insert a figure wider than one column, please use the
-`\begin{figure*}...\end{figure*}` environment. Figures wider than one
-column should be sized to 11.4 cm or 17.8 cm wide.
-
 
 ### Appendices {#appendices .unnumbered}
-
-PNAS prefers that authors submit individual source files to ensure
-readability. If this is not possible, supply a single PDF file that
-contains all of the SI associated with the paper. This file type will be
-published in raw format and will not be edited or composed.
 
 
 <!-- Leave these lines as they are at the end of your .Rmd file to ensure placement of methods & acknowledgements sections before the references-->
