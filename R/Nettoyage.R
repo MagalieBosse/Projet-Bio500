@@ -2,7 +2,7 @@ clean_data = function(data){
 #lire les tables de donnees
   
 allFiles <- dir("./donnees_BIO500/")
-# Tables à fusioner
+# Tables à fusionner
 tabNames <- c('collab', 'cours', 'etudiant')
   
 # Nombre de groupes
