@@ -1,75 +1,129 @@
 clean_data = function(data){
-  #lire les tables de donnees
-  data_list = lapply(data[-c(grep('8', data))], function(x) read.table(x, sep=';',header=TRUE))
-  data_8 = lapply(data[c(grep('8', data))], function(x) read.csv(x, quote="",header=TRUE))
+#lire les tables de donnees
   
-  #retirer les lignes en trop
-  data_list[[16]]<-data_list[[16]][-(36:40),]
-  #retirer les colonnes pas rapport
-  data_list[[9]]<- subset(data_list[[9]],select = -c(X))
-  names(data_list[[12]])<-c("prenom_nom","prenom","nom","region_administrative","regime_coop","formation_prealable","annee_debut","programme","X")
-  data_list[[12]]<- subset(data_list[[12]],select = -c(X))
-  data_list[[14]]<- subset(data_list[[14]],select = -c(X))
-  data_list[[20]]<-subset(data_list[[20]],select = -c(X,X.1,X.2,X.3,X.4,X.5))
-  data_list[[19]]<-subset(data_list[[19]],select = -c(X,X.1,X.2,X.3,X.4))
-  data_list[[21]]<- subset(data_list[[21]],select = -c(X))
-  names(data_8[[3]])<-c("prenom_nom","prenom","nom","region_administrative","regime_coop","formation_prealable","annee_debut","programme","X")
-  data_8[[3]]<-subset(data_list[[21]],select = c(prenom_nom,prenom,nom,region_administrative,regime_coop,formation_prealable,annee_debut,programme))
-  names(data_8[[1]])<-c("etudiant1","etudiant2","sigle","session")
-  names(data_8[[2]])<-c("sigle","optionnel","credits")
-  names(data_list[[12]])<-c("prenom_nom","prenom","nom","region_administrative","regime_coop","formation_prealable","annee_debut","programme")
-  #ligne en trop
-  data_list[[19]]<-data_list[[19]][-(13:235),]
-  #ajuster nom colonne
-  colnames(data_list[[11]])[colnames(data_list[[11]]) == "prenom_nom."] <- "prenom_nom"
-  colnames(data_list[[11]]) <- colnames(data_list[[11]])
-  data_list[[15]]<-data_list[[15]][-(723),]
-  colnames(data_list[[10]])[colnames(data_list[[10]]) == "ï..sigle"] <- "sigle"
-  colnames(data_list[[10]]) <- colnames(data_list[[10]])
-  data_list[[13]]<-data_list[[13]][-(28),]
-  data_list[[25]]<-data_list[[25]][-(25:29),]
-  data_list[[17]]<-data_list[[17]][-(52:59),]
-  #fusionner les tables
-  etudiant<-rbind(data_list[[3]],data_list[[6]],data_list[[9]],data_list[[12]],data_list[[15]],data_list[[18]],data_list[[21]],data_8[[3]],data_list[[24]],data_list[[27]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
-  collab<-rbind(data_list[[1]],data_list[[4]],data_list[[7]],data_list[[10]],data_list[[13]],data_list[[16]],data_list[[19]],data_8[[1]],data_list[[22]],data_list[[25]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
-  cours<-rbind(data_list[[2]],data_list[[5]],data_list[[8]],data_list[[11]],data_list[[14]],data_list[[17]],data_list[[20]],data_8[[2]],data_list[[23]],data_list[[26]],deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
-  #retirer les lignes en trop
+allFiles <- dir("./donnees_BIO500/")
+# Tables à fusioner
+tabNames <- c('collab', 'cours', 'etudiant')
+  
+# Nombre de groupes
+nbGroupe <- sum(grepl(paste0("^", tabNames[1]), allFiles))
+  
+# Charger les donnees
+for(tab in tabNames) {
+  # prendre seulement les fichers de la table specifique `tab`
+  tabFiles <- allFiles[grep(tab, allFiles)]
+    
+  for(groupe in 1:nbGroupe) {
+    # Definir le nom de l'obj dans lequel sauver les donnees de la table `tab` du groupe `groupe`
+    tabName <- paste0(tab, "", groupe)
+      
+    # Avant  de charger les données, il faut savoir c'est quoi le séparateur utilisé car
+    # il y a eu des données separées par "," et des autres separes par ";"
+    ficher <- paste0("./donnees_BIO500/", tabFiles[groupe])
+    L <- readLines(ficher, n = 1) # charger première ligne du donnée
+    separateur <- ifelse(grepl(';', L), ';', ',') # S'il y a un ";", separateur est donc ";"
+     #lire les tables
+    data<-read.csv(ficher[-c(grep('8', data))],sep = separateur, header = TRUE, stringsAsFactors = FALSE)
+    data_8<-read.csv(ficher[c(grep('8', tabFiles))], quote = "")
+    
+    #Nettoyage donnees
+    col_de_trop<-c("X", "X.1", "X.2", "X.3", "X.4", "X.5", "...9")
+    
+    #retirer ces lignes
+    data<-data[,!(names(data)%in%col_de_trop)]
+    
+    #changement etudiant 3
+    names(data)[names(data) == "prenom_nom."] <- "prenom_nom"
+    
+    #changement cours 3
+    names(data)[names(data) == "ï..sigle"] <- "sigle"
+    
+    # charger le donnée avec le bon séparateur et donner le nom `tabName`
+    assign(tabName, data)
+    
+  }
+}
+  # nettoyer des objets temporaires utilisé dans la boucle
+  rm(list = c('allFiles', 'tab', 'tabFiles', 'tabName', 'ficher', 'groupe'))  
+  
+  #changement cours 5 
+  cours5<-cours5[-(36:40),]
+  
+  #changement cours 6_test
+  cours6<-cours6[-(13:235),]
+  
+  #changement collab4
+  collab4<-collab4[-(723),]
+  
+  #changement cours 4
+  cours4<-cours4[-(28),]
+  
+  #changement cours 9
+  cours9<-cours9[-(25:29),]
+  
+  #changement etudiant 5
+  etudiant5<-etudiant5[-(52:59),]
+  
+  #fusion des tables
+  etudiant<-rbind(etudiant1,etudiant2,etudiant3,etudiant4,etudiant5,etudiant6,etudiant7,etudiant8,etudiant9,etudiant10,deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
+  collab<-rbind(collab1,collab2,collab3,collab4,collab5,collab6,collab7,collab8,collab9,collab10,deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
+  cours<-rbind(cours1,cours2,cours3,cours4,cours5,cours6,cours7,cours8,cours9,cours10,deparse.level=1,make.row.name=TRUE,stringsAsFactors=default.stringsAsFactors(),factor.exclude=TRUE)
+  
+  #enlever ligne fin etudiant all
   etudiant<-etudiant[-(396),]
+  
+  #enlever ligne collab all
   collab<-collab[-(5203),]
-  #ajouter des na dan les cases vides
-  etudiant[etudiant==""]<-NA
+  
+  #ajouter les NA une fois que les fichiers sont mis ensemble
+  etudiant[etudiant==""]<-NA #ou collab est le nom de la base de donnees fusionnee
   collab[collab==""]<-NA
   cours[cours==""]<-NA
-  #retirer les entrees doubles
+  
+  #supprimer les doublons
   cours<-unique(cours,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
   collab<-unique(collab,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
   etudiant<-unique(etudiant,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
-  #version francaise
+  
+  #remplacer les false et true par version française
   etudiant$regime_coop[etudiant$regime_coop%in% "FALSE"]<- "FAUX"
   etudiant$regime_coop[etudiant$regime_coop%in% "TRUE"]<- "VRAI"
-  #nettoyage cours
+  
+  #COURS
+  #correction table cours
+  
+  #supprimer ligne cours
   cours<-cours[-(326),]
-  cours<- cours[cours$sigle!="TRUE",]
+  
+  cours<-cours[cours$sigle!="TRUE",]
+  
   cours$optionnel[cours$optionnel%in% "FALSE"]<- "FAUX"
   cours$optionnel[cours$optionnel%in% "TRUE"]<- "VRAI"
   cours$optionnel[cours$optionnel%in% "Faux"]<- "FAUX"
+  
+  #corrections optionnel faux
   cours$optionnel<-ifelse(cours$sigle=="BCM112",'FAUX', cours$optionnel)
   cours$optionnel<-ifelse(cours$sigle=="BCM113",'FAUX', cours$optionnel)
   cours$optionnel<-ifelse(cours$sigle=="ECL406",'FAUX', cours$optionnel)
   cours$optionnel<-ifelse(cours$sigle=="ECL527",'FAUX', cours$optionnel)
   cours$optionnel<-ifelse(cours$sigle=="ECL610",'FAUX', cours$optionnel)
   cours$optionnel<-ifelse(cours$sigle=="ECL611",'FAUX', cours$optionnel)
-  cours$optionnel<-ifelse(cours$sigle=="TSB303",'FAUX', cours$optionnel)  
+  cours$optionnel<-ifelse(cours$sigle=="TSB303",'FAUX', cours$optionnel)
+  
+  #corrections optionnel VRAI
   cours$optionnel<-ifelse(cours$sigle=="BIO401",'VRAI', cours$optionnel)
   cours$optionnel<-ifelse(cours$sigle=="ECL215",'VRAI', cours$optionnel)
   cours$optionnel<-ifelse(cours$sigle=="ECL315",'VRAI', cours$optionnel)
   cours$optionnel<-ifelse(cours$sigle=="ECL522",'VRAI', cours$optionnel)
   cours$optionnel<-ifelse(cours$sigle=="ECL544",'VRAI', cours$optionnel)
   cours$optionnel<-ifelse(cours$sigle=="ZOO304",'VRAI', cours$optionnel)
+  
+  #corrections credits
   cours$credits<-ifelse(cours$sigle=="BIO109",'1', cours$credits)
   cours$credits<-ifelse(cours$sigle=="ECL515",'2', cours$credits)
   cours$credits<-ifelse(cours$sigle=="TSB303",'2', cours$credits)
-  #retirer les espaces bizarres
+  
+  # retirer les espaces
   for(col in names(cours)){
     cours[,col]<-str_replace_all(cours[,col],pattern="\\s",replacement="")
   }
@@ -79,8 +133,23 @@ clean_data = function(data){
   for(col in names(cours)){
     cours[,col]<-str_replace_all(cours[,col],pattern="�",replacement="")
   }
+  
   cours<-unique(cours,imcoparables=FALSE,MARGIN=1,fromLast=FALSE)
-  #nettoyer etudiant
+  
+  #valider sigle
+  cours<-cours%>%
+    arrange(sigle)
+  unique(cours$sigle)
+  
+  #retirer les liens entre meme etudiant
+  
+  collab<-collab %>%
+    distinct(etudiant1,etudiant2,.keep_all=TRUE)
+  
+  #FIN CORRECTIONS COURS BON
+  
+  #ETUDIANT
+  #corrections table etudiant, colonne prenom_nom 
   etudiant$prenom_nom[etudiant$prenom_nom%in% "mael_guerin"]<-"mael_gerin"
   etudiant$prenom_nom[etudiant$prenom_nom%in% "marie_burghin"]<-"marie_bughin"
   etudiant$prenom_nom[etudiant$prenom_nom%in% "philippe_barette"]<-"philippe_barrette" 
@@ -102,6 +171,8 @@ clean_data = function(data){
   etudiant$prenom_nom[etudiant$prenom_nom%in% "cassandra_gobin"]<- "cassandra_godin"
   etudiant$prenom_nom[etudiant$prenom_nom%in% "edouard_nadon-baumier"]<- "edouard_nadon-beaumier"
   etudiant$prenom_nom[etudiant$prenom_nom%in% "marie_christine_arseneau"]<- "marie-christine_arseneau"
+  
+  #corrections table etudiant, colonne prenom
   etudiant$prenom[etudiant$prenom%in% "yannick"]<-"yanick"
   etudiant$prenom[etudiant$prenom%in% "arianne"]<-"ariane"
   etudiant$prenom[etudiant$prenom%in% "peneloppe"]<-"penelope"
@@ -109,6 +180,8 @@ clean_data = function(data){
   etudiant$prenom[etudiant$prenom%in% "louis-phillipe"]<- "louis-philippe"
   etudiant$prenom[etudiant$prenom%in% "cassandre"]<- "cassandra"
   etudiant$prenom[etudiant$prenom%in% "louis_philippe"]<- "louis-philippe"
+  
+  #corrections table etudiant, colonne nom
   etudiant$nom[etudiant$nom%in% "guerin"]<-"gerin"
   etudiant$nom[etudiant$nom%in% "burghin"]<-"bughin"
   etudiant$nom[etudiant$nom%in% "barette"]<-"barrette" 
@@ -127,7 +200,8 @@ clean_data = function(data){
   etudiant$nom[etudiant$nom%in% "guilemette"]<- "guillemette"
   etudiant$nom[etudiant$nom%in% "gobin"]<- "godin"
   etudiant$nom[etudiant$nom%in% "baumier"]<- "beaumier"
-  #ajouter les entrees manquantes
+  
+  #ajout des lignes oubliees
   eb<-c("eloise_bernier","eloise","bernier",NA, NA, NA, NA, NA)
   gm<-c("gabrielle_moreault","gabrielle","moreault",NA, NA, NA, NA, NA)
   kh<-c("karim_hamzaoui","karim","hamzaoui",NA, NA, NA, NA, NA)
@@ -140,12 +214,17 @@ clean_data = function(data){
   etudiant<-rbind(etudiant,mv)
   etudiant<-rbind(etudiant,mc)
   etudiant<-rbind(etudiant,nm)
-  #suite correction
+  
+  #corrections region admin
   etudiant$region_administrative[etudiant$region_administrative%in% "monterigie"]<- "monteregie"
   etudiant$region_administrative[etudiant$region_administrative%in% "bas-st-laurent"]<- "bas-saint-laurent"
+  
+  #trouver les lignes qui se répètent
   doubles_etudiant<-duplicated(etudiant$prenom_nom)
   extrait_etudiant<-subset(etudiant,doubles_etudiant)
+  
   #retirer les espaces bizarres
+  
   for(col in names(etudiant)){
     etudiant[,col]<-str_replace_all(etudiant[,col],pattern="\\s",replacement="")
   }
@@ -155,13 +234,22 @@ clean_data = function(data){
   for(col in names(etudiant)){
     etudiant[,col]<-str_replace_all(etudiant[,col],pattern="�",replacement="")
   }
-  #ordre voulu
+  
+  #mettre dans cet ordre pour que subset garde les doublons avec des regions administrative (garde le premier lu)
   etudiant<-etudiant%>%
     arrange(region_administrative)
+  
+  #supprimer les lignes qui ont le meme prenom_nom
   etudiant<-subset(etudiant,!duplicated(etudiant$prenom_nom))
+  
+  #validation en ordre alphabétique
   etudiant<-etudiant%>%
     arrange(prenom_nom)
-  #correction collab
+  
+  #FIN CORRECTIONS ETUDIANT BON
+  
+  #COLLABORATION
+  #correction collab_bon etudiant 1
   collab$etudiant1[collab$etudiant1%in% "arianne_barette"]<-"ariane_barrette"
   collab$etudiant1[collab$etudiant1%in% "amelie_harbeck_bastien"]<-"amelie_harbeck-bastien"
   collab$etudiant1[collab$etudiant1%in% "cassandra_gobin"]<-"cassandra_godin"
@@ -192,6 +280,8 @@ clean_data = function(data){
   collab$etudiant1[collab$etudiant1%in% "savier_samson"]<-"xavier_samson"
   collab$etudiant1[collab$etudiant1%in% "yannick_sageau"]<-"yanick_sageau"
   collab$etudiant1[collab$etudiant1%in% "yanick_sagneau"]<-"yanick_sageau"
+  
+  #correction collab_bon etudiant 2
   collab$etudiant2[collab$etudiant2%in% "arianne_barette"]<-"ariane_barrette"
   collab$etudiant2[collab$etudiant2%in% "amelie_harbeck_bastien"]<-"amelie_harbeck-bastien"
   collab$etudiant2[collab$etudiant2%in% "cassandra_gobin"]<-"cassandra_godin"
@@ -222,8 +312,10 @@ clean_data = function(data){
   collab$etudiant2[collab$etudiant2%in% "savier_samson"]<-"xavier_samson"
   collab$etudiant2[collab$etudiant2%in% "yannick_sageau"]<-"yanick_sageau"
   collab$etudiant2[collab$etudiant2%in% "yanick_sagneau"]<-"yanick_sageau"
+  
+  #modification sigle 
   collab$sigle[collab$sigle%in%"GAE500"]<-"GAE550"
-  #retirer les espaces bizarres
+  
   for(col in names(collab)){
     collab[,col]<-str_replace_all(collab[,col],pattern="\\s",replacement="")
   }
@@ -233,8 +325,30 @@ clean_data = function(data){
   for(col in names(collab)){
     collab[,col]<-str_replace_all(collab[,col],pattern="�",replacement="")
   }
+  
+  #corriger lignes qui voient dans le futur
   collab$session[collab$session%in% "E2023"]<-"E2022"
-  collab<-collab[-(3201:3207),]  
+  
+  #vérification collab compare a etudiant
+  collab<-collab%>%
+    arrange(etudiant1)
+  unique(collab$etudiant1)
+  #etudiant 2
+  collab<-collab%>%
+    arrange(etudiant2)
+  unique(collab$etudiant2)
+  
+  #valider sigle
+  collab<-collab%>%
+    arrange(sigle)
+  unique(collab$sigle)
+  
+  # enlever ligne 3201 à 3207 de NA
+  
+  collab<-collab[-(3201:3207),]
+  
+  #FIN CORRECTIONS COLLABORATION 
   #lister les sorties
-  return(list(etudiant = etudiant, collab = collab, cours = cours))
+  nett_list<-list(etudiant,collab,cours)
+  return(nett_list)
 }
