@@ -445,7 +445,7 @@ ORDER BY nb_liens DESC;"
 nb_lienetudiant<-dbGetQuery(con,sql_requete2)
 head(nb_lienetudiant)
 
-#requete 3 cours ayant le plus de collab
+#requete 3 cours ayant le plus de collaborations
 sql_requete3<-"
 SELECT sigle, count(DISTINCT etudiant1) AS nb_etudiant
 FROM collaboration_sql
@@ -477,7 +477,7 @@ et_total<-dbGetQuery(con, sql_requete6)
 #sauver le nombre etudiant total
 nb_etudiant<-et_total$nb_etudianttotal
 
-#requete 7 nb collaboration
+#requete 7 nombre collaboration
 sql_requete7<-"
 SELECT COUNT (*) AS nb_collabtotal
 FROM collaboration_sql"

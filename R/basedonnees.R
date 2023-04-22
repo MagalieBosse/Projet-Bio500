@@ -21,7 +21,7 @@ create_sql = function(nettoyage){
   dbSendQuery(con,etudiant_sql)
   dbListTables(con)
   dbWriteTable(con, append =TRUE, name ="etudiant_sql", value = etudiant, row.names =FALSE)
-  #cours
+  #création table cours
   cours_sql<-'
   CREATE TABLE cours(
     sigle VARCHAR(10),
@@ -32,7 +32,7 @@ create_sql = function(nettoyage){
   dbSendQuery(con,cours_sql)
   dbListTables(con)
   dbWriteTable(con, append =TRUE, name = "cours_sql", value = cours, row.names =FALSE)
-  #collab
+  #creation table collaboration
   collaboration_sql<-'CREATE TABLE collaboration (
     etudiant1     VARCHAR(40),
     etudiant2     VARCHAR(40),
