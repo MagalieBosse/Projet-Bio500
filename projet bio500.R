@@ -277,11 +277,6 @@ etudiant<-etudiant%>%
 
 #COLLABORATION
 
-#retirer les liens entre meme etudiant
-
-collab<-collab %>%
-  distinct(etudiant1,etudiant2,.keep_all=TRUE)
-
 #correction collab_bon etudiant 1
 collab$etudiant1[collab$etudiant1%in% "arianne_barette"]<-"ariane_barrette"
 collab$etudiant1[collab$etudiant1%in% "amelie_harbeck_bastien"]<-"amelie_harbeck-bastien"
@@ -379,6 +374,8 @@ unique(collab$sigle)
 # enlever ligne 3201 à 3207 de NA
 
 collab<-collab[-(3201:3207),]
+
+collab<-subset(collab,etudiant1!=etudiant2)
 
 #FIN CORRECTIONS COLLABORATION
 
