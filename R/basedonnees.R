@@ -1,11 +1,11 @@
-create_etudiant = function(Nettoyage){
+create_sql = function(nettoyage){
   
   con<-dbConnect(SQLite(),dbname="./data.db")
   #create table etudiant_sql
   #appeler les bonnes commandes
-  etudiant<-Nettoyage[[1]]
-  collab<-Nettoyage[[2]]
-  cours<-Nettoyage[[3]]
+  etudiant<-nett_list[[1]]
+  collab<-nett_list[[2]]
+  cours<-nett_list[[3]]
   etudiant_sql<- '
   CREATE TABLE etudiant(
     prenom_nom VARCHAR(40),
@@ -20,7 +20,7 @@ create_etudiant = function(Nettoyage){
   );'
   dbSendQuery(con,etudiant_sql)
   dbListTables(con)
-  dbWriteTable(con, append =TRUE, name ="etudiant_sql", value = Nettoyage[[etudiant]], row.names =FALSE)
+  dbWriteTable(con, append =TRUE, name ="etudiant_sql", value = etudiant, row.names =FALSE)
   #cours
   cours_sql<-'
   CREATE TABLE cours(
@@ -45,4 +45,6 @@ create_etudiant = function(Nettoyage){
   dbSendQuery(con,collaboration_sql)
   dbListTables(con)  
   dbWriteTable(con, append =TRUE, name ="collaboration_sql", value = collab, row.names =FALSE)
-}
+  table_sql<-list(etudiant_sql,collaboration_sql,cours_sql)
+  return(table_sql)
+  }
