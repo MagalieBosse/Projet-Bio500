@@ -39,64 +39,14 @@ list(
   ##Creation sql##
 #  tar_target(
 #   name = table_sql,
-#   command = create_etudiant(Nettoyage)
-# )
+#   command = create_sql(nettoyage)
+#    ),
   #  tar_target(
-  #    name = etudiant_sql,
-  #    command = dbConnect(SQLite(),dbname="./data.db")
+  #    name = requete_donnees,
+  #    command = requetes(table_sql)
   #  ),
   #  tar_target(
-  #    name = basedonnees3,
-  #    command = create_cours(basedonnees1)
-  #  ),
-  #  tar_target(
-  #    name = basedonnees4,
-  #    command = create_collab(basedonnees1)
-  #  ),
-  
-  ##Requetes sql##
-  
-  #  tar_target(
-  #    name = analyse,
-  #    command = requete1(basedonnees)
-  #  ),
-  #  tar_target(
-  #    name = analyse,
-  #    command = requete2(basedonnees)
-  #  ),
-  #  tar_target(
-  #    name = analyse,
-  #    command = requete3(basedonnees)
-  #  ),
-  #  tar_target(
-  #    name = analyse,
-  #    command = requete4(basedonnees)
-  #  ),
-  #  tar_target(
-  #    name = analyse,
-  #    command = requete5(basedonnees)
-  #  ),
-  #  tar_target(
-  #    name = analyse,
-  #    command = requete6(basedonnees)
-  #  ),
-  #  tar_target(
-  #    name = analyse,
-  #    command = requete7(basedonnees)
-  #  ),
-  
-  ##Figures##
-  
-  #  tar_target(
-  #    name=Figures,
-  #    command = fig_relation(analyse)
-  #  ),
-  #  tar_target(
-  #    name=Figures,
-  #    command = fig_sigle(analyse)
-  #  ),
-  #  tar_target(
-  #    name=Figures,
-  #    command = fig_session(analyse)
+  #    name = figures_final,
+  #    command = fig_final(requete_donnees)
   #  )
 #)
