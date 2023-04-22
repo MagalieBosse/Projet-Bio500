@@ -4,10 +4,10 @@
 library(targets)
 tar_option_set(packages=c("MASS","igraph"))
 
-<<<<<<< HEAD
+
 #Scripts R reference#
 source("R/analyse.R")
-=======
+
 ##Pipeline##
 
 ##Packages
@@ -127,4 +127,4 @@ list(
     command = fig_session(analyse)
   )
 )
->>>>>>> f365292cdc7cd42c9089d762b07ce914b3559cd0
+
